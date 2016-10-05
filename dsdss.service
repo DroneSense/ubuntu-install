@@ -1,0 +1,13 @@
+[Unit]
+Description=DroneSense Server DSS Service
+
+[Service]
+ExecStart=/home/dronesense/.nvm/versions/node/v6.7.0/bin/node /home/dronesense/.nvm/versions/node/v6.7.0/bin/dronesense dss-server -c /home/dronesense/config.json
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=dsdss
+
+[Install]
+WantedBy=multi-user.target
