@@ -11,7 +11,7 @@ export interface IControlConnect extends ng.IScope {
 class ControlConnect {
 
     // Ip address of server passed in from bindings
-    ip: string = '10.0.1.106';
+    ip: string = '192.168.0.115';
 
     // port address of server passed in from bindings
     port: number = 3005;

@@ -17,7 +17,7 @@ System.register(['@dronesense/client/lib/index', '../../components/flightControl
                     this.bindings = bindings;
                     this.mdDialog = mdDialog;
                     // Ip address of server passed in from bindings
-                    this.ip = '10.0.1.106';
+                    this.ip = '192.168.0.115';
                     // port address of server passed in from bindings
                     this.port = 3005;
                     // url of remote server
