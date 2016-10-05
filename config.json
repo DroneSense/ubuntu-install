@@ -55,7 +55,7 @@
                     "transport": {
                         "type": "udp",
                         "settings": {
-                            "address": "10.0.1.105",
+                            "address": "0.0.0.0",
                             "port": 14551
                         }
                     }
