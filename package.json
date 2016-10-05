@@ -1,0 +1,80 @@
+{
+    "zmqServer": {
+        "xpuburl": "tcp://127.0.0.1:3007",
+        "xsuburl": "tcp://127.0.0.1:3008"
+    },
+    "droneSenseServiceServer": {
+        "port": 3005,
+        "services": {
+            "zmq": {
+                "puburl": "tcp://127.0.0.1:3008",
+                "suburl": "tcp://127.0.0.1:3007"
+            }
+        }
+    },
+    "droneHostServer": {
+        "id": "4f2af8d4-1e57-412b-95a3-9b7d21d83b09",
+        "addressBinding": "0.0.0.0",
+        "attachSessionProcesses": true,
+        "services": {
+            "zmq": {
+                "puburl": "tcp://127.0.0.1:3008",
+                "suburl": "tcp://127.0.0.1:3007"
+            }
+        },
+        "drones": [
+            {
+                "id": "427375d1-722d-4cf0-aadc-f5cbb2191f0a",
+                "name": "Hexacopter",
+                "autopilot": {
+                    "type": "mavlink",
+                    "transport": {
+                        "type": "serial",
+                        "settings": {
+                            "path": "/dev/cu.usbserial-DN00BYZI",
+                            "baud": 57600
+                        }
+                    }
+                }
+            },
+            {
+                "id": "14482ff0-5e48-467f-98e6-102eeed07370",
+                "name": "Phantom 4",
+                "autopilot": {
+                    "type": "mavlink",
+                    "transport": {
+                        "type": "bluetooth"
+                    }
+                }
+            },
+            {
+                "id": "6fe967c7-07ed-40b5-a7f1-c3660eacfa87",
+                "name": "SITL Simulator (UDP)",
+                "autopilot": {
+                    "type": "mavlink",
+                    "transport": {
+                        "type": "udp",
+                        "settings": {
+                            "address": "0.0.0.0",
+                            "port": 14550
+                        }
+                    }
+                }
+            },
+            {
+                "id": "efeec257-ee13-4999-8236-ce908b258ba3",
+                "name": "SITL Simulator (TCP)",
+                "autopilot": {
+                    "type": "mavlink",
+                    "transport": {
+                        "type": "tcp",
+                        "settings": {
+                            "address": "10.0.1.90",
+                            "port": 5760
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
