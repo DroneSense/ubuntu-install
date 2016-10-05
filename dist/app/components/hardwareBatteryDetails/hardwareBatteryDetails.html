@@ -1,0 +1,98 @@
+<!--***Hardware - Battery Details html***-->
+
+<md-content layout="column" md-theme='ds-dark' class="hardwareBattery-Div">
+
+    <!--Heading Text-->
+<div layout="column" layout-align="none left" class="heading-18-light hardwareAddSensors-HeadingTopMargin" translate>DETAILSBATTERY.BATTERYDETAILS</div>
+
+    <!--Dashed Line-->
+<div layout-align="center center" class="hardwareAddSensors-DashedLine"></div>
+
+    <!--Battery Name/ID-->
+    <div class="inputFieldMarginTop3">
+        <md-input-container class="md-block" flex>
+            <label translate>DETAILSBATTERY.BATTERYNAME</label>
+            <input required name="clientName" ng-model="project.clientName">
+        <div ng-messages="projectForm.clientName.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+        </md-input-container>
+    </div>
+    
+    <!--Battery Type & Capacity -->
+        <div layout="row">
+        <md-input-container class="marginRight40" flex-gt-sm>
+            <label translate>DETAILSBATTERY.BATTERYTYPE</label>
+            <md-select ng-model="user.LinkTo">
+                <md-option>
+                    LiPo 3S
+                </md-option>
+                <md-option>
+                    LiPo 4S
+                </md-option>
+                <md-option>
+                    LiPo 6S
+                </md-option>
+                </md-select> 
+        </md-input-container>      
+        <md-input-container flex>
+            <label translate>DETAILSBATTERY.CAPACITY</label>
+            <input ng-model="user.customField">
+        </md-input-container>
+    </div>
+
+    <!--Serial No. & Model No-->
+        <div layout="row">
+        <md-input-container class="marginRight40" flex-gt-sm>
+            <label translate>DETAILSBATTERY.SERIALNO</label>
+            <input ng-model="user.firstName">
+        </md-input-container>
+        <md-input-container flex>
+            <label translate>DETAILSBATTERY.MODEL</label>
+            <input ng-model="user.customField">
+        </md-input-container>
+        </div>
+
+    <!--Total Hours & Last Service Date -->
+        <div layout="row">
+        <md-input-container class="marginRight40" flex-gt-sm>
+            <label translate>DETAILSBATTERY.TOTALHOURS</label>
+            <input type="number" min="1" ng-model="user.batteryHours"> 
+        </md-input-container>
+
+    <md-datepicker class="hardwareBattery-CalendarMargins" flex ng-model="myDate" md-placeholder=DETAILSBATTERY.LASTSERVICED></md-datepicker>
+    </div>
+
+    <!--Tags-->
+    <div class="hardwareBattery-tagMargins">
+        <md-chips>
+            <md-chip>Drone Tag</md-chip>
+            <md-chip>Drone Flying</md-chip>
+            <md-chip>Drone Blasting</md-chip>
+            <md-chip>Drone Racing</md-chip>
+            <md-chip>Droneball</md-chip>
+            <md-chip>Swimming</md-chip>
+     <!-- Static chips are transcluded -->
+            <md-chip>{{ctrl.chipText}}</md-chip>
+        </md-chips>
+    </div>
+    
+    <!--Notes-->
+    <div>
+        <md-input-container class="md-block">
+          <label translate>DETAILSBATTERY.NOTES</label>
+          <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+        </md-input-container>
+    </div>
+
+    <!--Cancel & Save Buttons-->
+    <div class="hardwareBattery-ButtonsMargin" layout="row" layout-align="center center">
+        <md-button class="md-light-outine btn-md hardwareAddSensors-ButtonTopMargin hardwareAddSensors-ButtonRtMargin">
+            <label translate>DETAILSBATTERY.CANCEL</label>
+            </md-button>
+        <md-button class="md-light btn-md hardwareAddSensors-ButtonTopMargin">
+            <label translate>DETAILSBATTERY.SAVE</label>                
+            </md-button>
+    </div>
+
+</md-content>

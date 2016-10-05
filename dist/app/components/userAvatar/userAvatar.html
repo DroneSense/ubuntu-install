@@ -1,0 +1,12 @@
+    <img style="height: {{ $ctrl.size }}px; width: {{ $ctrl.size }}px; border-width: 1px; border-style: solid; border-color: white;" 
+         ng-src="{{ $ctrl.user.Avatar }}"
+         ng-show="$ctrl.hasAvatar"
+         alt="Profile Picture">
+    
+    <div layout="row" 
+         class="body-16-grey" 
+         layout-align="center center" 
+         style="height: {{ $ctrl.size }}px; width: {{ $ctrl.size }}px; background-color: {{ $ctrl.color }}; border-width: 1px; border-style: solid; border-color: white;"" 
+         ng-hide="$ctrl.hasAvatar">
+      <label style="font-size: {{$ctrl.fontSize}}px; font-weight: 400; line-height: 1.6em; color: white;">{{ $ctrl.user.UserInitials }}</label>
+    </div>

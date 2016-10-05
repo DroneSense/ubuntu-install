@@ -1,0 +1,92 @@
+<!--***Hardware - Drone Details html***-->
+
+<md-content layout="column" md-theme='ds-dark' class="hardwareDrones-Div">
+
+    <!--Heading Text-->
+<div layout="column" layout-align="none left" class="heading-18-light hardwareAddSensors-HeadingTopMargin" translate>DETAILSDRONE.DRONEDETAILS</div>
+
+    <!--Dashed Line-->
+<div layout-align="center center" class="hardwareAddSensors-DashedLine"></div>
+
+    <!--Drone Name/ID-->
+    <div class="inputFieldMarginTop3">
+        <md-input-container class="md-block" flex>
+            <label translate="">DETAILSDRONE.DRONENAME</label>
+            <input required name="clientName" ng-model="project.clientName">
+        <div ng-messages="projectForm.clientName.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+        </md-input-container>
+    </div>
+    
+    <!--Drone Manufacturer and Model-->
+        <div layout="row">
+        <md-input-container class="marginRight40" flex-gt-sm>
+            <label translate="">DETAILSDRONE.MANUFACTURER</label>
+            <input ng-model="user.Manufacturer">
+        </md-input-container>
+        
+        <md-input-container flex>
+             <label translate="">DETAILSDRONE.MODEL</label>
+            <input ng-model="user.customField">
+        </md-input-container>
+    </div>
+
+    <!--Serial No. & Model No-->
+        <div layout="row">
+        <md-input-container class="marginRight40" flex-gt-sm>
+            <label translate>DETAILSDRONE.SERIALNO</label>
+            <input ng-model="user.firstName">
+        </md-input-container>
+        <md-input-container flex>
+            <label translate>DETAILSDRONE.TOTALHOURS</label>
+            <input type="number" min="1" ng-model="user.batteryHours"> 
+        </md-input-container>
+        </div>
+
+    <!--Airworthy & Last Service Date -->
+
+        <div layout="row" class="hardwareDrone-HoursDateTopMargin">
+
+        <md-input-container class="hardwareDrone-AirworthyTopMargin " flex-gt-sm>
+                  <md-checkbox ng-model="data.cb1" aria-label="Airworthy">
+                        <div class="hardwareDrone-checkboxTextMargin body-14" translate>DETAILSDRONE.AIRWORTHY</div>
+                </md-checkbox>
+        </md-input-container>
+    <md-datepicker class="hardwareDrones-CalendarMargins body-14" flex ng-model="myDate" md-placeholder="DETAILSDRONE.LASTSERVICED"></md-datepicker>
+    </div>
+
+    <!--Tags-->
+    <div class="hardwareDrones-tagMargins">
+        <md-chips>
+            <md-chip>Drone Tag</md-chip>
+            <md-chip>Drone Flying</md-chip>
+            <md-chip>Drone Blasting</md-chip>
+            <md-chip>Drone Racing</md-chip>
+            <md-chip>Droneball</md-chip>
+            <md-chip>Swimming</md-chip>
+     <!-- Static chips are transcluded -->
+            <md-chip>{{ctrl.chipText}}</md-chip>
+        </md-chips>
+    </div>
+    
+    <!--Notes-->
+    
+    <div>
+        <md-input-container class="md-block">
+          <label translate>DETAILSDRONE.NOTES</label>
+          <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+        </md-input-container>
+    </div>
+
+    <!--Cancel & Save Buttons-->
+    <div layout="row" layout-align="center center">
+        <md-button class="md-light-outine btn-md hardwareDrone-ButtonsMargin hardwareAddSensors-ButtonRtMargin">
+            <label translate>DETAILSDRONE.CANCEL</label>                
+            </md-button>
+        <md-button class="md-light btn-md hardwareDrone-ButtonsMargin">
+            <label translate>DETAILSDRONE.SAVE</label>
+            </md-button>
+    </div>
+
+</md-content>

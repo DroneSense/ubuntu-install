@@ -1,0 +1,13 @@
+
+
+<div style="height: 4px; transition: .5s ease-out; width: {{ 100 - $ctrl.batteryPercentage }}%; position: absolute; right: 0; background-color: #4c515d;">
+</div>
+<div ng-if="$ctrl.batteryPercentage > 0" style="height: 4px; width: 100%; background: linear-gradient(90deg, red, yellow 25%, green);">
+</div>
+<div ng-show="$ctrl.timeRemaining > 0" ng-if="$ctrl.batteryPercentage > 0" layout="row" layout-align="center center" 
+     style="height: 28px; width: 50px; background-color: #33373f; opacity: 0.9; border: solid 2px #292c32; position: relative; top: 5px; transition: .5s ease-out; left: calc({{ $ctrl.batteryPercentage }}% - 25px)">
+    <label style="color: white; font-size: 11px; font-weight: 600;">{{ $ctrl.timeRemainingString }}</label>
+    <div style="width: 2px; height: 10px; position: absolute; background-color: #292c32; top: -11px; left: 22px;"></div>
+</div>
+
+<!--<input style="position: absolute; top 300px; left 300px;" type="number" max="100" min="0" ng-model="$ctrl.batteryPercentage"></input>-->

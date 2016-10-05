@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/flightControlViewer/mapMode.ts"],"names":[],"mappings":";;;;;;;YACA,WAAY,OAAO;gBACf,6DAAoB,CAAA;gBACpB,yDAAkB,CAAA;YACtB,CAAC,EAHW,OAAO,KAAP,OAAO,QAGlB;0CAAA","file":"components/flightControlViewer/mapMode.js","sourcesContent":["\nexport enum MapMode {\n    ThreeDimensional = 0,\n    TwoDimensional = 1\n}\n"],"sourceRoot":"/source/"}

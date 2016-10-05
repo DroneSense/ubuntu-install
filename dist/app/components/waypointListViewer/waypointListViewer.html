@@ -1,0 +1,64 @@
+    <div>
+        <div layout="column" 
+             ng-click="$ctrl.showWaypointList = !$ctrl.showWaypointList" 
+             layout-align="center center" 
+             style="position: relative; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+            <md-icon style="width: 20px; height: 16px;" md-svg-icon="./app/components/waypointListViewer/images/waypointPlaylist.svg"></md-icon>
+        </div>
+        <div layout="row" ng-show="$ctrl.showWaypointList" style="position: absolute; right: 44px; top: 0px; width: 279px; min-height: 200px; background-color: #292c32; opacity: .9;">
+            <div layout="column" layout-align="start center" style="min-width: 273px;">
+
+                <div layout="row">
+                    <div style="margin-top: 14px; font-size: 16px; line-height: 1; text-align: center; color: #dcdcdc; margin-left: 43px; margin-right: 5px;">Waypoint List</div>
+                    <div layout="column" layout-align="center center" ng-click="$ctrl.showHistory = !$ctrl.showHistory" style="width: 44px; height: 44px; cursor: pointer; outline: none;">
+                        <md-icon style="width: 19px; height: 19px;" md-svg-icon="./app/components/waypointListViewer/images/history.svg"></md-icon>
+                    </div>
+                </div>
+
+                <!--Session List-->
+                <div style="padding: 10px; max-height: 195px; overflow: scroll;">
+                    <div>
+                        <div layout="row" layout-align=" none">
+                            <div style="width: 52px; font-size: 12px; font-weight: 500; line-height: 1; letter-spacing: 1px; text-align: center; color: #ffffff;">Order</div>
+                            <div style="width: 75px; font-size: 12px; font-weight: 500; line-height: 1; letter-spacing: 1px; text-align: center; color: #ffffff;">Name</div>
+                            <div style="width: 75px; font-size: 12px; font-weight: 500; line-height: 1; letter-spacing: 1px; text-align: center; color: #ffffff;">Altitude</div>
+                            <div style="width: 75px; font-size: 12px; font-weight: 500; line-height: 1; letter-spacing: 1px; text-align: center; color: #ffffff;">Speed</div>
+                            <div layout="column" layout-align="center center" style="width: 55px;">
+                            </div>
+                        </div>
+                        <div layout="row" ng-show="$ctrl.showHistory" layout-align="center center" ng-repeat="wp in $ctrl.waypoints | filter:$ctrl.historyFilter" ng-class="wp.isActive ? 'waypointListViewerWaypointActive': 'waypointListViewerWaypoint'">
+                            <div style="width: 52px; font-size: 12px; font-weight: 500; text-align: center; color: #ffffff;">{{ wp.index + 1 }}</div>
+                            <div style="position: relative; height: 27px; border-left: #9598a1 dashed 1px;"></div>
+                            <div style="width: 75px; font-size: 12px; font-weight: 500; text-align: center; color: #ffffff;">{{ wp.name }}</div>
+                            <div style="position: relative; height: 27px; border-left: #9598a1 dashed 1px"></div>
+                            <div style="width: 75px; font-size: 12px; font-weight: 500; text-align: center; color: #ffffff;">{{ wp.altitudeAGL }} m</div>
+                            <div style="position: relative; height: 27px; border-left: #9598a1 dashed 1px"></div>
+                            <div style="width: 75px; font-size: 12px; font-weight: 500; text-align: center; color: #ffffff;">{{ wp.speed }} m/s</div>
+                            <div style="position: relative; height: 27px; border-left: #9598a1 dashed 1px"></div>
+                            <div layout="column" layout-align="center center" style="width: 55px; height: 37px; cursor: pointer; outline: none;">
+                                <div ng-hide="true" ng-click="$ctrl.delete(wp);">
+                                    <md-icon style="width: 13px; height: 16px;" md-svg-icon="./app/components/waypointListViewer/images/trashCan.svg"></md-icon>
+                                </div>
+                            </div>
+                        </div>
+                        <div layout="row" layout-align="center center" ng-repeat="wp in $ctrl.waypoints | filter:$ctrl.waypointFilter" ng-class="wp.isActive ? 'waypointListViewerWaypointActive': 'waypointListViewerWaypoint'">
+                            <div style="width: 52px; font-size: 12px; font-weight: 500; text-align: center; color: #ffffff;">{{ wp.index + 1 }}</div>
+                            <div style="position: relative; height: 27px; border-left: #9598a1 dashed 1px;"></div>
+                            <div style="width: 75px; font-size: 12px; font-weight: 500; text-align: center; color: #ffffff;">{{ wp.name }}</div>
+                            <div style="position: relative; height: 27px; border-left: #9598a1 dashed 1px"></div>
+                            <div style="width: 75px; font-size: 12px; font-weight: 500; text-align: center; color: #ffffff;">{{ wp.altitudeAGL }} m</div>
+                            <div style="position: relative; height: 27px; border-left: #9598a1 dashed 1px"></div>
+                            <div style="width: 75px; font-size: 12px; font-weight: 500; text-align: center; color: #ffffff;">{{ wp.speed }} m/s</div>
+                            <div style="position: relative; height: 27px; border-left: #9598a1 dashed 1px"></div>
+                            <div layout="column" layout-align="center center" style="width: 55px; height: 37px; cursor: pointer; outline: none;">
+                                <div ng-hide="wp.reached" ng-click="$ctrl.delete(wp);">
+                                    <md-icon style="width: 13px; height: 16px;" md-svg-icon="./app/components/waypointListViewer/images/trashCan.svg"></md-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+            
+        </div>
+    </div>

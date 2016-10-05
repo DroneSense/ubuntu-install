@@ -1,0 +1,73 @@
+<!--*** Credit Card.html ***-->
+
+<md-content layout="column" md-theme='ds-dark' class="creditcard-Div">
+
+<!--Close Button & Page No-->
+    <img src="./app/components/creditCard/img/fill-1.svg" class="closeButton">
+    <div layout="row" layout-align="end center" class="pageNumber">
+      <label class="XofX">1</label>
+      <label class="XofX">of</label>
+      <label class="XofX">3</label>
+    </div>
+    
+<!--Header Image   -->
+    <div layout="column" class="dronesenseLogo"" layout-align="none center">
+        <img src="./app/components/creditCard/img/logo.svg"/>
+    </div>
+
+<!--PreHeader Text-->
+    <div layout="column" layout-align="none center" class="body-14-grey creditCard-preHeadingBottomMargin" translate>
+        CREDITCARD.YOUHAVECHOSEN
+    </div>
+
+<!--Header Text-->
+    <div layout="column" layout-align="none center" class="heading-18-light headerBottomMargin" translate>
+        CREDITCARD.CHOSENPLAN
+    </div>
+
+<!--PostHeader Text-->
+    <div layout="column" layout-align="none left" class="body-14-grey marginLeft" translate>CREDITCARD.ENTERCREDITCARDINFO
+    </div>
+
+<!--Card Number-->
+    <div class="creditCard-inputFieldMarginTop">
+        <md-input-container class="md-block" flex>
+            <label translate>CREDITCARD.CARDNUMBER</label>
+            <input ng-model="user.email">
+        </md-input-container>
+    </div>
+
+<!--CVV Expiration-->
+    <div layout="row">
+        <md-input-container class="md-block marginRight40" flex>
+            <label translate>CREDITCARD.CVV</label>
+            <input ng-model="user.firstName">
+        </md-input-container>
+        <md-input-container class="md-block" flex>
+            <label translate>CREDITCARD.EXPIRATION</label>
+            <input ng-model="user.lastName">
+        </md-input-container>
+    </div>
+        
+<!--Zipcode or Postal Code-->
+    <div>
+        <md-input-container class="md-block" flex>
+            <label translate>CREDITCARD.ZIPPOSTALCODE</label>
+            <input ng-model="user.phone"/>
+        </md-input-container>
+    </div>
+
+<!--The Fine Print-->
+    <div layout="row" layout-align="none left" class="label-12 finePrintLineSpacing marginLeft" translate>
+        CREDITCARD.FINEPRINT
+    </div>
+   
+<!--Confirm and Pay-->
+
+    <div layout="row" layout-align="center center">
+        <md-button class="md-light creditCard-ButtonTopMargin creditCard-ConfirmPayButtonWidth">
+            <label translate>CREDITCARD.CONFIRMPAY</label>
+        </md-button>
+    </div>
+
+</md-content>

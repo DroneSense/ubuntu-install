@@ -1,0 +1,98 @@
+
+<md-card md-whiteframe="3" style="position: relative; outline: none; cursor: pointer;" ng-click="$ctrl.showFlightPlanCard('foo');">
+
+  <div style="position: relative;">
+    <img ng-src="./app/components/flightPlanCard/images/fpImage.png" class="md-card-image" alt="image caption">
+
+    <ds-user-avatar md-whiteframe="5" style="position: absolute; bottom: 10px; left: 10px;" user="$ctrl.flightPlan.CreatedUser" size="46"></ds-user-avatar>
+    
+    <md-menu style="position: absolute; top: 5px; right: 20px; cursor: pointer; outline: 0;" md-offset="0 27" md-position-mode="target-right target" >
+      <md-icon ng-click="$mdOpenMenu($event)" md-svg-icon="./app/components/flightPlanCard/images/overflow.svg">
+      
+      </md-icon>
+      <md-menu-content>
+
+        <div style="background-color: white;width: 15px;height: 15px;position: absolute;top: -4px;right: 20px;-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);"></div>
+
+        <md-menu-item>
+          <md-button ng-click="$ctrl.showFlightPlanCard('foo');">
+            <div layout="row" flex>
+              <p flex>View</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="$ctrl.showFlightPlanCard('foo');">
+            <div layout="row" flex>
+              <p flex>Edit</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="$ctrl.fly();">
+            <div layout="row" flex>
+              <p flex>Fly Now</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="ctrl.announceClick($index)">
+            <div layout="row" flex>
+              <p flex>Mark Done</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="ctrl.announceClick($index)">
+            <div layout="row" flex>
+              <p flex>Archive</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="ctrl.announceClick($index)">
+            <div layout="row" flex>
+              <p flex>Change Tag</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="ctrl.announceClick($index)">
+            <div layout="row" flex>
+              <p flex>Delete</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+      </md-menu-content>
+  </md-menu>
+  </div>
+  
+  <md-card-title>
+    <md-card-title-text>
+      <span class="cardTitle">{{ $ctrl.flightPlan.Name }}</span>
+      <span style="margin: 6px 0;" class="cardSubtitle">{{ $ctrl.flightPlan.LocationName }}</span>
+    </md-card-title-text>
+  </md-card-title>
+
+  <md-divider style="margin: 0 13px;"></md-divider>
+
+  <md-card-content>
+      <span class="cardSubtitle">Created: {{ $ctrl.flightPlan.CreateDate | date:'MM/dd/yyyy' }} by <a style="color: white; text-decoration: none;" href=""> {{ $ctrl.flightPlan.Owner.firstName }}</a></span>
+      </br>
+      <span class="cardSubtitle">Scheduled: {{ $ctrl.flightPlan.ScheduledDate | date:'MM/dd/yyyy' }}</span>
+      </br>
+      <md-chips ng-model="$ctrl.flightPlan.Tags" readonly="true">
+          <md-chip-template>
+              <label>{{ $chip.Name }}</label>
+          </md-chip-template>
+      </md-chips>
+  </md-card-content>
+
+</md-card>

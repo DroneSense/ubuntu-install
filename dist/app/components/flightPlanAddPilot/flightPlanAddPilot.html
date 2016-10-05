@@ -1,0 +1,41 @@
+<!--***FlightPlanAddPilot.html ***-->
+
+<md-content layout="column" md-theme='ds-dark' class="flightPlanAddPilot-Div">
+
+    <!--Close Button & Page No-->
+    <img src="./app/components/flightPlanAddPilot/img/fill-1.svg" class="closeButton">
+
+    <!--Header Text-->
+    <div layout="column" layout-align="none left" class="body-13-light flightPlanAddPilot-headingTopMargin" translate>ADDPILOT.FLIGHTPLAN</div>
+
+    <!--Flight Plan Name-->
+    <div layout="column" layout-align="none left" class="heading-18 flightPlanAddPilot-letterSpacing2px">XYZ Corp. #002-Mountain Pass-00001</div>
+    </md-input-container>
+
+    <div layout="row" layout-align="none center"> 
+    <div class="flightPlanAddPilot-white30x30Box flightPlanAddPilot-whiteBoxMargin"></div>
+            <md-input-container class="md-block flightPlanAddPilot-inputFieldMargins" flex-gt-sm>
+            <label translate>ADDPILOT.ASSIGNPERSON</label>
+            <md-select ng-model="user.industry">
+              <md-option>
+               Gerard Juarez
+              </md-option>
+             <md-option>
+               Chris Eyhorn
+              </md-option>
+              <md-option>
+               Robert Shoemate
+              </md-option>
+              <md-option>
+               Majid Breland
+              </md-option>
+            </md-select>
+          </md-input-container>
+    </div>                  
+        <div layout="row"" layout-align="end end">
+            <md-button class="md-light btn-md flightPlanAddPilot-acceptButtonMarginTop">
+                <label translate>ADDPILOT.ACCEPT</label>
+            </md-button>
+        </div>
+        
+</md-content>

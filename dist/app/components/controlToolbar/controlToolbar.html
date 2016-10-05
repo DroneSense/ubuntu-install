@@ -1,0 +1,121 @@
+<div md-theme='ds-dark' style="height: 50px; width: 100%; background-color: #292c32;">
+    <div layout="row" layout-align="center none" style="background-color: #292c32;">
+        <md-tabs class="noselect" id="controlTabs" md-selected="$ctrl.selectedTab" 
+                md-center-tabs
+                md-no-tab-content
+                md-stretch-tabs="always" flex style="max-width: 1280px; min-width: 1024px;">
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.gps = !$ctrl.gps; $ctrl.gps ? $ctrl.selectedTab = 0 : $ctrl.selectedTab = -1;" layout="row" layout-align="center center">
+                <!--<md-icon style="width: 35px; height: 17px; fill: #ffffff; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-gps.svg"></md-icon>-->
+                <ds-gps-status-icon gps-lock="$ctrl.gpsFixType"></ds-gps-status-icon>
+                <label style="text-transform: none;" class="manageViewerTab">GPS</label>
+            </md-tab>
+            <md-tab ng-if="!$ctrl.isDJIDrone" style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.telementry = !$ctrl.telementry; $ctrl.telementry ? $ctrl.selectedTab = 1 : $ctrl.selectedTab = -1;">
+                <!--<md-icon style="width: 31px; height: 16px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-telemetry.svg"></md-icon>-->
+                <ds-telemetry-status-icon signal-strength="$ctrl.drone.FlightController.Telemetry.RadioControl.rssi"></ds-telemetry-status-icon>
+                <label style="text-transform: none;" class="manageViewerTab">Telemetry</label>
+            </md-tab>
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.datalink = !$ctrl.datalink; $ctrl.datalink ? $ctrl.selectedTab = 1 : $ctrl.selectedTab = -1;">
+                <!--<md-icon style="width: 36px; height: 18px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-rc.svg"></md-icon>-->
+                <ds-rc-status-icon signal-strength="$ctrl.rcSignalPercentage" ></ds-rc-status-icon>
+                <label style="text-transform: none;" class="manageViewerTab">Remote</label>
+            </md-tab>
+            <md-tab ng-if="$ctrl.isDJIDrone" style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.videoLink = !$ctrl.videoLink; $ctrl.videoLink ? $ctrl.selectedTab = 2 : $ctrl.selectedTab = -1;">
+                <!--<md-icon style="width: 36px; height: 18px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-rc.svg"></md-icon>-->
+                <ds-video-status-icon signal-strength="$ctrl.videoSignalPercentage"></ds-video-status-icon>
+                <label style="text-transform: none;" class="manageViewerTab">Video</label>
+            </md-tab>
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.sysStatus = !$ctrl.sysStatus; $ctrl.sysStatus ? $ctrl.selectedTab = 3 : $ctrl.selectedTab = -1;">
+                <md-icon style="width: 18px; height: 16px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-warning.svg"></md-icon>
+                <label style="text-transform: none;" class="manageViewerTab">Status</label>
+            </md-tab>
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.battery = !$ctrl.battery; $ctrl.battery ? $ctrl.selectedTab = 4 : $ctrl.selectedTab = -1;">
+                <!--<md-icon style="width: 12px; height: 18px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-battery.svg"></md-icon>-->
+                <ds-battery-status-icon battery-percentage="$ctrl.batteryRemainingPercent"></ds-battery-status-icon>
+                <label style="text-transform: none;" class="manageViewerTab">Battery</label>
+            </md-tab>
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.goTo('manage.documents');">
+                <md-icon style="width: 12px; height: 18px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-safechecks.svg"></md-icon>
+                <label style="text-transform: none;" class="manageViewerTab">Checklists</label>
+            </md-tab>
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.goTo('manage.models');">
+                <md-icon style="width: 16px; height: 16px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-settings.svg"></md-icon>
+                <label style="text-transform: none;" class="manageViewerTab">Settings</label>
+            </md-tab>
+        </md-tabs>
+    </div>
+</div>
+
+<div ng-show="$ctrl.gps" layout="row" layout-align="center center" style="color: white; height: 40px; width: 100%; background-color: #33373f; opacity: .9;" class="body-14">
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        Satellite Count: {{ $ctrl.satCount }}
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        GPS Lock: {{ $ctrl.gpsFixType }} 
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        HDOP: {{ $ctrl.gpsHdop }}
+    </div>
+    <div style="padding: 0 30px;">
+        VDOP: {{ $ctrl.gpsVdop }}
+    </div>
+</div>
+
+<div ng-show="$ctrl.telementry" layout="row" layout-align="center center" style="color: white; height: 40px; width: 100%; background-color: #33373f; opacity: .9;" class="body-14">
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        Local RSSI: {{ $ctrl.drone.FlightController.Telemetry.Radio.localRSSI }}
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        Remote RSSI: {{ $ctrl.drone.FlightController.Telemetry.Radio.remoteRSSI }}
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        RX Errors: {{ $ctrl.drone.FlightController.Telemetry.Radio.rxErrors }}
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        Errors Fixed: {{ $ctrl.drone.FlightController.Telemetry.Radio.errorsFixed }}
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        TX Buffer: {{ $ctrl.drone.FlightController.Telemetry.Radio.txBuffer }}
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        Local Noise: {{ $ctrl.drone.FlightController.Telemetry.Radio.localNoise }}
+    </div>
+    <div style="padding: 0 30px;">
+        Remote Noise: {{ $ctrl.drone.FlightController.Telemetry.Radio.remoteNoise }}
+    </div>
+</div>
+
+<div ng-show="$ctrl.datalink" layout="row" layout-align="center center" style="color: white; height: 40px; width: 100%; background-color: #33373f; opacity: .9;" class="body-14">
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        RSSI: {{ $ctrl.drone.FlightController.Telemetry.RadioControl.rssi }}
+    </div>
+</div>
+
+<div ng-show="$ctrl.battery" layout="row" layout-align="center center" style="color: white; height: 40px; width: 100%; background-color: #33373f; opacity: .9;" class="body-14">
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        Voltage: {{ $ctrl.batteryVoltage }}v
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        Current: {{ $ctrl.batteryCurrent }} mAh
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        Remaining: {{ $ctrl.remainingMah }} mAh
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        Battery Temp: {{ $ctrl.batteryTemp }} C
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        Remaining: {{ $ctrl.batteryRemainingPercent }}%
+    </div>
+    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+        Lifetime: {{ $ctrl.lifetimeRemaining }}%
+    </div>
+</div>
+
+<div ng-show="$ctrl.sysStatus" style="height: 300px; width: 300px; background-color: white;">
+
+</div>
+
+<ds-battery-status-indicator ng-show="true" time-remaining="$ctrl.timeRemaining" battery-percentage="$ctrl.batteryRemainingPercent"></ds-battery-status-indicator>
+
+<!--<div style="height: 4px; width: 100%; background-color: #b3b3b3">
+</div>-->

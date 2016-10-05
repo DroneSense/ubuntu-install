@@ -1,0 +1,63 @@
+<md-content md-theme='ds-dark' class="md-whiteframe-15dp" style="padding: 20px 30px; width: 320px; background-color: #393c40">
+    
+    
+    <!--Header Text-->
+    <div layout="row" layout-align="center center" class="heading-18-light">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Join Existing Session</label>
+    </div>
+
+    <div ng-hide="$ctrl.hideSessions">
+
+        <div layout="row" class="heading-16" style="margin-top: 20px;">
+            <label style="display: block; text-align: center; letter-spacing: .1em;">Sessions</label>
+        </div>
+
+        <div>
+            <md-list>
+                <md-list-item class="md-2-line" ng-repeat="session in $ctrl.sessions" style="background-color: #393c40;border-bottom-color: #767a81; border-bottom-style: solid; border-bottom-width: 1px;">
+                    <md-checkbox aria-label="session" ng-click="$ctrl.clearSessionSelection(session);" ng-model="session.isSelected"></md-checkbox>
+                    <div class="md-list-item-text" layout="row">
+                                <div style="outline: none; cursor: pointer; margin-right: 15px; height: 15px; width: 15px; background-color: {{ session.color }}; border: white solid 0px;"></div>
+                        <label class="md-block body-14">{{ session.name }}</label> </br>
+                        <!--<label class="md-block label-12">{{ drone.configuration.autopilot.type }}</label>-->
+                    </div>
+                </md-list-item>
+            </md-list>
+        </div>
+
+    </div>
+
+    <div style="margin-bottom: 15px; margin-top: 20px;" ng-show="$ctrl.showWaitingForConnectMessage" class="body-14">
+        <label style="display: block;">Waiting for permission to join session.</label>
+        <label style="margin-top: 10px; display: block; line-height: 20px;">A message has been sent to the session owner to approve guest access to this session.</label>
+    </div>
+
+    <div style="margin-bottom: 15px; margin-top: 20px;" ng-show="$ctrl.sessionJoinTimedOutMessage" class="body-14">
+        <label style="display: block;">Join session timed out.</label>
+        <label style="margin-top: 10px; display: block; line-height: 20px;">The join request timed out, please try again or contact the session owner about joining.</label>
+    </div>
+
+    <div style="margin-bottom: 15px; margin-top: 20px;" ng-show="$ctrl.sessionJoinDeniedMessage" class="body-14">
+        <label style="display: block;">Join session request was denied.</label>
+        <label style="margin-top: 10px; display: block; line-height: 20px;">The join session request was denied by the session owner.</label>
+    </div>
+
+    <div ng-show="$ctrl.joining">
+        <md-progress-linear md-theme='ds-dark' md-mode="indeterminate"></md-progress-linear>
+    </div>
+
+    <div style="margin-bottom: 5px;" ng-show="$ctrl.sessionFindError" class="body-14">
+        <label style="display: block;">Session Error:</label>
+        <label style="margin-top: 10px; display: block; line-height: 20px;">We could not find any sessions. Ensure you are connected to the correct server and a session has been created.</label>
+    </div>
+
+    <div layout="row" style="margin-top: 10px;"  layout-align="center center">
+        <md-button ng-click="$ctrl.onCancel();" class="md-dark-outline btn-md" style="margin-right: 36px; width: 164px; height: 38px; color: #c4ccd5">
+            <label style="cursor: pointer;">Cancel</label>
+        </md-button>
+        <md-button ng-click="$ctrl.joinSession()" class="md-light btn-md" style="width: 164px;">
+            <label style="cursor: pointer;">{{ $ctrl.joinButtonText }}</label>
+        </md-button>
+    </div>
+
+</md-content>

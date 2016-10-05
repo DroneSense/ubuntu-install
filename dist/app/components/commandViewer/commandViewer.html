@@ -1,0 +1,90 @@
+
+    <div ng-repeat="command in $ctrl.commands track by command.id"
+         bn-repeat-switch="command.Type"
+         switch-once="true" id="{{ command.id }}">
+        <div bn-repeat-switch-when="takeoff" >
+            <ds-takeoff-command-instance command="command"
+                                         map="$ctrl.map"
+                                         user="$ctrl.user"
+                                         on-delete="$ctrl.DeleteCommandDB(commandId)"
+                                         tracked-entity="$ctrl.trackedEntityId"
+                                         on-track-entity="$ctrl.TrackEntity(id)">
+            </ds-takeoff-command-instance>
+        </div>
+        <div bn-repeat-switch-when="waypoint" >
+            <ds-waypoint-command-instance command="command"
+                                         map="$ctrl.map"
+                                         user="$ctrl.user"
+                                         on-delete="$ctrl.DeleteCommandDB(commandId)"
+                                         tracked-entity="$ctrl.trackedEntityId"
+                                         on-track-entity="$ctrl.TrackEntity(id)"
+                                         camera="$ctrl.camera"
+                                         settings="$ctrl.settings">
+            </ds-waypoint-command-instance>
+        </div>
+        <div bn-repeat-switch-when="sensor" >
+            <ds-sensor-capture-instance command="command"
+                                         map="$ctrl.map"
+                                         user="$ctrl.user"
+                                         on-delete="$ctrl.DeleteCommandDB(commandId)"
+                                         tracked-entity="$ctrl.trackedEntityId"
+                                         on-track-entity="$ctrl.TrackEntity(id)"
+                                         camera="$ctrl.camera"
+                                         settings="$ctrl.settings">
+            </ds-sensor-capture-instance>
+        </div>
+        <div bn-repeat-switch-when="survey">
+            <ds-survey-command command="command"></ds-survey-command>
+        </div>
+
+        <div bn-repeat-switch-when="orbit">
+            <ds-orbit-command command="command"></ds-orbit-command>
+        </div>
+    </div>
+
+<!--<div layout="column" class="commandViewContainer" ds-show="true"  >-->
+
+    <!--<md-content class="commandAndModelsTabs">-->
+
+        <!--<md-tabs md-dynamic-height md-border-bottom>-->
+
+            <!--<md-tab class="tabFont" label="Commands">-->
+
+                <!--<md-content class="commandViewContainerOverflow" >-->
+                    <!--<div sv-root sv-part="$ctrl.commands" sv-on-sort="$ctrl.reorderCommands($item, $partFrom, $partTo, $indexFrom, $indexTo)">-->
+                        <!--<div sv-placeholder class="commandHeaderPlaceholder">-->
+
+                        <!--</div>-->
+                        <!--<div ng-repeat="command in $ctrl.commands track by command.id" sv-element-->
+                             <!--bn-repeat-switch="command.Type"-->
+                             <!--switch-once="true" id="{{ command.id }}">-->
+                            <!--<div bn-repeat-switch-when="Takeoff" >-->
+                                <!--<ds-takeoff-command-instance command="command" map="$ctrl.map">-->
+                                <!--</ds-takeoff-command-instance>-->
+                            <!--</div>-->
+                            <!--<div bn-repeat-switch-when="Survey">-->
+                                <!--<ds-survey-command command="command"></ds-survey-command>-->
+                            <!--</div>-->
+                            <!--<div bn-repeat-switch-when="Waypoint">-->
+                                <!--<ds-waypoint-command command="command"></ds-waypoint-command>-->
+                            <!--</div>-->
+                            <!--<div bn-repeat-switch-when="Orbit">-->
+                                <!--<ds-orbit-command command="command"></ds-orbit-command>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</md-content>-->
+
+            <!--</md-tab>-->
+
+            <!--<md-tab label="3D Models">-->
+                <!--<md-content class="md-padding">-->
+
+                <!--</md-content>-->
+            <!--</md-tab>-->
+
+        <!--</md-tabs>-->
+
+    <!--</md-content>-->
+
+<!--</div>-->

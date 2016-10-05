@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="14px" height="17px" viewBox="0 0 14 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Flight-Control" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Flight-Control---GPS" transform="translate(-35.000000, -398.000000)" fill="#FFFFFF">
+            <g id="modes" transform="translate(20.000000, 114.000000)">
+                <g id="actions">
+                    <g id="Pause" transform="translate(0.000000, 270.000000)">
+                        <g id="Group" transform="translate(15.000000, 14.000000)">
+                            <rect id="Rectangle-866" x="0" y="0" width="4" height="17"></rect>
+                            <rect id="Rectangle-866" x="10" y="0" width="4" height="17"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

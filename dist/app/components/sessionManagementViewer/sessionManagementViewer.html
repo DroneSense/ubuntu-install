@@ -1,0 +1,84 @@
+<!--Session Management-->
+<div>
+    <div layout="column" ng-click="$ctrl.showSessionManagement = !$ctrl.showSessionManagement" layout-align="center center" style="position: relative; margin-top: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+         <md-icon style="width: 30px; height: 28px;" md-svg-icon="./app/components/sessionManagementViewer/images/collaboration.svg"></md-icon>
+    </div>
+    <div layout="row" ng-show="$ctrl.showSessionManagement" style="position: absolute; left: 44px; bottom: 0px; width: 317px; min-height: 200px; background-color: #292c32; opacity: .9;">
+        <div ng-show="$ctrl.currentSessionVisible" layout="column" layout-align="start center" style="min-width: 273px;">
+
+            <div layout="row">
+                <div style="margin-top: 14px; font-size: 16px; line-height: 1; text-align: center; color: #abafb9; font-weight: 500;">Current Session</div>
+            </div>
+
+            <!--Session List-->
+            <div md-theme='ds-dark' style="padding: 13px 20px; font-size: 14px; color: #ffffff; width: 100%">
+                <div layout="column" layout-align="start none">
+                    <div layout="row" layout-align="space-between center" style="margin-bottom: 13px;">
+                        <div>Name:</div>
+                        <div>{{ $ctrl.name }}</div>
+                    </div>
+                    <div layout="row" layout-align="space-between center" style="margin-bottom: 13px;">
+                        <div>Server:</div>
+                        <div>{{ $ctrl.server }}</div>
+                    </div>
+                    <!--<div layout="row" layout-align="space-between center" style="margin-bottom: 13px;">
+                        <div>Owner:</div>
+                        <div>{{ $ctrl.name }}</div>
+                    </div>-->
+                    <div layout="row" layout-align="space-between center" style="margin-bottom: 13px;">
+                        <div>Color:</div>
+                        <div style="outline: none; cursor: pointer; margin-right: 10px; height: 15px; width: 15px; background-color: {{ $ctrl.color }}; border: white 1px solid;"></div>
+                    </div>
+                    <div layout="row" layout-align="space-between center">
+                        <div>Prompt on guest connect:</div>
+                        <md-checkbox ng-model="$ctrl.ownerSession.allowAllGuestsWithoutPrompt" aria-label="Guest Connections"></md-checkbox>
+                    </div>
+                </div>
+            </div>
+            <md-button ng-click="$ctrl.endSession()" class="md-light btn-md" style="width: 141px; margin-bottom: 9px; padding: 8px 10px;">
+                <label style="cursor: pointer;" >End Session</label>
+            </md-button>
+        </div>
+        <div ng-show="$ctrl.guestSessionVisible" layout="column" layout-align="start center" style="min-width: 273px;">
+
+            <div layout="row">
+                <div style="margin-top: 14px; font-size: 16px; line-height: 1; text-align: center; color: #abafb9; margin-left: 43px; margin-right: 5px;">Session Management</div>
+                <div layout="column" layout-align="center center" ng-click="$ctrl.onJoinSession();" style="width: 44px; height: 44px; cursor: pointer; outline: none;">
+                    <md-icon style="width: 17px; height: 17px;" md-svg-icon="./app/components/sessionManagementViewer/images/addSession.svg"></md-icon>
+                </div>
+            </div>
+
+            <!--Session List-->
+            <div style="padding: 10px;">
+                <!--Session Item-->
+                <div layout="row" 
+                    ng-click="$ctrl.changeActiveSession(session);" 
+                    layout-align="start center"
+                    ng-repeat="session in $ctrl.sessionController.guestSession"
+                    ng-class="session === $ctrl.sessionController.activeSession ? 'sessionManagementItemActive': 'sessionManagementItem'">
+                    <div style="outline: none; cursor: pointer; margin-left: 15px; height: 15px; width: 15px; background-color: {{ session.color }};"></div>
+                    <div class="noselect" style="margin-left: 14px; font-size: 12px; font-weight: 500; line-height: 1.2; color: #ffffff;">{{ session.name }} </div>
+                    <div flex></div>
+                    <div layout="row" layout-align="start center" ng-click="$ctrl.leaveSession(session);" style="height: 37px; width: 42px; cursor: pointer; outline: none;">
+                        <md-icon style="width: 13px; height: 13px;" md-svg-icon="./app/components/sessionManagementViewer/images/exitSession.svg"></md-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width: 44px;">
+            <div layout="column" layout-align="center center" ng-show="$ctrl.ownerSession" ng-click="$ctrl.guestSessionVisible = false; $ctrl.currentSessionVisible = true" ng-class="$ctrl.currentSessionVisible ? 'sessionManagementOptionActive': 'sessionManagementOption'">
+                <md-icon style="width: 18px; height: 19px;" md-svg-icon="./app/components/sessionManagementViewer/images/ownerSession.svg"></md-icon>
+            </div>
+            <div layout="column" layout-align="center center" ng-click="$ctrl.currentSessionVisible = false; $ctrl.guestSessionVisible = true" ng-class="$ctrl.guestSessionVisible ? 'sessionManagementOptionActive': 'sessionManagementOption'">
+                <md-icon style="width: 22px; height: 19px;" md-svg-icon="./app/components/sessionManagementViewer/images/sessionList.svg"></md-icon>
+            </div>
+            <div layout="column" layout-align="center center" ng-click="$ctrl.chatVisible = true" ng-class="$ctrl.chatVisible ? 'sessionManagementOptionActive': 'sessionManagementOption'">
+                <md-icon style="width: 20px; height: 23px;" md-svg-icon="./app/components/sessionManagementViewer/images/chatIcon.svg"></md-icon>
+            </div>
+            <div layout="column" layout-align="center center" ng-click="$ctrl.waypointCollab = true" ng-class="$ctrl.waypointCollab ? 'sessionManagementOptionActive': 'sessionManagementOption'">
+                <md-icon style="width: 24px; height: 25px;" md-svg-icon="./app/components/sessionManagementViewer/images/waypointCollab.svg"></md-icon>
+            </div>
+        </div>        
+        
+    </div>
+</div>

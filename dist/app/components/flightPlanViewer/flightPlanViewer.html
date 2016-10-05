@@ -1,0 +1,57 @@
+<div class="mainWrapper">
+    <div class="mainHeader">
+        <ds-app-bar on-exit="$ctrl.exitFlightPlan()"
+                    mode="flightplan"
+                    on-save-flight-plan="$ctrl.saveFlightPlan(name)"
+                    flight-plan-name="{{ $ctrl.flightPlan.Name }}"
+                    flight-plan-saved="$ctrl.flightPlan.Saved"
+                    user-name="{{ $ctrl.user.UserName }}"
+                    user-initials="{{ $ctrl.user.UserInitials }}"
+                    user-settings-visible="$ctrl.uiStateService.UserSettingsVisible"
+                    on-show-user-settings="$ctrl.showUserSettings(show)"
+                    user="$ctrl.user">
+        </ds-app-bar>
+        <ds-toolbar view="flightplan"
+                    on-clear-flight-plan="$ctrl.clearFlightPlan()"
+                    on-show-settings="$ctrl.showSettings()"
+                    on-location-search="$ctrl.mapFlyTo(lat, lng)"
+                    drone="$ctrl.flightPlan.Drone"
+                    camera="$ctrl.flightPlan.Camera"
+                    on-save-camera="$ctrl.saveCamera(camera)"
+                    on-save-drone="$ctrl.saveDrone(drone)"
+                    show-drone-camera="$ctrl.uiStateService.DroneCameraVisible"
+                    on-show-drone-camera="$ctrl.showDroneCamera(show)">
+
+        </ds-toolbar>
+    </div>
+    <div class="mainContent">
+        <div layout="row" class="mapContainer">
+
+            <ds-command-viewer ng-cloak="true" 
+                               ng-show="$ctrl.uiStateService.CommandsVisible" 
+                               class="commandViewContainer"
+                               flight-plan-id="$ctrl.flightPlanId"
+                               map="$ctrl.map"
+                               user="$ctrl.user"
+                               camera="$ctrl.flightPlan.Camera"
+                               settings="$ctrl.flightPlan.Settings">
+            </ds-command-viewer>
+
+            <div class="commandExpander" layout-align="center center" ng-click="$ctrl.uiStateService.CommandsVisible = !$ctrl.uiStateService.CommandsVisible">
+                <md-icon md-svg-src="./app/components/flightPlanViewer/images/arrows.svg" ng-class="{ 'commandExpanderIcon': $ctrl.uiStateService.CommandsVisible, 'commandExpanderIconCollapsed': !$ctrl.uiStateService.CommandsVisible }" ></md-icon>
+            </div>
+
+            <ds-map-tools class="dsMapTools" 
+                          on-add-command="$ctrl.addCommand(command)" 
+                          map="$ctrl.map" 
+                          flight-plan="$ctrl.flightPlan"></ds-map-tools>
+
+            <div id="cesiumContainer" class="cesium-map-container"></div>
+
+            <ds-map-controls map="$ctrl.map"></ds-map-controls>
+
+            <ds-flight-info-viewer map="$ctrl.map" ui-state-service="$ctrl.uiStateService" flight-plan="$ctrl.flightPlan"></ds-flight-info-viewer>
+
+        </div>
+    </div>
+</div>

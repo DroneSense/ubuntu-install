@@ -1,0 +1,142 @@
+<div class="droneCameraContainer" ng-cloak="true">
+    <div class="droneCameraContent" layout="row" >
+        <div class="droneCameraContentDrone">
+            <form name="droneForm">
+                <md-input-container class="dsDroneCameraTextBox md-block">
+                    <label>Drone</label>
+                    <md-select ng-model="$ctrl.drone" placeholder="Add User Drone"
+                               ng-model-options="{trackBy: '$value.Id'}"
+                               aria-label="Select Drone"
+                               md-on-close="$ctrl.saveDrone()"
+                               required>
+                        <md-optgroup label="User Drones">
+                            <md-option class="droneCameraSelectTextPlaceholder" >Add User Drone</md-option>
+                            <md-option ng-value="drone" ng-repeat="drone in $ctrl.UserDrones">{{ drone.Name }}</md-option>
+                        </md-optgroup>
+                        <md-optgroup label="RTF Drones">
+                            <md-option ng-value="drone" ng-repeat="drone in $ctrl.CatalogDrones">{{ drone.Name }}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block" ng-show="vm.droneEditMode || vm.addUserDroneMode">
+                    <label>Name</label>
+                    <input type="text" ng-model="$ctrl.drone.Name" required/>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block">
+                    <label>Flight Time</label>
+                    <input required type="number" ng-model="$ctrl.drone.Endurance" ng-readonly="$ctrl.drone.Type === 'Catalog' || vm.droneReadOnly"/>
+                    <div class="input-unit">minutes</div>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block"
+                                    ng-class="{ 'dsDroneCameraTextBoxReadonly': $ctrl.isCatalogDrone || $ctrl.droneReadOnly }">
+                    <label>Battery Type</label>
+                    <md-select name="battery" ng-model="$ctrl.drone.BatteryType" placeholder="Select Battery Type" aria-label="Select Battery Type" required>
+                        <md-option ng-repeat="batteryType in $ctrl.GetBatteryTypes()" value="{{ batteryType }}">{{ batteryType }}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block">
+                    <label>Battery Size</label>
+                    <input required type="number" ng-model="$ctrl.drone.BatterySize" ng-readonly="$ctrl.isCatalogDrone || vm.droneReadOnly"/>
+                    <div class="input-unit">mAh</div>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block"
+                                    ng-class="{ 'dsDroneCameraTextBoxReadonly': $ctrl.isCatalogDrone || vm.droneReadOnly }">
+                    <label>Frame Type</label>
+                    <md-select ng-model="$ctrl.drone.FrameType" aria-label="Select Frame Type" placeholder="Select Frame Type" required>
+                        <md-option ng-repeat="frameType in $ctrl.GetFrameTypes()" value="{{ frameType }}">{{ frameType }}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block"
+                                    ng-class="{ 'dsDroneCameraTextBoxReadonly': $ctrl.isCatalogDrone || vm.droneReadOnly }">
+                    <label>Flight Controller</label>
+                    <md-select name="flightController" ng-model="$ctrl.drone.AutopilotType" aria-label="Select Flight Controller" placeholder="Select Flight Controller" required>
+                        <md-option ng-repeat="flightController in $ctrl.GetFlightControllerTypes()" value="{{ flightController }}">{{ flightController }}</md-option>
+                    </md-select>
+                </md-input-container>
+                <!--<md-input-container class="dsDroneCameraTextBox md-block">-->
+                <!--<label>Payload Capacity</label>-->
+                <!--<input required type="number" ng-model="vm.droneCameraService.CurrentDrone.PayloadCapacity" ng-readonly="vm.isCatalogDrone || vm.droneReadOnly"/>-->
+                <!--<div class="input-unit">grams</div>-->
+                <!--</md-input-container>-->
+                <div class="droneCameraButtonsContainer" ng-show="!$ctrl.isCatalogDrone && !$ctrl.droneEditMode && !$ctrl.addUserDroneMode" layout="row" layout-align="space-between center">
+                    <md-button class="dsCancelBtn" ng-click="$ctrl.EditUserDrone();">Edit</md-button>
+                    <md-button class="dsUpdateBtn" ng-click="$ctrl.DeleteUserDrone()">Delete</md-button>
+                </div>
+                <div class="droneCameraButtonsContainer" ng-show="$ctrl.droneEditMode && !$ctrl.addUserDroneMode" layout="row" layout-align="center center">
+                    <md-button class="dsCancelBtn" ng-click="$ctrl.CancelDroneEdit();">Cancel</md-button>
+                    <md-button class="dsUpdateBtn" ng-click="$ctrl.UpdateDrone();">Update</md-button>
+                </div>
+                <div class="droneCameraButtonsContainer" ng-show="$ctrl.addUserDroneMode" layout="row" layout-align="center center">
+                    <md-button class="dsCancelBtn" ng-click="$ctrl.CancelDroneEdit();">Cancel</md-button>
+                    <md-button class="dsUpdateBtn" ng-click="$ctrl.SaveUserDrone()" ng-disabled="droneForm.$invalid">Save</md-button>
+                </div>
+            </form>
+        </div>
+        <div class="droneCameraContentDivider"></div>
+        <div class="droneCameraContentCamera">
+            <form name="cameraForm">
+                <md-input-container class="dsDroneCameraTextBox md-block">
+                    <label>Camera</label>
+                    <md-select ng-model="$ctrl.camera" placeholder="Add User Camera"
+                               aria-label="Select Camera"
+                               ng-model-options="{trackBy: '$value.Id'}"
+                               md-on-close="$ctrl.saveCamera()"
+                               required >
+                        <md-optgroup label="User Cameras">
+                            <md-option class="droneCameraSelectTextPlaceholder" >Add User Camera</md-option>
+                            <md-option ng-value="camera" ng-repeat="camera in $ctrl.UserCameras">{{ camera.Name }}</md-option>
+                        </md-optgroup>
+                        <md-optgroup label="Catalog Cameras">
+                            <md-option ng-value="camera" ng-repeat="camera in $ctrl.CatalogCameras">{{ camera.Name }}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block" ng-show="$ctrl.cameraEditMode || $ctrl.addUserCameraMode">
+                    <label>Name</label>
+                    <input type="text" ng-model="$ctrl.camera.Name" required/>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block">
+                    <label>Focal Length</label>
+                    <input required type="number" ng-model="$ctrl.camera.FocalLength" ng-readonly="$ctrl.isCatalogCamera || $ctrl.cameraReadOnly"/>
+                    <div class="input-unit">mm</div>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block">
+                    <label>Sensor Height</label>
+                    <input required type="number" ng-model="$ctrl.camera.SensorHeight" ng-readonly="$ctrl.isCatalogCamera || $ctrl.cameraReadOnly"/>
+                    <div class="input-unit">mm</div>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block">
+                    <label>Sensor Width</label>
+                    <input required type="number" ng-model="$ctrl.camera.SensorWidth" ng-readonly="$ctrl.isCatalogCamera || $ctrl.cameraReadOnly"/>
+                    <div class="input-unit">mm</div>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block">
+                    <label>Vertical Resolution</label>
+                    <input required type="number" ng-model="$ctrl.camera.VerticalResolution" ng-readonly="$ctrl.isCatalogCamera || $ctrl.cameraReadOnly"/>
+                    <div class="input-unit">mm</div>
+                </md-input-container>
+                <md-input-container class="dsDroneCameraTextBox md-block">
+                    <label>Horizontal Resolution</label>
+                    <input required type="number" ng-model="$ctrl.camera.HorizontalResolution" ng-readonly="$ctrl.isCatalogCamera || $ctrl.cameraReadOnly"/>
+                    <div class="input-unit">px</div>
+                </md-input-container>
+                <div class="droneCameraButtonsContainer" ng-show="!$ctrl.isCatalogCamera && !$ctrl.cameraEditMode && !$ctrl.addUserCameraMode" layout="row" layout-align="space-between center">
+                    <md-button class="dsCancelBtn" ng-click="$ctrl.EditUserCamera();">Edit</md-button>
+                    <md-button class="dsUpdateBtn" ng-click="$ctrl.DeleteUserCamera()">Delete</md-button>
+                </div>
+                <div class="droneCameraButtonsContainer" ng-show="$ctrl.cameraEditMode && !$ctrl.addUserCameraMode" layout="row" layout-align="center center">
+                    <md-button class="dsCancelBtn" ng-click="$ctrl.CancelCameraEdit();">Cancel</md-button>
+                    <md-button class="dsUpdateBtn" ng-click="$ctrl.UpdateCamera();">Update</md-button>
+                </div>
+                <div class="droneCameraButtonsContainer" ng-show="$ctrl.addUserCameraMode" layout="row" layout-align="center center">
+                    <md-button class="dsCancelBtn" ng-click="$ctrl.CancelCameraEdit();">Cancel</md-button>
+                    <md-button class="dsUpdateBtn" ng-click="$ctrl.SaveUserCamera()" ng-disabled="cameraForm.$invalid">Save</md-button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="droneCameraButtonsContainer" ng-if="false" layout="row" layout-align="center center">
+        <md-button class="dsCancelBtn" ng-click="vm.show = false">Cancel</md-button>
+        <md-button class="dsUpdateBtn" ng-click="vm.Update()">Save</md-button>
+    </div>
+</div>

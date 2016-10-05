@@ -1,0 +1,190 @@
+<div class="toolsContainer">
+
+    <div ng-repeat="tool in $ctrl.singleInstanceTools" ng-class="{'lastToolItem':$last}">
+        <div class="customMapToolBtn" ng-click="tool.StartEdit()" layout="row" layout-align="center center">
+
+            <md-tooltip md-direction="right" md-delay="50">
+                {{ tool.ToolTip }}
+            </md-tooltip>
+            <md-icon md-svg-src="{{ tool.IconPath }}"
+                     ng-class="tool.Selected ? 'mapToolIconActive': 'mapToolIcon'"
+                     aria-label="{{ tool.ToolTip }}">
+            </md-icon>
+
+        </div>
+    </div>
+
+    <div ng-repeat="tool in $ctrl.multiInstanceTools" ng-class="{'lastToolItem':$last}">
+        <div class="customMapToolBtn" ng-click="tool.StartEdit()" layout="row" layout-align="center center">
+
+            <md-tooltip md-direction="right" md-delay="50">
+                {{ tool.ToolTip }}
+            </md-tooltip>
+            <md-icon md-svg-src="{{ tool.IconPath }}"
+                     ng-class="tool.Selected ? 'mapToolIconActive': 'mapToolIcon'"
+                     aria-label="{{ tool.ToolTip }}">
+            </md-icon>
+
+        </div>
+    </div>
+
+    <div ng-repeat="tool in $ctrl.measureTools" ng-class="{'lastToolItem':$last}">
+        <div class="customMapToolBtn" ng-click="tool.StartEdit()" layout="row" layout-align="center center">
+
+            <md-tooltip md-direction="right" md-delay="50">
+                {{ tool.ToolTip }}
+            </md-tooltip>
+            <md-icon md-svg-src="{{ tool.IconPath }}"
+                     ng-class="tool.Selected ? 'mapToolIconActive': 'mapToolIcon'"
+                     aria-label="{{ tool.ToolTip }}">
+            </md-icon>
+
+        </div>
+    </div>
+
+    <div ng-repeat="tool in $ctrl.threeDCreationTools" ng-class="{'lastToolItem':$last}">
+        <div class="customMapToolBtn" ng-click="tool.StartEdit()" layout="row" layout-align="center center">
+
+            <md-tooltip md-direction="right" md-delay="50">
+                {{ tool.ToolTip }}
+            </md-tooltip>
+            <md-icon md-svg-src="{{ tool.IconPath }}"
+                     ng-class="tool.Selected ? 'mapToolIconActive': 'mapToolIcon'"
+                     aria-label="{{ tool.ToolTip }}">
+            </md-icon>
+
+        </div>
+    </div>
+
+    <div ng-repeat="tool in $ctrl.annotationTools" ng-class="{'lastToolItem':$last}">
+        <div class="customMapToolBtn" ng-click="tool.StartEdit()" layout="row" layout-align="center center">
+
+            <md-tooltip md-direction="right" md-delay="50">
+                {{ tool.ToolTip }}
+            </md-tooltip>
+            <md-icon md-svg-src="{{ tool.IconPath }}"
+                     ng-class="tool.Selected ? 'mapToolIconActive': 'mapToolIcon'"
+                     aria-label="{{ tool.ToolTip }}">
+            </md-icon>
+
+        </div>
+    </div>
+
+    <!--<div class="elevationToolWindow" ng-if="vm.spotElevationVisible">-->
+        <!--<md-icon ng-click="vm.closeElevation()" md-svg-src="components/mapTools/close.svg"-->
+                 <!--class="closeIcon"-->
+                 <!--aria-label="Close Window"></md-icon>-->
+        <!--<span>Elevation: {{ vm.elevation }} AGL</span>-->
+        <!--<br>-->
+        <!--<span>Location: {{ vm.lat }}, {{ vm.lng }}</span>-->
+    <!--</div>-->
+
+    <!--<div class="customMapToolBtn" ng-click="vm.addTakeOffPoint();" layout="row" layout-align="center center">-->
+
+            <!--<md-tooltip md-direction="right" md-delay="50" md-autohide="true">-->
+                <!--Take Off Tool-->
+            <!--</md-tooltip>-->
+            <!--<md-icon md-svg-src="components/mapTools/takeoff.svg"-->
+                     <!--class="takeoffIcon"-->
+                     <!--ng-class="{ 'takeoffIconActive': vm.takeoffActive }"-->
+                     <!--aria-label="">-->
+
+            <!--</md-icon>-->
+
+    <!--</div>-->
+
+    <!--<md-divider></md-divider>-->
+
+    <!--<div class="customMapToolBtn" ng-click="vm.addWaypoint();" layout="row" layout-align="center center">-->
+
+            <!--<md-tooltip md-direction="right" md-delay="50">-->
+                <!--Waypoint-->
+            <!--</md-tooltip>-->
+            <!--<md-icon md-svg-src="components/mapTools/waypoint.svg"-->
+                     <!--class="followMeIcon"-->
+                     <!--ng-class="{ 'followMeIconActive': vm.waypointActive }"-->
+                     <!--aria-label="Waypoint Tool">-->
+            <!--</md-icon>-->
+
+    <!--</div>-->
+
+    <!--<md-divider></md-divider>-->
+
+    <!--<div class="customMapToolBtn" ng-click="vm.addSurvey();" layout="row" layout-align="center center">-->
+
+            <!--<md-tooltip md-direction="right" md-delay="50">-->
+                <!--Survey-->
+            <!--</md-tooltip>-->
+            <!--<md-icon md-svg-src="components/mapTools/survey.svg"-->
+                     <!--class="waypointIcon"-->
+                     <!--ng-class="{ 'waypointIconActive': vm.surveyActive }"-->
+                     <!--aria-label="Survey Tool">-->
+
+            <!--</md-icon>-->
+
+    <!--</div>-->
+
+    <!--<md-divider></md-divider>-->
+
+    <!--<div class="customMapToolBtn" ng-click="vm.addPOIPoint();" layout="row" layout-align="center center">-->
+
+            <!--<md-tooltip md-direction="right" md-delay="50">-->
+                <!--Orbit-->
+            <!--</md-tooltip>-->
+            <!--<md-icon md-svg-src="components/mapTools/circles.svg"-->
+                     <!--class="circleIcon"-->
+                     <!--ng-class="{ 'circleIconActive': vm.circleActive }"-->
+                     <!--aria-label="Circle Tool">-->
+            <!--</md-icon>-->
+
+    <!--</div>-->
+
+    <!--<md-divider></md-divider>-->
+
+    <!--<div ng-if="false" ng-click="vm.addFollowMe()">-->
+
+            <!--<md-tooltip md-direction="right" md-delay="50">-->
+                <!--Follow-->
+            <!--</md-tooltip>-->
+            <!--<md-icon md-svg-src="components/mapTools/followme.svg"-->
+                     <!--class="followMeIcon"-->
+                     <!--ng-class="{ 'mapToolIconActive': vm.followmeActive }"-->
+                     <!--aria-label="Follow Me Tool">-->
+            <!--</md-icon>-->
+
+    <!--</div>-->
+
+    <!--<md-divider ng-if="false"></md-divider>-->
+
+    <!--<div class="customMapToolBtn" ng-click="vm.addMeasure();" layout="row" layout-align="center center">-->
+
+            <!--<md-tooltip md-direction="right" md-delay="50">-->
+                <!--Measure Tool-->
+            <!--</md-tooltip>-->
+            <!--<md-icon md-svg-src="components/mapTools/measure.svg"-->
+                     <!--class="followMeIcon"-->
+                     <!--ng-class="{ 'followMeIconActive': vm.measureActive }"-->
+                     <!--aria-label="Measure Tool">-->
+            <!--</md-icon>-->
+
+    <!--</div>-->
+
+    <!--<md-divider></md-divider>-->
+
+    <!--<div class="customMapToolBtn" ng-click="vm.addElevation();" layout="row" layout-align="center center">-->
+
+            <!--<md-tooltip md-direction="right" md-delay="50">-->
+                <!--Elevation Tool-->
+            <!--</md-tooltip>-->
+            <!--<md-icon md-svg-src="components/mapTools/elevation.svg"-->
+                     <!--class="followMeIcon"-->
+                     <!--ng-class="{ 'followMeIconActive': vm.elevationActive }"-->
+                     <!--aria-label="Elevation Tool">-->
+            <!--</md-icon>-->
+
+    <!--</div>-->
+
+    <!--<md-divider></md-divider>-->
+
+</div>
+

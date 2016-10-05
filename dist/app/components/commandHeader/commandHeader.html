@@ -1,0 +1,38 @@
+<div ng-class="{ 'commandHeader': !$ctrl.command.Expanded,
+                     'commandHeaderExpanded': $ctrl.command.Expanded }" >
+    <md-icon sv-handle
+             ng-class="{ 'commandHeaderDragHandle': !$ctrl.command.Expanded,
+                                 'commandHeaderDragHandleExpanded': $ctrl.command.Expanded }"
+             md-svg-src="./app/components/commandHeader/images/dragHandle.svg"
+             ng-show="$ctrl.command.Type != 'Takeoff'">
+    </md-icon>
+    <div ng-class="{ 'commandHeaderCircleDiv': !$ctrl.command.Expanded,
+                         'commandHeaderCircleDivExpanded': $ctrl.command.Expanded }"
+         ng-click="$ctrl.onFlyTo()" >
+        {{ $ctrl.command.Order }}
+    </div>
+    <md-button ng-show="!$ctrl.editName"
+               ng-class="{ 'commandHeaderText': !$ctrl.command.Expanded,
+                               'commandHeaderTextExpanded': $ctrl.command.Expanded }"
+               ng-click="$ctrl.editName = true">
+        {{ $ctrl.command.Name }}
+    </md-button>
+    <input type="text"
+           ng-show="$ctrl.editName"
+           ds-focus-on-show
+           key-enter="$ctrl.editName = false"
+           ng-blur="$ctrl.editName = false; $ctrl.command.SaveProperty($ctrl.command.Name, 'Name');"
+           ng-model="$ctrl.command.Name"
+           ng-class="{ 'commandHeaderText': !$ctrl.command.Expanded,
+                           'commandHeaderTextEdit': !$ctrl.command.Expanded,
+                           'commandHeaderTextExpanded': $ctrl.command.Expanded,
+                           'commandHeaderTextExpandedEdit': $ctrl.command.Expanded }" />
+    <div ng-class="{ 'commandHeaderShowBtn': !$ctrl.command.Expanded,
+                         'commandHeaderShowBtnExpanded': $ctrl.command.Expanded }"
+         ng-click="$ctrl.command.SaveProperty(!$ctrl.command.Expanded, 'Expanded');" layout="row" layout-align="center center">
+        <md-icon ng-class="{ 'commandHeaderShowBtnIcon': !$ctrl.command.Expanded,
+                                 'commandHeaderShowBtnIconExpanded': $ctrl.command.Expanded }"
+                 md-svg-src="./app/components/commandHeader/images/open.svg">
+        </md-icon>
+    </div>
+</div>

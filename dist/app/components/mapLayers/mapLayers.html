@@ -1,0 +1,29 @@
+<div>
+    <div layout="column" ng-click="$ctrl.showMapLayers = !$ctrl.showMapLayers" layout-align="center center" style="position: relative; margin-top: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+         <md-icon style="width: 18px; height: 18px; color: white;" md-svg-icon="./app/components/mapLayers/images/mapLayers.svg"></md-icon>
+    </div>
+    <div layout="row" ng-show="$ctrl.showMapLayers" style="position: absolute; right: 44px; bottom: 0px; width: 270px; min-height: 200px; background-color: #292c32; opacity: .9;">
+        <div layout="column" layout-align="start center" style="min-width: 273px;">
+            <div style="margin-top: 12px; font-size: 16px; line-height: 1; text-align: center; color: #abafb9;">Map Management</div>
+            <div layout="row" layout-align="center center" style="margin-top: 10px;width: 260px; height: 35px;">
+                <div layout="row" layout-align="center center" 
+                ng-class="$ctrl.mapsActive ? 'mapLayersSelectorActive': 'mapLayersSelector'"
+                ng-click="$ctrl.layersActive = false; $ctrl.mapsActive = true;">Maps</div>
+                <div layout="row" layout-align="center center" 
+                ng-class="$ctrl.layersActive ? 'mapLayersSelectorActive': 'mapLayersSelector'"
+                ng-click="$ctrl.mapsActive = false; $ctrl.layersActive = true;">Overlays</div>
+            </div>
+            <!--Session List-->
+            <div ng-show="$ctrl.mapsActive" style="padding: 10px;">
+                <div style="width: 60px; height: 60px;">
+                </div>
+            </div>
+            <div layout="row" layout-align="start start" ng-show="$ctrl.layersActive" style="width: 100%; height: 100%; padding: 20px;">
+                <div layout="column" layout-align="center center" ng-click="$ctrl.showBuildings();" style="cursor: pointer; outline: none;">
+                    <img style="width: 44px; height: 44px;" src="./app/components/mapLayers/images/geometryToggle.png"></md-icon>
+                    <div style="font-size: 11px; font-weight: 300; color: white;">3D Buildings</div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>

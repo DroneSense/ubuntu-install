@@ -1,0 +1,3156 @@
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.uiViewWrapper {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.mainWrapper {
+    padding: 90px 0 0 0;
+    height: 100%;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+}
+
+.mainHeader {
+    height: 90px;
+    margin-top: -90px;
+}
+
+.mainHeaderDashboard {
+    height: 90px;
+    margin-top: -90px;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
+.mainContent {
+    height: 100%;
+}
+
+.mapContainer {
+    height: 100%;
+}
+
+/*.mapPerspectiveContainer {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    -moz-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+}
+
+.mapPerspectiveContainerActive {
+    margin: 0;
+    padding: 0;
+    -moz-perspective: 1200px;
+    -moz-transform: translate3d(0,0,0);
+    -webkit-perspective: 1200;
+    -webkit-transform: translate3d(0,0,0);
+    background: #f4f4f4;
+    overflow: hidden;
+    width: 100%;
+    -moz-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+}
+
+#maprotor.tilted {
+    -moz-transform: rotateX(60deg);
+    -webkit-transform: rotateX(60deg);
+}
+
+#maprotor {
+    -moz-transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+    position: absolute;
+    top: -0%;
+    bottom: 0;
+    width: 100%;
+    overflow: visible;
+}
+
+.perspective {
+    overflow: visible;
+}*/
+
+/* START - APPBAR & TOOLBAR Overrides */
+
+md-toolbar.md-sixty {
+    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
+}
+md-toolbar.md-sixty .md-toolbar-tools {
+    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+md-toolbar.md-seventy {
+    height: 50px;
+    min-height: 50px;
+    max-height: 50px;
+}
+md-toolbar.md-seventy .md-toolbar-tools {
+    height: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.md-button.btnUser {
+    min-height: 40px;
+    border-radius: 0px;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-left-width: 1px;
+    border-left-color: #54b3f0;
+    border-left-style: solid;
+}
+.md-button.btnUser:not([disabled]):hover {
+    background-color: #ffffff;
+    color: #0a92ea;
+}
+.md-toolbar-tools .md-button.btnUser:last-child {
+    margin-right: 0px;
+    margin-left: 0;
+    padding-right: 30px;
+    padding-left: 15px;
+}
+
+.md-button.btnUser span {
+    padding-left: 44px;
+}
+
+.md-button.btnUser:hover span {
+    color: #0a92ea;
+}
+
+.md-button.btnUser:hover .initialsIcon {
+    fill: #0a92ea;
+}
+
+.initialsIcon {
+    height: 30px;
+    width: 30px;
+    fill: #fff;    
+    margin-bottom: 3px;
+    margin-right: 5px;
+}
+
+.md-button.btnUser:hover .initialsLabel {
+    color: #ffffff;
+}
+
+.initialsLabel {
+    position: absolute;
+    color: #0a92ea;
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    width: 30px;
+    height: 30px;
+    text-transform: capitalize;
+    margin-top: 2px;
+}
+
+.btnToolBar {
+    min-height: 50px;
+    border-radius: 0;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-left-width: 1px;
+    border-left-color: #e5e5e5;
+    border-left-style: solid;
+    margin: 0;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.btnToolBar:not([disabled]):hover {
+    background-color: #ffffff;
+    color: #0a92ea;
+}
+.md-toolbar-tools .btnToolBar:last-child {
+    margin-right: 0px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.btnToolBar span {
+    padding-left: 5px;
+}
+
+.btnToolBar:hover .clearIcon{
+    fill: #0a92ea;
+}
+
+.clearIcon {
+    height: 12px;
+    width: 12px;
+    fill: #c2c3c4;
+    fill-rule: evenodd;
+}
+
+.btnToolBar:hover .redoIcon{
+    fill: #0a92ea;
+}
+
+.redoIcon {
+    height: 12px;
+    width: 14px;
+    fill: #c2c3c4;
+    fill-rule: evenodd;
+}
+
+.gridIcon {
+    height: 14px;
+    width: 14px;
+    fill: #c2c3c4;
+    fill-rule: evenodd;
+}
+
+.gridIconSelected {
+    height: 14px;
+    width: 14px;
+    fill: #0a92ea;
+    fill-rule: evenodd;
+    position: absolute;
+    top: 18px;
+}
+
+.btnToolBar:hover .gridIcon{
+    fill: #0a92ea;
+}
+
+.listIcon {
+    width: 15px;
+    height: 10px;
+    fill: #c2c3c4;
+    fill-rule: evenodd;
+    position: absolute;
+    top: 20px;
+}
+
+.listIconSelected {
+    width: 15px;
+    height: 10px;
+    fill:  #0a92ea;
+    fill-rule: evenodd;
+    position: absolute;
+    top: 20px;
+}
+
+.btnToolBar:hover .listIcon{
+    fill: #0a92ea;
+}
+
+.toolbarLocationSearchContainer {
+    width: 100%;
+}
+
+.locationSearchIcon {
+    margin-left: 0;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 18px;
+    left: -20px;
+    fill: #c2c3c4;
+}
+
+.locationSearch {
+    max-width: 30%;
+}
+
+.locationSearch[md-floating-label] {
+    padding: 0 0 0 35px;
+    margin: 0 0 0 0;
+    height: 50px;
+}
+
+.locationSearch[md-floating-label] md-input-container {
+    height: 50px;
+    margin: 0;
+    padding: 0;
+}
+
+.locationSearch md-input-container {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    padding-bottom: 10px;
+    margin-left: 30px;
+    color: #ffffff;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.locationSearch md-input-container label {
+    left: 0;
+}
+
+.locationSearch input {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-width: 0;
+    margin-top: 17px;
+    line-height: 16px;
+}
+
+.locationSearch label {
+    top: -14px;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    line-height: 26px;
+    color: #2b2b2b
+}
+
+md-input-container .locationSearchInput {
+    border-width: 0;
+    padding-left: 0;
+}
+
+md-input-container .locationSearchLabel {
+    top: -10px;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #2b2b2b;
+    line-height: 26px;
+}
+
+.locationSearch md-input-container.md-input-has-value label:not(.md-no-float) {
+    -webkit-transform: translate3d(0, 18px, 0) scale(0.86);
+    transform: translate3d(0, 18px, 0) scale(0.86);
+}
+
+.locationSearch md-input-container.md-input-has-value label:not(.md-no-float) {
+    -webkit-transform: translate3d(0, 18px, 0) scale(0.86);
+    transform: translate3d(0, 18px, 0) scale(0.86);
+}
+
+.locationSearch md-input-container.md-input-focused label:not(.md-no-float) {
+    -webkit-transform: translate3d(0, 18px, 0) scale(0.86);
+    transform: translate3d(0, 18px, 0) scale(0.86);
+}
+
+.locationSearch md-input-container.md-input-focused md-icon:not(.md-no-float) {
+    fill: #0a92ea;
+}
+
+.locationSearch md-input-container.md-input-focused input:not(.md-no-float) {
+    border-bottom-width: 1px;
+    margin-bottom: 5px;
+}
+
+.md-button.btnAppBarExit {
+    min-height: 40px;
+    border-radius: 0px;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    /*line-height: 12px;*/
+    letter-spacing: .42px;
+    border-right-width: 1px;
+    border-right-color: #54b3f0;
+    border-right-style: solid;
+}
+
+.md-button.btnAppBarExit span {
+    padding-left: 24px;
+}
+
+.md-button.btnAppBarExit:hover span {
+    color: #0a92ea;
+}
+
+.md-button.btnAppBarExit:not([disabled]):hover {
+    background-color: #ffffff;
+    color: #0a92ea;
+}
+.md-toolbar-tools .md-button.btnAppBarExit:first-child {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-right: 30px;
+    padding-left: 15px;
+}
+
+.iconCenter60Bar {
+    margin-top: 23px;
+    margin-bottom: 23px;
+}
+
+.exitIcon {
+    width: 14px;
+    height: 12px;
+    color: #fff;
+    opacity: 0.7;
+    margin-right: 5px;
+}
+
+.btnAppBarExit:hover .exitIcon {
+    width: 14px;
+    height: 12px;
+    color: #0a92ea;
+}
+
+.btnGeoLocate {
+    min-height: 50px;
+    min-width: 72px;
+    border-radius: 0;
+    border-right-width: 1px;
+    border-right-color: #e5e5e5;
+    border-right-style: solid;
+    margin: 0;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.btnGeoLocate:not([disabled]):hover {
+    background-color: #ffffff;
+    color: #0a92ea;
+}
+
+.btnGeoLocate:hover .geoIcon {
+    fill: #0a92ea;
+}
+
+.geoIcon {
+    width: 10px;
+    height: 12px;
+    position: absolute;
+    top: 19px;
+    fill: #c2c3c4;
+    left: 31px;
+}
+
+.toolbarIcons {
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.flightPlanNameIcon {
+    fill: #fff;
+    fill-rule: evenodd;
+    height: 12px;
+    width: 12px;
+    opacity: .7;
+    top: 12px;
+    left: 15px;
+}
+
+.flightPlanNameBtn {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    /*padding-bottom: 10px;*/
+    /*margin-left: 20px;*/
+    /*margin-top: 0;*/
+    /*margin-bottom: 0;*/
+    /*margin-right: 0;*/
+    width: 25%;
+    color: #ffffff;
+    /*padding-left: 22px;*/
+    /*height: 40px;*/
+    /*display: block;*/
+}
+
+/*md-input-container.flightPlanNameBtn {*/
+    /*padding-left: 0;*/
+    /*padding-top: 14px;*/
+/*}*/
+
+md-input-container .flightPlanNameInput {
+    border-width: 0;
+    color: #ffffff;
+    line-height: 36px;
+    /*margin-top: 0;*/
+    /*margin-left: 20px;*/
+    /*padding-top: 10px;*/
+}
+
+md-input-container.md-input-focused .flightPlanNameInput:not(.md-no-float) {
+    border-bottom-width: 1px;
+    border-bottom-color: #ffffff;
+    /*margin-top: -7px;*/
+}
+
+md-input-container .flightPlanNameLabel {
+    /*top: 0;*/
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #ffffff;
+    /*line-height: 16px;*/
+    /*margin-left: 20px;*/
+}
+
+md-input-container.md-input-has-value .flightPlanNameIcon {
+    fill: #0cf12c;
+}
+
+md-input-container.md-input-has-value .flightPlanNameLabel:not(.md-no-float) {
+    -webkit-transform: translate3d(0, 16px, 0) scale(0.80);
+    transform: translate3d(0, 16px, 0) scale(0.80);
+    color: #ffffff;
+}
+
+md-input-container.md-input-focused .flightPlanNameLabel:not(.md-no-float) {
+    -webkit-transform: translate3d(0, 16px, 0) scale(0.80);
+    transform: translate3d(0, 16px, 0) scale(0.80);
+    color: #ffffff;
+}
+
+.flightPlanNameInput {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-width: 0;
+}
+
+.checkIcon {
+    fill: #fff;
+    fill-rule: evenodd;
+    width: 13px;
+    height: 12px;
+    margin-right: 5px;
+}
+
+.checkIconSaved {
+    fill: #0cf12c;
+}
+
+.md-button.btnSave {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #ffffff;
+    min-height: 40px;
+    padding-right: 30px;
+    padding-left: 30px;
+    margin: 0;
+}
+
+.md-button.btnSave span {
+    padding-left: 23px;
+}
+
+.md-button.btnSave:not([disabled]):hover {
+    background-color: #0a92ea;
+}
+
+.arrowIcon {
+    fill: #fff;
+    fill-rule: evenodd;
+    width: 8px;
+    height: 16px;
+    position: absolute;
+    right: 0;
+    top: 12px;
+}
+
+.md-button.btnUser:hover .arrowIcon{
+    fill: #0a92ea;
+}
+
+.toolbarVerticalDivider {
+    height: 50px;
+    width: 1px;
+    background-color: #e5e5e5;
+    margin-left: 10px;
+}
+
+.toolbarLogo {
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    background: #ffffff;
+    margin-top: -25px;
+}
+
+.modalExitFlightPlan {
+    padding-top: 20px;
+}
+
+.modalExitFlightPlanIcon {
+    fill: #d15151;
+    fill-rule: evenodd;
+    height: 46px;
+    width: 46px;
+}
+
+.modalExitButtonsCont {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+/* END - APPBAR & TOOLBAR Overrides */
+
+/* START - Login Overrides */
+
+.loginModal {
+    width: 414px;
+    /*height: 600px;*/
+    color: #ffffff;
+    margin: auto;
+}
+
+.error {
+    color: red;
+}
+
+.success-message {
+    color: #0a92ea;
+}
+
+.logoDiv {
+    width: 414px;
+    height: 120px;
+    padding-top: 50px;
+}
+
+.logoPrimaryIcon {
+    width: 94px;
+    height: 57px;
+    margin-left: -84px;
+}
+
+.logoSecondaryIcon {
+    width: 68px;
+    height: 68px;
+    fill: #e8e8e8;
+    fill-rule: evenodd;
+    margin-left: 12px;
+}
+
+.loginModalLabel {
+    text-transform: none;
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-top: 21px;
+    margin-bottom: 20px;
+    color: #2b2b2b;
+
+}
+
+.loginInputSection {
+    border-top-color: #e8e8e8;
+    border-top-width: 1px;
+    border-top-style: solid;
+    width: 414px;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.loginTextInput {
+    width: 310px;
+}
+
+.dsLoginDivider {
+    height: 140px;
+    width: 414px;
+    border-top-color: #e8e8e8;
+    border-top-width: 1px;
+    border-top-style: solid;
+    margin-top: 30px;
+    padding-bottom: 20px;
+}
+
+.socialAuthBtn {
+    min-height: 40px;
+    min-width: 40px;
+    border-radius: 0px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.socialAuthBtn:not([disabled]):hover {
+    background-color: #ffffff;
+}
+
+.socialAuthIcons {
+    fill: #0a92ea;
+    fill-rule: evenodd;
+}
+
+/* End - Login Overrides */
+
+/* START - MapTools Overrides */
+
+.toolsContainer {
+    min-width: 44px;
+    width: 44px;
+    height: 100%;
+    background-color: #2c2e31;
+    z-index: 1;
+}
+
+.customMapToolBtn {
+    min-width: 44px;
+    min-height: 44px;
+    cursor: pointer;
+    outline: none;
+}
+
+.takeoffIcon {
+    fill: #fff;
+    opacity: 0.5;
+    fill-rule: evenodd;
+    width: 16px;
+    height: 18px;
+}
+
+.takeoffIconActive {
+    fill: #0a92ea;
+    opacity: 1;
+}
+
+.followMeIcon {
+    fill: #fff;
+    opacity: 0.5;
+    fill-rule: evenodd;
+    width: 18px;
+    height: 18px;
+}
+
+.followMeIconActive {
+    fill: #0a92ea;
+    opacity: 1;
+}
+
+.mapToolIcon {
+    fill: #fff;
+    opacity: 0.5;
+    height: 20px;
+    width: 20px;
+}
+
+.mapToolIcon:hover {
+    fill: #0a92ea;
+    opacity: 1;
+    height: 20px;
+    width: 20px;
+}
+
+.mapToolIconActive{
+    fill: #0a92ea;
+    opacity: 1;
+    height: 20px;
+    width: 20px;
+}
+
+.lastToolItem {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(118, 118, 118, 0.50);
+}
+
+.circleIcon {
+    fill: #fff;
+    opacity: 0.5;
+    fill-rule: evenodd;
+    width: 16px;
+    height: 18px;
+}
+
+.circleIconActive {
+    fill: #0a92ea;
+    opacity: 1;
+}
+
+.waypointIcon {
+    fill: #fff;
+    opacity: 0.5;
+    fill-rule: evenodd;
+    width: 18px;
+    height: 18px;
+}
+
+.waypointIconActive {
+    fill: #0a92ea;
+    opacity: 1;
+}
+
+.mapToolsBtn {
+    margin: 0;
+    padding: 0;
+    border-radius: 0px;
+    color: transparent;
+    min-width: 44px;
+    min-height: 44px;
+    border-bottom-color: #202224;
+    border-bottom-width: 1px;
+}
+
+.mapToolsBtnHover {
+    margin: 0;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 13px;
+    padding-right: 18px;
+    border-radius: 0px;
+    color: #2b2b2b;
+    background-color: #ffffff;
+    min-width: 100px;
+    min-height: 44px;
+    border-bottom-color: #202224;
+    border-bottom-width: 1px;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+}
+
+.mapToolsBtnHover span {
+    margin-left: 14px;
+}
+
+.mapToolsBtnHover:not([disabled]):hover {
+    background-color: #ffffff;
+}
+
+.mapToolsBtn:hover md-icon {
+    fill: #ffffff;
+    opacity: 1;
+}
+
+.measureToolEndCap {
+    color: #0a92ea;
+    stroke-width: 2;
+}
+
+.leaflet-draw-tooltip {
+    background: rgb(54, 54, 54);
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-left: 20px;
+    margin-top: -21px;
+    padding: 4px 8px;
+    position: absolute;
+    visibility: hidden;
+    white-space: nowrap;
+    z-index: 6;
+}
+
+.elevationToolWindow {
+    background: rgb(54, 54, 54);
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid transparent;
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    padding: 4px 8px;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 6;
+    margin-left: 69px;
+    margin-top: 25px;
+    padding-right: 22px;
+}
+
+.closeIcon {
+    color: #fff;
+    opacity: 1;
+    fill-rule: evenodd;
+    width: 16px;
+    height: 18px;
+    position: absolute;
+    right: 5px;
+    cursor: pointer;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.leaflet-draw-guide-dash {
+    width: 3px;
+    height: 3px;
+}
+
+.leaflet-draw-tooltip-subtext {
+    color: #ffffff;
+}
+
+/* END - MapTools Overrides */
+
+/* START - MapControls Overrides */
+
+.mapControlDivider {
+    color: #222222;
+}
+
+.mapControlsContainer {
+    width: 50px;
+    background-color: #2c2e31;
+    z-index: 1;
+    /*position: absolute;*/
+    /*bottom: 30px;*/
+    /*right: 30px;*/
+}
+
+.mapControlsOptionsContainer {
+    height: 50px;
+    background-color: rgba(44, 46, 49, 0.6);
+    z-index: 1;
+    position: absolute;
+    bottom: 30px;
+    right: 80px;
+    color: #ffffff;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+}
+
+.mapControlsOverlaysContainer {
+    height: 50px;
+    background-color: rgba(44, 46, 49, 0.6);
+    z-index: 1;
+    color: #ffffff;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    position: absolute;
+    bottom: 80px;
+    right: 80px;
+
+}
+
+.mapControlsIcon {
+    height: 18px;
+    width: 18px;
+    fill: #fff;
+    opacity: 0.5;
+    fill-rule: evenodd;
+}
+
+.mapControlsImage {
+    height: 34px;
+    width: 34px;
+    margin-right: 5px;
+    /*margin-left: 5px;*/
+}
+
+.mapControlsBtn {
+    margin: 0;
+    padding: 0;
+    border-radius: 0px;
+    color: transparent;
+    min-width: 50px;
+    min-height: 50px;
+}
+
+.mapControlsOptionsBtn {
+    margin: 0;
+    padding: 0 10px 0 10px;
+    border-radius: 0;
+    background-color: rgba(44, 46, 49, 0.5);
+    /*min-width: 100px;*/
+    min-height: 50px;
+    color: #ffffff;
+    text-transform: none;
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-left: solid;
+    border-left-width: 1px;
+    border-left-color: #2e3134;
+}
+
+.mapControlsOptionsBtn:not([disabled]):hover {
+    background-color: rgba(44, 46, 49, 0.5);
+}
+
+.mapControlsMainContainer {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+}
+
+.mapOverlaySelected {
+    color: #0a92ea;
+}
+
+.animate-show {
+    opacity: 1;
+}
+
+.animate-show.ng-hide-remove {
+    transition: all linear 0.25s;
+}
+
+.animate-show.ng-hide {
+    opacity: 0;
+}
+
+/* END - MapControls Overrides */
+
+.leaflet-control-attribution {
+    visibility: hidden;
+}
+
+/* START - Drone and Camera */
+
+.droneCameraContainer {
+    position: absolute;
+    left: calc(50% - 300px);
+    left: -moz-calc(50% - 300px);
+    left: -webkit-calc(50% - 300px);
+    top: 90px;
+    z-index: 6;
+    background: #ffffff;
+    width: 600px;
+}
+
+.circleLogoDiv {
+    border-radius: 50%;
+    width: 88px;
+    height: 88px;
+    background: #ffffff;
+    margin-top: -40px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logoIcon {
+    margin-left: 0;
+    margin-top: 8px;
+    width: 75px;
+    height: 54px;
+}
+
+.droneCameraBtn {
+    min-height: 50px;
+    width: 115px;
+    border-radius: 0;
+    text-transform: none;
+    font-size: 14px;
+    line-height: 16px;
+    font-family: 'Roboto', 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #0a92ea !important;
+    padding: 0;
+    margin: 0;
+}
+
+.droneCameraButtonsContainer {
+    margin-top: -15px;
+}
+
+.droneCameraBtn:not([disabled]):hover {
+    background-color: transparent;
+    color: #0a92ea;
+}
+
+.droneCameraBtn:not([disabled]):hover .droneIcon{
+    fill: #0a92ea;
+    cursor: hand;
+}
+.droneCameraBtn:not([disabled]):hover .cameraIcon{
+    fill: #0a92ea;
+}
+
+.dsUpdateBtn:not([disabled]).md-focused {
+    background-color: #0a92ea;
+}
+
+.dsCancelBtn:not([disabled]).md-focused {
+    background-color: #fff;
+}
+
+.droneCameraSelectTextPlaceholder {
+    color: #0a92ea;
+}
+
+.droneCameraDelete {
+    min-width: 0;
+    width: 30px;
+}
+
+/*.droneCameraBtnContainer {*/
+/*margin-top: -48px;*/
+/*}*/
+
+.droneIcon {
+    fill: #c2c3c4;
+    fill-rule: evenodd;
+    width: 40px;
+    height: 20px;
+    margin-top: 0;
+}
+
+.cameraIcon {
+    fill: #c2c3c4;
+    fill-rule: evenodd;
+    width: 20px;
+    height: 20px;
+    margin-top: 0;
+}
+
+.droneCameraContent {
+    margin-bottom: 15px;
+}
+
+.toolbarDroneCameraContainer {
+    position: absolute;
+    left: calc(50% - 152px);
+    left: -moz-calc(50% - 152px);
+    left: -webkit-calc(50% - 152px);
+    bottom: 0;
+}
+
+.toolbarDroneCameraContainerDashboard {
+    position: absolute;
+    left: calc(50% - 44px);
+    left: -moz-calc(50% - 44px);
+    left: -webkit-calc(50% - 44px);
+    bottom: 0;
+}
+
+.droneCameraContentDrone {
+    padding-right: 25px;
+    padding-left: 25px;
+    padding-top: 10px;
+    min-width: 250px;
+}
+
+.droneCameraContentDivider {
+    position:absolute;
+    left:50%;
+    top: 0;
+    bottom: 40px;
+    border-left:1px solid #e5e5e5;
+}
+
+.droneCameraContentDividerDashboard {
+    position:absolute;
+    left:50%;
+    top: 0;
+    bottom: 90px;
+    border-left:1px solid #e5e5e5;
+}
+
+.droneCameraButtonsDivider {
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    margin-left: 37px;
+    border-left: 1px solid #e5e5e5;
+}
+
+.droneCameraContentCamera {
+    padding-right: 25px;
+    padding-left: 25px;
+    padding-top: 10px;
+    min-width: 250px;
+}
+
+.dsDroneCameraTextBox {
+    padding-bottom: 10px;
+}
+
+.dsDroneCameraTextBoxReadonly {
+    pointer-events: none;
+}
+
+.dsDroneCameraTextBox input {
+    background-color: #f7f7f7;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #464a51;
+    border-color: transparent;
+    border-bottom-width: 1px;
+    padding-left: 8px;
+}
+
+.dsDroneCameraTextBox md-select {
+    background-color: #f7f7f7;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    line-height: 20px;
+    color: #464a51;
+    border-color: transparent;
+    border-bottom-width: 0;
+    padding-left: 6px;
+}
+
+.dsDroneCameraTextBox .md-select-value {
+    border-bottom-width: 0;
+    padding-bottom: 2px;
+}
+
+.dsDroneCameraTextBox .md-input[disabled] {
+    background-image: none;
+    margin-bottom: 0;
+}
+
+.dsDroneCameraTextBox:not(.md-input-invalid).md-input-focused .md-select-value {
+    border-bottom-width: 0;
+    padding-bottom: 2px;
+}
+
+.dsDroneCameraTextBox md-select:not([disable]):focus .md-select-value {
+    border-bottom-width: 0;
+    padding-bottom: 2px;
+}
+
+md-option {
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+}
+
+.md-select-icon {
+    font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.dsDroneCameraTextBox label{
+    text-transform: capitalize;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #c2c2c2;
+    margin-left: 5px;
+}
+
+.dsDroneCameraTextBox:not(.md-input-invalid).md-input-focused .md-input {
+    background-color: #f7f7f7;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #464a51;
+    border-bottom-width: 1px;
+    padding-bottom: 1px;
+}
+
+.dsDroneCameraTextBox:not(.md-input-invalid).md-input-focused label {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #0a92ea;
+    margin-left: 0;
+}
+
+.dsDroneCameraTextBox.md-input-invalid.md-input-focused label {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: red;
+    margin-left: 0;
+}
+
+.dsDroneCameraTextBox:not(.md-input-focused).md-input-has-value.md-input-invalid label {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: red;
+    margin-left: 0;
+}
+
+.dsDroneCameraTextBox:not(.md-input-focused).md-input-has-value label {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-left: 0;
+    color: #989ea5;
+}
+
+.dsDroneCameraTextBox:not(.md-input-invalid).md-input-has-value .input-unit {
+    visibility: visible;
+}
+
+.dsDroneCameraTextBox:not(.md-input-invalid).md-input-has-value .input-unit-dis {
+    visibility: visible;
+}
+
+.input-unit {
+    position: absolute;
+    right: 21px;
+    top: 7px;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #464a51;
+    visibility: hidden;
+}
+
+.input-unit-dis {
+    position: absolute;
+    right: 21px;
+    top: 27px;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #c2c2c2;
+    visibility: hidden;
+}
+
+/* END - Drone and Camera */
+
+/* START - DroneSense Style Buttons */
+
+.dsUpdateBtn {
+    height: 40px;
+    width: 148px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border: solid;
+    border-width: 1px;
+    border-color: #0a92ea;
+    background-color: #0a92ea;
+    color: #ffffff;
+    border-radius: 0;
+}
+
+.dsCancelBtn {
+    height: 40px;
+    width: 148px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border: solid;
+    border-width: 1px;
+    border-color: #c2c3c4;
+    background-color: #ffffff;
+    color: #80868a;
+    border-radius: 0;
+}
+
+.dsUpdateBtn {
+    height: 40px;
+    width: 148px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border: solid;
+    border-width: 1px;
+    border-color: #0a92ea;
+    background-color: #0a92ea;
+    color: #ffffff;
+    border-radius: 0;
+}
+
+.dsUpdateBtn:not([disabled]):hover {
+    background-color: #0a92ea;
+    cursor: hand;
+}
+
+.dsCancelBtn:not([disabled]):hover {
+    background-color: #ffffff;
+    cursor: hand;
+}
+
+/* END - DroneSense Style Buttons */
+
+/* START - Map Layer Styles */
+
+.polygonCorners {
+    background: #0a92ea;
+    border: 3px solid #fff;
+    border-radius: 13px;
+}
+
+.takeoffDivIcon {
+    background: #11d744;
+    border: 3px solid #fff;
+    border-radius: 18px;
+}
+.takeoffDivIcon div{
+    background: #fff;
+    border: 1px solid #fff;
+    border-radius: 18px;
+    height: 6px;
+    width: 6px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.imageMarkerIcon div {
+    background: #11D744;
+    border: 1px solid #fff;
+    border-radius: 18px;
+    height: 6px;
+    width: 6px;
+}
+
+.selectedImageMarkerIcon div {
+    background: #f26522;
+    border: 1px solid #fff;
+    border-radius: 18px;
+    height: 6px;
+    width: 6px;
+}
+
+.waypointDivIcon {
+    background: #f26522;
+    border: 3px solid #fff;
+    border-radius: 18px;
+}
+.waypointDivIcon div{
+    background: #fff;
+    border: 1px solid #fff;
+    border-radius: 18px;
+    height: 6px;
+    width: 6px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+/* END - Map Layer Styles */
+
+/* START - Flight Plan Commands */
+
+.commandViewContainer {
+    min-width: 361px;
+    background-color: #5c5e62;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #2e3134;
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+.commandViewContainerOverflow {
+    overflow-x: hidden;
+}
+
+.commandHeaderPlaceholder {
+    height: 60px;
+    background: #5c5e62;
+    border: 3px dashed #2e3134;
+    box-sizing: border-box;
+}
+
+.commandHeader {
+    width: 361px;
+    height: 60px;
+    background-color: #494c50;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #2e3134;
+    position: relative;
+
+}
+
+.commandHeaderExpanded {
+    width: 361px;
+    height: 60px;
+    background-color: #ffffff;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #e5e5e5;
+    position: relative;
+}
+
+.commandHeaderText {
+    text-transform: none;
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #FFFFFF;
+    opacity: 0.3;
+    position: absolute;
+    top: 14px;
+    left: 64px;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    letter-spacing: 0.01em;
+}
+
+.commandHeaderTextExpanded {
+    text-transform: none;
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #0a92ea;
+    opacity: 1;
+    position: absolute;
+    top: 14px;
+    left: 64px;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    letter-spacing: 0.01em;
+}
+
+.commandHeaderTextEdit {
+    opacity: 1;
+    top: 16px;
+    background-color: #494c50;
+    border: 0;
+    outline: none;
+    max-width: 225px;
+}
+
+.commandHeaderTextExpandedEdit {
+    top: 20px;
+    background-color: #ffffff;
+    border: 0;
+    outline: none;
+    max-width: 225px;
+}
+
+.commandHeaderShowBtn {
+    height: 30px;
+    width: 40px;
+    background-color: #5c5e62;
+    right: 30px;
+    top: 15px;
+    position: absolute;
+    cursor: pointer;
+    outline: 0;
+}
+
+.commandHeaderShowBtnExpanded {
+    height: 30px;
+    width: 40px;
+    background-color: #494c50;
+    right: 30px;
+    top: 15px;
+    position: absolute;
+    cursor: pointer;
+    outline: 0;
+}
+
+.commandHeaderShowBtnIcon {
+    width: 12px;
+    height: 7px;
+    fill: #fff;
+    fill-rule: evenodd;
+}
+
+.commandHeaderShowBtnIconExpanded {
+    width: 12px;
+    height: 7px;
+    fill: #fff;
+    fill-rule: evenodd; /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+    transform: rotate(180deg);
+}
+
+.commandHeaderDragHandle {
+    fill: #000;
+    opacity: 0.2;
+    fill-rule: evenodd;
+    width: 10px;
+    height: 15px;
+    position: absolute;
+    top: 13px;
+    left: 0;
+    cursor: move;
+    padding: 10px;
+}
+
+.commandHeaderDragHandleExpanded {
+    fill: #000;
+    opacity: 0.1;
+    fill-rule: evenodd;
+    width: 10px;
+    height: 15px;
+    position: absolute;
+    top: 13px;
+    left: 0;
+    cursor: move;
+    padding: 10px;
+}
+
+.commandHeaderCircleDiv {
+    height: 25px;
+    width: 25px;
+    border-radius: 25px;
+    opacity: 0.3;
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-color: white;
+    border-width: 1px;
+    border-style: solid;
+    position: absolute;
+    left: 30px;
+    top: 17px;
+    text-align: center;
+    color: #ffffff;
+    line-height: 25px;
+    cursor: pointer;
+    outline: none;
+}
+
+.commandHeaderCircleDivExpanded {
+    height: 25px;
+    width: 25px;
+    border-radius: 25px;
+    opacity: 1;
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-color: #0a92ea;
+    border-width: 1px;
+    border-style: solid;
+    position: absolute;
+    left: 30px;
+    top: 17px;
+    text-align: center;
+    color: #0a92ea;
+    line-height: 25px;
+    cursor: pointer;
+    outline: none;
+}
+
+.commandExpander {
+    min-width: 21px;
+    width: 21px;
+    background-color: #404348;
+    cursor: pointer;
+    display: -webkit-flex;
+    display: flex;
+    outline: 0;
+    z-index: 5;
+}
+
+.commandExpanderIcon {
+    height: 10px;
+    width: 9px;
+    fill: #8d939a;
+    fill-rule: evenodd;
+}
+
+.commandExpanderIconCollapsed {
+    height: 10px;
+    width: 9px;
+    fill: #8d939a;
+    fill-rule: evenodd; /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+    transform: rotate(180deg);
+}
+
+.commandEditIconOn {
+    fill: #0a92ea;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.commandEditIconOff {
+    fill: #9fa1a4;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.commandDeleteIcon {
+    fill: #9fa1a4;
+    fill-rule: evenodd;
+    width: 17px;
+    height: 18px;
+}
+
+.commandCameraIcon {
+    fill: #9fa1a4;
+    fill-rule: evenodd;
+    width: 30px;
+    height: 17px;
+    padding-right: 8px;
+    padding-bottom: 5px;
+}
+
+.commandCameraIconOn {
+    fill: #0a92ea;
+    fill-rule: evenodd;
+    width: 30px;
+    height: 17px;
+    padding-right: 8px;
+    padding-bottom: 5px;
+}
+
+.commandViewIconOff {
+    fill: #9fa1a4;
+    fill-rule: evenodd;
+    width: 22px;
+    height: 14px;
+}
+
+.commandViewIconOn {
+    fill: #0a92ea;
+    fill-rule: evenodd;
+    width: 22px;
+    height: 14px;
+}
+
+.commandExpandedContainer {
+    border-bottom-color: #e5e5e5;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    background-color: #ffffff;
+    padding-bottom: 5px;
+}
+
+.commandBtnDelete {
+    min-height: 55px;
+    min-width: 90px;
+    border-radius: 0px;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-left-width: 1px;
+    border-left-color: #e5e5e5;
+    border-left-style: solid;
+
+    margin: 0px;
+    padding: 0px;
+}
+
+.commandBtnDelete:not([disabled]):hover {
+    background-color: #ffffff;
+    color: #0a92ea;
+}
+
+.commandBtnDelete:not([disabled]):hover md-icon {
+    fill: #0a92ea;
+}
+
+.commandBtn {
+    min-height: 55px;
+    min-width: 90px;
+    border-radius: 0px;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-left-width: 1px;
+    border-left-color: #e5e5e5;
+    border-left-style: solid;
+
+    margin: 0px;
+    padding: 0px;
+}
+
+.commandBtn:not([disabled]):hover {
+    background-color: #ffffff;
+    color: #0a92ea;
+}
+
+.commandBtnContainer {
+    border-bottom-color: #e5e5e5;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.commandSurveyImageCountIcon {
+    fill: #c2c3c4;
+    fill-rule: evenodd;
+    width: 16px;
+    height: 16px;
+}
+
+.commandSurveyFlightPathIcon {
+    fill:  #c2c3c4;
+    fill-rule: evenodd;
+    width: 17px;
+    height: 16px;
+}
+
+.commandSurveyROIIcon {
+    fill: #c2c3c4;
+    width: 16px;
+    height: 16px;
+    stroke: #c2c3c4;
+}
+
+.commandSurveyROIIconRect {
+    stroke: #c2c3c4;
+    stroke-linejoin: round;
+    stroke-width: 1px;
+    fill-opacity: 0;
+}
+
+.commandInputContainer {
+    width: 165px;
+}
+
+.commandHelpIcon {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+}
+
+.commandInputFieldSpacing {
+    margin-bottom: -5px;
+}
+
+.commandSelectFieldMin {
+    min-width: 200px;
+}
+
+.commandReadOnlyInfoLabel {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #989ea5;
+    margin-left: 3px;
+}
+
+.commandReadOnlyInfoContainer {
+    padding-top: 2px;
+    padding-bottom: 5px;
+}
+
+.commandReadOnlyInfoData {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #464A51;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+.surveyCommandButtons {
+    margin-bottom: 10px;
+}
+
+.surveyCommandLoadingOverlay {
+    position: absolute;
+    z-index: 99999;
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+    opacity: .5;
+}
+
+.surveyCommandLoadingIcon {
+    position: absolute;
+    z-index: 999999;
+    left: calc(50% - 50px);
+    left: -moz-calc(50% - 50px);
+    left: -webkit-calc(50% - 50px);
+
+    top: calc(50% - 50px);
+    top: -moz-calc(50% - 50px);
+    top: -webkit-calc(50% - 50px);
+}
+
+.commandStaticInfoLabel {
+    text-transform: uppercase;
+    font-size: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #989ea5;
+    margin-top: 6px;
+    margin-left: 3px;
+}
+
+.commandStaticInfoValue {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #464a51;
+    margin-top: 6px;
+    margin-left: 8px;
+}
+
+/*div.leaflet-overlay-pane svg > g path {*/
+/*filter: url(#dropshadow);*/
+/*}*/
+
+/*.flightPathDropShadow {*/
+/*filter: url(#dropshadow);*/
+/*}*/
+
+/* END - Flight Plan Commands */
+
+/* START - User Settings */
+
+.userSettingsContainer {
+    width: 300px;
+    background-color: white;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    z-index: 3;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 25px;
+    padding-bottom:25px;
+}
+
+.userSettingsDivider {
+    margin-left: -30px;
+    margin-right: -30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.userSettingsLabels {
+    text-transform: none;
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #b2b2b2;
+}
+
+
+/* END - User Settings */
+
+
+/* START - Flight Info */
+
+.flightInfoDatePicker {
+    background-color: rgba(73, 76, 80, 0);
+    margin-bottom: -3px;
+}
+
+.flightInfoDatePicker .md-datepicker-input-container {
+    border-bottom-width: 0px;
+    border-bottom-style: none;
+    margin-left: 0px;
+    padding-bottom: 0px;
+}
+
+.flightInfoDatePicker .md-datepicker-input {
+    text-transform: none;
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #fff;
+}
+
+.flightInfoDatePicker .md-datepicker-button {
+    display: none;
+}
+
+.flightInfoDatePicker .md-datepicker-triangle-button {
+    top: 5px;
+    right: 20px;
+    color: #ffffff;
+}
+
+.flightInfoDatePicker .md-datepicker-triangle-button .md-datepicker-expand-triangle {
+    border-top-color: #ffffff;
+}
+
+.flightInfoMainContainer {
+    position: absolute;
+    right: 30px;
+    top: 140px;
+}
+
+.flightInfoContainer {
+    width: 50px;
+    z-index: 1;
+}
+
+.flightInfoDetailsIcon {
+    fill: #fff;
+    opacity: 0.5;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.flightInfoDetailsIconActive {
+    fill: #fff;
+    opacity: 1.0;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.flightInfoElevationIcon {
+    fill: #fff;
+    opacity: 0.5;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.flightInfoElevationIconActive {
+    fill: #fff;
+    opacity: 1.0;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.flightInfoForecastIcon {
+    fill: #fff;
+    opacity: 0.5;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.flightInfoForecastIconActive {
+    fill: #fff;
+    opacity: 1.0;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.flightInfoSurveyIcon {
+    fill: #fff;
+    opacity: 0.5;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.flightInfoSurveyIconActive {
+    fill: #fff;
+    opacity: 1.0;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.flightInfoDivider {
+    background-color: #2e3134;
+}
+
+.flightInfoBtn {
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    /*color: transparent;*/
+    min-width: 50px;
+    min-height: 50px;
+    background-color: #2c2e31;
+}
+
+.flightInfoBtnActive.md-button:not([disabled]):hover {
+    background-color: rgba(73, 76, 80, 0.92);
+}
+
+.flightInfoBtn.md-button:not([disabled]):hover {
+    /*background-color: rgba(73, 76, 80, 0.92);*/
+    background-color: #2c2e31;
+}
+
+.flightInfoBtn.md-button:not([disabled]).md-focused {
+    background-color: rgba(73, 76, 80, 0.92);
+}
+
+.flightInfoBtnActive.md-button:not([disabled]).md-focused {
+    background-color: rgba(73, 76, 80, 0.92);
+}
+
+.flightInfoBtnActive {
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    min-width: 50px;
+    min-height: 50px;
+    background-color: rgba(73, 76, 80, 0.92);
+}
+
+.flightInfoDetailsPanel {
+    width: 450px;
+    background-color: rgba(73, 76, 80, 0.92);
+    padding: 30px;
+    position: absolute;
+    right: 80px;
+    top: 140px;
+    z-index: 2;
+}
+
+.flightInfoElevationPanel {
+    width: 535px;
+    background-color: rgba(73, 76, 80, 0.92);
+    padding: 30px;
+    position: absolute;
+    right: 80px;
+    top: 140px;
+    z-index: 2;
+}
+
+.flightInfoSurveyPanel {
+    width: 400px;
+    background-color: rgba(73, 76, 80, 0.92);
+    padding: 30px;
+    position: absolute;
+    right: 80px;
+    top: 140px;
+    z-index: 2;
+}
+
+.flightInfoSurveyImages {
+    width: 415px;
+    background-color: rgba(73, 76, 80, 0.92);
+    padding: 30px;
+    position: absolute;
+    right: 80px;
+    top: 140px;
+    z-index: 2;
+}
+
+.flightInfoSurveyImageSurveyName {
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #989ea5;
+    margin-bottom: 5px;
+}
+
+.flightInfoSurveySelect {
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #989ea5;
+    padding-bottom: 0;
+    border-bottom-color: transparent;
+    margin: 0;
+}
+
+.flightInfoSurveySelect md-select:not([disabled]):focus .md-select-value {
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #989ea5;
+}
+
+.flightInfoImageBorder {
+    border-color: white;
+    border-style: solid;
+    border-width: 3px;
+}
+
+.flightInfoImagePlayBar {
+    height: 24px;
+    width: 24px;
+    color: #ffffff;
+    opacity: .7;
+}
+
+.flightInfoDetailsHeader {
+    text-transform: uppercase;
+    font-size: 22px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 0;
+}
+
+.flightInfoSurveyImageHeader {
+    text-transform: uppercase;
+    font-size: 22px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #fff;
+}
+
+.flightInfoLabel {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #989ea5;
+    margin-top: 20px;
+}
+
+.flightWeatherLabel {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #989ea5;
+    margin-top: 10px;
+}
+
+.flightInfoValue {
+    text-transform: none;
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #fff;
+}
+
+.flightInfoDateSelector {
+    background-color: rgba(73, 76, 80, 0);
+}
+
+.flightInfoDateSelector md-icon{
+    color: #fff;
+}
+
+.line-legend li{
+    color: #989ea5;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.previousImage {
+    margin-right: 0;
+    margin-left: -30px;
+}
+
+.previousImageBtn {
+    width: 20px;
+    padding: 0;
+    margin: 0;
+    min-width: 33px;
+}
+
+.nextImage {
+    margin-left: 0;
+    margin-right: -30px;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.nextImageIcon {
+    height: 10px;
+    width: 9px;
+    fill: #ffffff;
+    fill-rule: evenodd;
+    opacity: .7;
+}
+
+.playSpeed {
+    text-transform: none;
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #fff;
+}
+
+.surveyImagePreview {
+    border-color: #989ea5;
+    border-width: 3px;
+    border-style: solid;
+    pointer-events: none;
+}
+
+.directionalArrowIcon {
+    width: 64px;
+}
+
+.genericPopup .leaflet-popup-content {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* Weather Start */
+
+.flightInfoWeatherHeader {
+    text-transform: uppercase;
+    font-size: 22px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #fff;
+}
+
+.flightInfoWeatherPanel {
+    width: 472px;
+    background-color: rgba(73, 76, 80, 0.92);
+    padding: 20px;
+    position: absolute;
+    right: 80px;
+    top: 140px;
+    z-index: 2;
+}
+
+/*.flightInfoWeatherPanelLoading {
+
+}*/
+
+.flightInfoWeatherCurrentLocation {
+    color: #fff;
+    text-transform: none;
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+.flightInfoWeatherCurrentLocationIcon {
+    fill: #fff;
+    fill-rule: evenodd;
+    width: 15px;
+    height: 22px;
+    margin-right: 3px;
+    margin-top: -8px;
+}
+
+.flightInfoWeatherCurrentTemp {
+    color: #fff;
+    text-transform: none;
+    font-size: 28px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-top: 0;
+}
+
+.flightInfoWeatherCurrentTempIcon {
+    fill: #fff;
+    fill-rule: evenodd;
+    height: 35px;
+    width: 35px;
+    margin-top: 0px;
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-bottom: 0;
+}
+
+.flightInfoWeatherUnitSymbol {
+    color: #fff;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-top: -10px;
+    margin-left: 5px;
+}
+
+.flightInfoWeatherHighIcon {
+    fill: #fff;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 12px;
+    margin-right: 8px;
+}
+
+.flightInfoWeatherLowIcon {
+    fill: #fff;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 12px;
+    margin-left: 20px;
+    margin-right: 8px;
+}
+
+.flightInfoWeatherKPWind {
+    color: #fff;
+    text-transform: none;
+    font-size: 28px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-top: 0;
+}
+
+.flightInfoWeatherKPLabel {
+    color: #fff;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.flightInfoWeatherWindDirection {
+    height: 36px;
+    width: 36px;
+    margin-right: 15px;
+    margin-top: 3px;
+    fill: #fff;
+}
+
+.flightInfoWeatherWindDirectionArrow {
+    height: 36px;
+    width: 36px;
+    margin-right: 15px;
+    margin-top: 3px;
+    margin-left: -51px;
+    fill: #fff;
+}
+
+.flightInfoWeatherHourForecast {
+    color: #fff;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    width: 50px;
+}
+
+.flightInfoRainPercentage {
+    color: #0a92ea;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    width: 50px;
+}
+
+.flightInfoWeatherHourForecastIcon {
+    fill: #fff;
+    fill-rule: evenodd;
+    height: 22px;
+    width: 22px;
+    margin-top: 0;
+    margin-right: 14px;
+    margin-left: 14px;
+    margin-bottom: 0;
+}
+
+.flightInfoWeatherHourRepeatContainer {
+    margin-top: 10px;
+    width: 205px;
+}
+
+.flightWeatherScrollHourForecast {
+    width: 205px;
+    height: 250px;
+    overflow-y: scroll;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+.marginLeftRight {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+
+/* Weather End */
+
+/* END - Flight Info */
+
+/* START - DASHBOARD */
+
+.mainWrapperDashboard {
+    padding: 90px 0 0 0;
+    height: 100%;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    background-color: #eaeaea;
+}
+
+.dashboardListContainer {
+    padding-top: 20px;
+}
+
+.dashboardListRow {
+    height: 65px;
+    background-color: white;
+    width: 80%;
+    margin-top: 10px;
+    position: relative;
+}
+
+.dashboardListText {
+    color: #2b2b2b;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+}
+
+.dashboardListFPName {
+    margin-left: 50px;
+}
+
+.dashboardListLargeSpacing {
+    width: 25%;
+}
+
+.dashboardListMedSpacing {
+    width: 20%;
+}
+
+.dashboardListSmallSpacing {
+    width: 15%;
+}
+
+.dashboardListHeaderText {
+    color: #aeaeae;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.dashboardListColumnHeaderContainer {
+    width: 80%;
+}
+
+.dashboardListColumnHeader {
+    width: 100%;
+}
+
+.dashboardListColumnHeaderText {
+    color: #aeaeae;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.dashboardAddFPButtonContainer {
+    width: 100%;
+    margin-top: 25px;
+}
+
+.addFPBtn {
+    width: 175px;
+}
+
+.flightPlanSearchIcon {
+    margin-left: 20px;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    left: 0;
+    top: 30px;
+    fill: #c2c3c4;
+}
+
+.flightPlanSearch {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    width: 350px;
+    margin-top: 10px;
+}
+
+.flightPlanSearchInput {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-width: 0;
+    padding-top: 10px;
+}
+
+.flightPlanSearchLabel {
+    top: 0;
+}
+
+md-input-container .flightPlanSearchInput {
+    border-width: 0;
+    padding-left: 0;
+    padding-top: 10px;
+}
+
+md-input-container .flightPlanSearchLabel {
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #2b2b2b;
+}
+
+md-input-container.flightPlanSearch {
+    padding-left: 45px;
+}
+
+md-input-container.md-input-has-value .flightPlanSearchLabel:not(.md-no-float) {
+    -webkit-transform: translate3d(0, 14px, 0) scale(0.86);
+    transform: translate3d(0, 14px, 0) scale(0.86);
+}
+
+md-input-container.md-input-focused .flightPlanSearchLabel:not(.md-no-float) {
+    -webkit-transform: translate3d(0, 14px, 0) scale(0.86);
+    transform: translate3d(0, 14px, 0) scale(0.86);
+}
+
+md-input-container.md-input-focused .flightPlanSearchIcon:not(.md-no-float) {
+    fill: #0a92ea;
+}
+
+md-input-container.md-input-focused .flightPlanSearchInput:not(.md-no-float) {
+    border-bottom-width: 1px;
+}
+
+.flightPlanListViewSortIconDown {
+    fill: #a2a4a8;
+    fill-rule: evenodd;
+    width: 10px;
+    height: 6px;
+    margin-bottom: 2px;
+}
+
+.flightPlanListViewSortIconUp {
+    fill: #a2a4a8;
+    fill-rule: evenodd;
+    width: 10px;
+    height: 6px;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    margin-bottom: 2px;
+}
+
+.dashboardLogo {
+    text-transform: none;
+    font-size: 24px;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    margin-left: 20px;
+}
+
+
+/* END - DASHBOARD */
+
+.mapPopup {
+    background-color: #0a92ea;
+    height: 30px;
+}
+
+.custom-popup .leaflet-popup-content-wrapper {
+    background: #0a92ea;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    line-height:24px;
+    color: #ffffff;
+    border-radius: 0;
+}
+.custom-popup .leaflet-popup-content-wrapper a {
+    color: rgba(255,255,255,0.5);
+}
+.custom-popup .leaflet-popup-tip-container {
+    width: 30px;
+    height: 15px;
+}
+.custom-popup .leaflet-popup-tip {
+    /*border-left:15px solid transparent;*/
+    /*border-right:15px solid transparent;*/
+    /*border-top:15px solid #2c3e50;*/
+    background: #0a92ea;
+}
+
+.custom-popup a.leaflet-popup-close-button {
+    color: #ffffff;
+}
+
+
+#scroller {
+    position: relative;
+}
+#scroller .innerScrollArea {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+#scroller ul {
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+#scroller li {
+    padding: 0;
+    list-style-type: none;
+    position: absolute;
+}
+
+
+.dashboardGridLabel {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #989ea5;
+    margin-top: 15px;
+}
+
+.dashboardGridText {
+    text-transform: none;
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #2b2b2b;
+}
+
+.dashboardGridFPName {
+    text-transform: none;
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #fff;
+    margin-left: 20px;
+    /*margin-bottom: 20px;*/
+    z-index: 2;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.dashboardGridFPLocation {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #fff;
+    margin-left: 20px;
+    margin-bottom: 15px;
+    z-index: 2;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.dashboardGridInfoPanel {
+    width: 100%;
+    height: 60px;
+    z-index: 3;
+    background-color: white;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.dashboardBackground {
+    background-color: #eaeaea;
+}
+
+.dashboardGridList {
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 40px;
+}
+
+.dashboardGridBackground {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(80,86,89,.65);
+    transition: all 0.2s ease-in-out;
+}
+
+.dashboardGridInfoPanel:hover {
+    transition: all 0.2s ease-in-out;
+    height: 175px;
+}
+
+.dashboardGridTile:hover .dashboardGridInfoPanel {
+    transition: all 0.2s ease-in-out;
+    height: 175px;
+}
+
+.dashboardGridTile:hover .dashboardGridBackground {
+    transition: all 0.2s ease-in-out;
+    background-color: rgba(10, 146, 234,.65);
+}
+
+.dashboardGridTile:hover .dashboardGridDelete {
+    visibility: visible;
+    opacity: 1;
+}
+
+.dashboardGridTile {
+    background-image: url('../images/dashboard/map.png');
+    cursor: pointer;
+    background-size: contain;
+}
+
+.dashboardGridSortSelect {
+    font-size: 13px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-right: 30px;
+    margin-top: 25px;
+}
+
+.dashboardGridSortSelect .md-select-value {
+    padding-left: 15px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    background-color: #f7f7f7;
+}
+
+.dashboardGridSortSelect .md-select-value {
+    border-bottom-color: rgba(0,0,0,0);
+}
+
+.dashboardGridSortSelect md-select .md-select-value.md-select-placeholder {
+    padding-left: 15px;
+}
+
+.dashboardGridSortSelect:not([disabled]):focus .md-select-value {
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    padding-bottom: 3px;
+}
+
+.dashboardGridSortReverse {
+    min-width: 0;
+}
+
+.dashboardGridDelete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 0;
+    width: 30px;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.4s linear;
+    z-index: 5;
+}
+
+.dashboardListDelete {
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    min-width: 0;
+    width: 30px;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.4s linear;
+}
+
+.dashboardListRow:hover .dashboardListDelete{
+    visibility: visible;
+    opacity: 1;
+}
+
+.dashboardListTrashIcon {
+    fill: #464a50;
+    opacity: 0.5;
+    fill-rule: evenodd;
+    height: 14px;
+    width: 13px;
+}
+
+.dashboardTrashIcon {
+    fill: #fff;
+    opacity: 1;
+    fill-rule: evenodd;
+    height: 14px;
+    width: 13px;
+}
+
+/* END - DASHBOARD */
+
+/* START - MODALS */
+
+.modalDeleteFlightPlan {
+    padding-top: 30px;
+}
+
+.modalDeleteFlightPlanIcon {
+    fill: #464a50;
+    opacity: 0.5;
+    fill-rule: evenodd;
+    height: 45px;
+    width: 45px;
+}
+
+@-webkit-keyframes ngdialog-flyin {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(-40px);
+        transform: translateY(-40px);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+@keyframes ngdialog-flyin {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(-40px);
+        transform: translateY(-40px);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+@-webkit-keyframes ngdialog-flyout {
+    0% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: translateY(-40px);
+        transform: translateY(-40px);
+    }
+}
+
+@keyframes ngdialog-flyout {
+    0% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: translateY(-40px);
+        transform: translateY(-40px);
+    }
+}
+
+.ngdialog.ngdialog-theme-ds {
+    padding-bottom: 160px;
+    padding-top: 160px;
+}
+
+.ngdialog.ngdialog-theme-ds.ngdialog-closing .ngdialog-content {
+    -webkit-animation: ngdialog-flyout .5s;
+    animation: ngdialog-flyout .5s;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-content {
+    -webkit-animation: ngdialog-flyin .5s;
+    animation: ngdialog-flyin .5s;
+    background: #fff;
+    color: #444;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.1em;
+    line-height: 1.5em;
+    margin: 0 auto;
+    max-width: 650px;
+    padding: 1em;
+    position: relative;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-close {
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-close:before {
+    background: transparent;
+    border-radius: 3px;
+    color: #bbb;
+    content: '\00D7';
+    font-size: 26px;
+    font-weight: 400;
+    height: 30px;
+    line-height: 26px;
+    position: absolute;
+    right: 3px;
+    text-align: center;
+    top: 3px;
+    width: 30px;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-close:hover:before,
+.ngdialog.ngdialog-theme-ds .ngdialog-close:active:before {
+    color: #777;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-message {
+    margin-bottom: .5em;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-input {
+    margin-bottom: 1em;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-input textarea,
+.ngdialog.ngdialog-theme-ds .ngdialog-input input[type="text"],
+.ngdialog.ngdialog-theme-ds .ngdialog-input input[type="password"],
+.ngdialog.ngdialog-theme-ds .ngdialog-input input[type="email"],
+.ngdialog.ngdialog-theme-ds .ngdialog-input input[type="url"] {
+    background: #fff;
+    border: 0;
+    border-radius: 0px;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0 0 .25em;
+    min-height: 2.5em;
+    padding: .25em .67em;
+    width: 100%;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-input textarea:focus,
+.ngdialog.ngdialog-theme-ds .ngdialog-input input[type="text"]:focus,
+.ngdialog.ngdialog-theme-ds .ngdialog-input input[type="password"]:focus,
+.ngdialog.ngdialog-theme-ds .ngdialog-input input[type="email"]:focus,
+.ngdialog.ngdialog-theme-ds .ngdialog-input input[type="url"]:focus {
+    box-shadow: inset 0 0 0 2px #8dbdf1;
+    outline: none;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-buttons {
+    *zoom: 1;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-buttons:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-button {
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+    float: right;
+    font-family: inherit;
+    font-size: .8em;
+    letter-spacing: .1em;
+    line-height: 1em;
+    margin: 0 0 0 .5em;
+    padding: .75em 2em;
+    text-transform: uppercase;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-button:focus {
+    -webkit-animation: ngdialog-pulse 1.1s infinite;
+    animation: ngdialog-pulse 1.1s infinite;
+    outline: none;
+}
+
+@media (max-width: 568px) {
+    .ngdialog.ngdialog-theme-ds .ngdialog-button:focus {
+        -webkit-animation: none;
+        animation: none;
+    }
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-button.ngdialog-button-primary {
+    background: #3288e6;
+    color: #fff;
+}
+
+.ngdialog.ngdialog-theme-ds .ngdialog-button.ngdialog-button-secondary {
+    background: #e0e0e0;
+    color: #777;
+}
+
+/* END - MODALS */
+
+/* START - TOAST STYLES */
+
+md-toast {
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+}
+
+/* START - CESIUM */
+
+.cesium-map-container {
+    height: 100%;
+    width: 100%;
+}
+
+.cesium-widget-credits {
+    display: none !important;
+}
+
+.cesium-infoBox {
+    display: none !important;
+}
+
+.cesium-performanceDisplay-defaultContainer {
+    top: 3px !important;
+}
+
+/* END - CESIUM */
+
+.tabFont {
+    text-transform: none;
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #0a92ea;
+}
+
+.dsMapTools {
+    height: 100%;
+}
+
+.dsFormatter {
+    margin-top: 5px;
+}
+
+.dsCommandInfoEdit {
+    min-height: 18px;
+    min-width: 18px;
+    margin: 0 0 0 12px;
+    line-height: 18px;
+    padding: 0;
+}
+
+.dsCommandInfoEdit:not([disabled]):hover {
+    background-color: #ffffff;
+    color: #0a92ea;
+}
+
+md-input-container .md-errors-spacer {
+    min-height: 0;
+}
+
+.md-button:not([disabled]).md-focused {
+    background-color: transparent;
+}

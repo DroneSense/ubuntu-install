@@ -1,0 +1,15 @@
+<div class="modalExitFlightPlan" layout="column" layout-align="center center">
+
+    <md-icon class="modalExitFlightPlanIcon"
+             md-svg-src="components/appbar/images/alert.svg"></md-icon>
+
+    <p>This flight plan has not been saved, are you sure you want to exit?</p>
+
+    <div class="modalExitButtonsCont" layout="row" layout-align="space-between end">
+        <md-button class="dsCancelBtn" ng-click="closeThisDialog('dsave')">Don't Save</md-button>
+        <span flex></span>
+        <md-button class="dsCancelBtn" ng-click="closeThisDialog(false)">Cancel</md-button>
+        <md-button class="dsUpdateBtn" ng-click="closeThisDialog('save')">Save</md-button>
+    </div>
+
+</div>

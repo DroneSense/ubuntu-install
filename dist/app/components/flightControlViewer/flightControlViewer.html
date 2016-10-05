@@ -1,0 +1,98 @@
+<div style="overflow: hidden; position: relative; padding: 0; margin: 0; height: 100%;">
+<div id="cesiumContainer" class="cesium-map-container"></div>
+
+<!--Background Image-->
+<div ng-hide="$ctrl.hideBackground" style="height: 100%; width: 100%; position: absolute; top: 0; left: 0; background: url(./app/components/flightControlViewer/images/flightControlSplash.jpg) no-repeat center; background-size: cover;"></div>
+
+<ds-control-toolbar session-controller="$ctrl.sessionController" style="position: absolute; top: 0; width: 100%;">
+</ds-control-toolbar>
+
+<ds-control-telemetry session-controller="$ctrl.sessionController" style="width: 100%; height: 130px; position: absolute; bottom: 0;">
+</ds-control-telemetry>
+
+<!--Flight Controls-->
+<ds-flight-control-mode ng-if="$ctrl.sessionController.ownerSession" style="position: absolute; left: 20px; top: 115px;" session-controller="$ctrl.sessionController"></ds-flight-control-mode>
+
+<!--New Session Buttons-->
+<div ng-hide="$ctrl.hideButtons" layout="column" style="position: absolute; top: 40%; left: 50%;">
+    <md-button ng-click="$ctrl.startNewFlight();" style="color: white; background: #00c121; border: 0; position: relative; left: -50%; top: -50%;"">
+        Start New Flight
+    </md-button>
+    <md-button ng-click="$ctrl.joinExistingFlight();" style="margin-top: 10px; color: white; background: #00c121; border: 0; position: relative; left: -50%; top: -50%;"">
+        Join Existing Flight
+    </md-button>
+</div>
+
+<!--Session Management-->
+<ds-session-management-viewer on-join-session="$ctrl.joinExistingFlight();" session-controller="$ctrl.sessionController" ng-if="$ctrl.firstSessionLoaded" style="position: absolute; left: 20px; bottom: 150px;"></ds-session-management-viewer>
+
+<!--Waypoint Playlist-->
+<ds-waypoint-list-viewer session-controller="$ctrl.sessionController" ng-if="$ctrl.sessionController.ownerSession" style="position: absolute; right: 20px; top: 115px;"></ds-waypoint-list-viewer>
+
+<!--Map Layers-->
+<ds-map-layers ng-if="$ctrl.firstSessionLoaded" session-controller="$ctrl.sessionController" style="position: absolute; right: 20px; bottom: 150px;"></ds-map-layers>
+
+<!--Camera Lock-->
+<div ng-if="$ctrl.sessionController.activeSession" style="position: absolute; right: 20px; bottom: 194px;">
+    <div layout="column" ng-click="$ctrl.lockCamera = !$ctrl.lockCamera; $ctrl.toggleLockCamera()" layout-align="center center" ng-class="!$ctrl.lockCamera ? 'flightControlButtonActive': 'flightControlButton'">
+         <md-icon style="width: 26px; height: 30px; color: white;" md-svg-icon="./app/components/flightControlViewer/images/targetCamera.svg"></md-icon>
+    </div>
+</div>
+
+<!--Look Down Bounding Box-->
+<div ng-show="$ctrl.sessionController.activeSession" style="position: absolute; right: 20px; bottom: 248px;">
+    <div layout="column" ng-click="$ctrl.lookDownBoundingBox()" layout-align="center center" class="flightControlButton">
+         <md-icon style="width: 20px; height: 30px; color: white;" md-svg-icon="./app/components/flightControlViewer/images/boundingBox.svg"></md-icon>
+    </div>
+</div>
+
+<!--Zoom In-->
+<div ng-if="$ctrl.firstSessionLoaded" style="position: absolute; right: 20px; bottom: 354px;">
+    <div layout="column" ng-click="$ctrl.zoomIn();" layout-align="center center" class="flightControlButton">
+         <md-icon style="width: 20px; height: 30px; color: white;" md-svg-icon="./app/components/flightControlViewer/images/zoomIn.svg"></md-icon>
+    </div>
+</div>
+
+<!--Zoom Out-->
+<div ng-if="$ctrl.firstSessionLoaded" style="position: absolute; right: 20px; bottom: 302px;">
+    <div layout="column" ng-click="$ctrl.zoomOut();" layout-align="center center" class="flightControlButton">
+         <md-icon style="width: 20px; height: 30px; color: white;" md-svg-icon="./app/components/flightControlViewer/images/zoomOut.svg"></md-icon>
+    </div>
+</div>
+
+<md-content ng-show="$ctrl.guestUserRequest" md-theme='ds-dark' class="md-whiteframe-15dp" style="position: absolute; top: 50%; left: 50%; margin-left: -160px; margin-top: -50px; padding: 20px 30px; width: 320px; background-color: #393c40">
+
+    <!--Header Text-->
+    <div layout="row" layout-align="center center" class="heading-18-light">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Guest Session Join Request</label>
+    </div>
+
+    <div style="margin-bottom: 5px; margin-top: 20px;" class="body-14">
+        <label style="display: block; line-height: 20px;">{{ $ctrl.guestUserRequestName }} is requesting to join this session as a guest.</label>
+    </div>
+
+    <div layout="row" style="margin-top: 10px;"  layout-align="center center">
+        <md-button ng-click="$ctrl.denyGuestRequest();" class="md-dark-outline btn-md" style="margin-right: 36px; width: 164px; height: 38px; color: #c4ccd5">
+            <label style="cursor: pointer;">Deny</label>
+        </md-button>
+        <md-button ng-click="$ctrl.acceptGuestRequest()" class="md-light btn-md" style="width: 164px;">
+            <label style="cursor: pointer;" >Accept</label>
+        </md-button>
+    </div>
+
+</md-content>
+
+<md-content ng-show="$ctrl.locatingDroneDialog" md-theme='ds-dark' class="md-whiteframe-15dp" style="position: absolute; top: 50%; left: 50%; margin-left: -190px; margin-top: -50px; padding: 20px 30px; width: 320px; background-color: #393c40">
+
+    <!--Header Text-->
+    <div layout="row" layout-align="center center" class="heading-18-light">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Locating Drone...</label>
+    </div>
+
+    <div ng-show="true" style="margin-top: 25px;">
+        <md-progress-linear md-theme='ds-dark' md-mode="indeterminate"></md-progress-linear>
+    </div>
+
+</md-content>
+
+</div>

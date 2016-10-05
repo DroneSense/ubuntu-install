@@ -1,0 +1,1800 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+.uiViewWrapper {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.mainWrapper {
+    padding: 90px 0 0 0;
+    height: 100%;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+}
+
+.mainHeader {
+    height: 90px;
+    margin-top: -90px;
+}
+
+.mainHeaderDashboard {
+    height: 90px;
+    margin-top: -90px;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
+.mainContent {
+    height: 100%;
+}
+
+.mapContainer {
+    height: 100%;
+}
+
+/* START - CESIUM */
+
+.cesium-map-container {
+    height: 100%;
+    width: 100%;
+}
+
+.cesium-widget-credits {
+    display: none !important;
+}
+
+.cesium-infoBox {
+    display: none !important;
+}
+
+.cesium-performanceDisplay-defaultContainer {
+    top: 3px !important;
+}
+
+/* END - CESIUM */
+
+/* START - Flight Plan Commands */
+
+.commandViewContainer {
+    min-width: 361px;
+    background-color: #5c5e62;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #2e3134;
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+.commandViewContainerOverflow {
+    overflow-x: hidden;
+}
+
+.commandHeaderPlaceholder {
+    height: 60px;
+    background: #5c5e62;
+    border: 3px dashed #2e3134;
+    box-sizing: border-box;
+}
+
+.commandHeader {
+    width: 361px;
+    height: 60px;
+    background-color: #494c50;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #2e3134;
+    position: relative;
+
+}
+
+.commandHeaderExpanded {
+    width: 361px;
+    height: 60px;
+    background-color: #ffffff;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #e5e5e5;
+    position: relative;
+}
+
+.commandHeaderText {
+    text-transform: none;
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #FFFFFF;
+    opacity: 0.3;
+    position: absolute;
+    top: 14px;
+    left: 64px;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    letter-spacing: 0.01em;
+}
+
+.commandHeaderTextExpanded {
+    text-transform: none;
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #0a92ea;
+    opacity: 1;
+    position: absolute;
+    top: 14px;
+    left: 64px;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    letter-spacing: 0.01em;
+}
+
+.commandHeaderTextEdit {
+    opacity: 1;
+    top: 16px;
+    background-color: #494c50;
+    border: 0;
+    outline: none;
+    max-width: 225px;
+}
+
+.commandHeaderTextExpandedEdit {
+    top: 20px;
+    background-color: #ffffff;
+    border: 0;
+    outline: none;
+    max-width: 225px;
+}
+
+.commandHeaderShowBtn {
+    height: 30px;
+    width: 40px;
+    background-color: #5c5e62;
+    right: 30px;
+    top: 15px;
+    position: absolute;
+    cursor: pointer;
+    outline: 0;
+}
+
+.commandHeaderShowBtnExpanded {
+    height: 30px;
+    width: 40px;
+    background-color: #494c50;
+    right: 30px;
+    top: 15px;
+    position: absolute;
+    cursor: pointer;
+    outline: 0;
+}
+
+.commandHeaderShowBtnIcon {
+    width: 12px;
+    height: 7px;
+    fill: #fff;
+    fill-rule: evenodd;
+}
+
+.commandHeaderShowBtnIconExpanded {
+    width: 12px;
+    height: 7px;
+    fill: #fff;
+    fill-rule: evenodd; /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+    transform: rotate(180deg);
+}
+
+.commandHeaderDragHandle {
+    fill: #000;
+    opacity: 0.2;
+    fill-rule: evenodd;
+    width: 10px;
+    height: 15px;
+    position: absolute;
+    top: 13px;
+    left: 0;
+    cursor: move;
+    padding: 10px;
+}
+
+.commandHeaderDragHandleExpanded {
+    fill: #000;
+    opacity: 0.1;
+    fill-rule: evenodd;
+    width: 10px;
+    height: 15px;
+    position: absolute;
+    top: 13px;
+    left: 0;
+    cursor: move;
+    padding: 10px;
+}
+
+.commandHeaderCircleDiv {
+    height: 25px;
+    width: 25px;
+    border-radius: 25px;
+    opacity: 0.3;
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-color: white;
+    border-width: 1px;
+    border-style: solid;
+    position: absolute;
+    left: 30px;
+    top: 17px;
+    text-align: center;
+    color: #ffffff;
+    line-height: 25px;
+    cursor: pointer;
+    outline: none;
+}
+
+.commandHeaderCircleDivExpanded {
+    height: 25px;
+    width: 25px;
+    border-radius: 25px;
+    opacity: 1;
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-color: #0a92ea;
+    border-width: 1px;
+    border-style: solid;
+    position: absolute;
+    left: 30px;
+    top: 17px;
+    text-align: center;
+    color: #0a92ea;
+    line-height: 25px;
+    cursor: pointer;
+    outline: none;
+}
+
+.commandExpander {
+    min-width: 21px;
+    width: 21px;
+    background-color: #404348;
+    cursor: pointer;
+    display: -webkit-flex;
+    display: flex;
+    outline: 0;
+    z-index: 5;
+}
+
+.commandExpanderIcon {
+    height: 10px;
+    width: 9px;
+    fill: #8d939a;
+    fill-rule: evenodd;
+}
+
+.commandExpanderIconCollapsed {
+    height: 10px;
+    width: 9px;
+    fill: #8d939a;
+    fill-rule: evenodd; /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+    transform: rotate(180deg);
+}
+
+.commandEditIconOn {
+    fill: #0a92ea;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.commandEditIconOff {
+    fill: #9fa1a4;
+    fill-rule: evenodd;
+    height: 18px;
+    width: 18px;
+}
+
+.commandDeleteIcon {
+    fill: #9fa1a4;
+    fill-rule: evenodd;
+    width: 17px;
+    height: 18px;
+}
+
+.commandCameraIcon {
+    fill: #9fa1a4;
+    fill-rule: evenodd;
+    width: 30px;
+    height: 17px;
+    padding-right: 8px;
+    padding-bottom: 5px;
+}
+
+.commandCameraIconOn {
+    fill: #0a92ea;
+    fill-rule: evenodd;
+    width: 30px;
+    height: 17px;
+    padding-right: 8px;
+    padding-bottom: 5px;
+}
+
+.commandViewIconOff {
+    fill: #9fa1a4;
+    fill-rule: evenodd;
+    width: 22px;
+    height: 14px;
+}
+
+.commandViewIconOn {
+    fill: #0a92ea;
+    fill-rule: evenodd;
+    width: 22px;
+    height: 14px;
+}
+
+.commandExpandedContainer {
+    border-bottom-color: #e5e5e5;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    background-color: #ffffff;
+    padding-bottom: 5px;
+}
+
+.commandBtnDelete {
+    min-height: 55px;
+    min-width: 90px;
+    border-radius: 0px;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-left-width: 1px;
+    border-left-color: #e5e5e5;
+    border-left-style: solid;
+
+    margin: 0px;
+    padding: 0px;
+}
+
+.commandBtnDelete:not([disabled]):hover {
+    background-color: #ffffff;
+    color: #0a92ea;
+}
+
+.commandBtnDelete:not([disabled]):hover md-icon {
+    fill: #0a92ea;
+}
+
+.commandBtn {
+    min-height: 55px;
+    min-width: 90px;
+    border-radius: 0px;
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    border-left-width: 1px;
+    border-left-color: #e5e5e5;
+    border-left-style: solid;
+
+    margin: 0px;
+    padding: 0px;
+}
+
+.commandBtn:not([disabled]):hover {
+    background-color: #ffffff;
+    color: #0a92ea;
+}
+
+.commandBtnContainer {
+    border-bottom-color: #e5e5e5;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.commandSurveyImageCountIcon {
+    fill: #c2c3c4;
+    fill-rule: evenodd;
+    width: 16px;
+    height: 16px;
+}
+
+.commandSurveyFlightPathIcon {
+    fill:  #c2c3c4;
+    fill-rule: evenodd;
+    width: 17px;
+    height: 16px;
+}
+
+.commandSurveyROIIcon {
+    fill: #c2c3c4;
+    width: 16px;
+    height: 16px;
+    stroke: #c2c3c4;
+}
+
+.commandSurveyROIIconRect {
+    stroke: #c2c3c4;
+    stroke-linejoin: round;
+    stroke-width: 1px;
+    fill-opacity: 0;
+}
+
+.commandInputContainer {
+    width: 165px;
+}
+
+.commandHelpIcon {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+}
+
+.commandInputFieldSpacing {
+    margin-bottom: -5px;
+}
+
+.commandSelectFieldMin {
+    min-width: 200px;
+}
+
+.commandReadOnlyInfoLabel {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #989ea5;
+    margin-left: 3px;
+}
+
+.commandReadOnlyInfoContainer {
+    padding-top: 2px;
+    padding-bottom: 5px;
+}
+
+.commandReadOnlyInfoData {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #464A51;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+.surveyCommandButtons {
+    margin-bottom: 10px;
+}
+
+.surveyCommandLoadingOverlay {
+    position: absolute;
+    z-index: 99999;
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+    opacity: .5;
+}
+
+.surveyCommandLoadingIcon {
+    position: absolute;
+    z-index: 999999;
+    left: calc(50% - 50px);
+    left: -moz-calc(50% - 50px);
+    left: -webkit-calc(50% - 50px);
+
+    top: calc(50% - 50px);
+    top: -moz-calc(50% - 50px);
+    top: -webkit-calc(50% - 50px);
+}
+
+.commandStaticInfoLabel {
+    text-transform: uppercase;
+    font-size: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #989ea5;
+    margin-top: 6px;
+    margin-left: 3px;
+}
+
+.commandStaticInfoValue {
+    text-transform: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    color: #464a51;
+    margin-top: 6px;
+    margin-left: 8px;
+}
+
+/*div.leaflet-overlay-pane svg > g path {*/
+/*filter: url(#dropshadow);*/
+/*}*/
+
+/*.flightPathDropShadow {*/
+/*filter: url(#dropshadow);*/
+/*}*/
+
+/* END - Flight Plan Commands */
+
+
+/* Borders */ 
+.pic-border-1 {
+    border: 1px solid;
+    border-color: white;
+}
+.pic-border-3 {
+    border: 3px solid;
+    border-color: white;
+}
+
+/*Dark App Bar*/
+
+.darkAppBar {
+    height: 60px;
+    background-color: #292c32;
+}
+
+.darkAppBarDivider {
+    position: absolute;
+    top: 38px;
+    height: 2px;
+    background-color: #0a92ea;
+    width: 100%;
+}
+
+.darkAppBarIcon {
+    height: 44px;
+    width: 56px;
+    margin-top: -3px;
+}
+
+.darkAppBarTextContainer {
+    width: 1280px;
+    height: 38px;
+}
+
+.navBarText {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 11px;
+	color: #ffffff;
+}
+
+.manageViewerTab {
+    cursor: pointer; 
+    letter-spacing: .1em;
+}
+
+
+/* Flight Plan Details */
+
+.fpd-container {
+	width: 900px;
+    background-color: #393c40;
+}
+
+md-tabs#fpd md-tabs-wrapper {
+    background-color: #393c40;
+}
+
+md-select#fpd-owners .md-container {
+    display: block;
+}
+
+.fpd-av {
+	background-color: white; 
+	width: 30px; 
+	height: 30px; 
+	color: #393c40;
+	padding: 7.5px;
+	margin-right: 10px;
+}
+
+.fpd-left {
+	padding-right: 20px;
+	padding-left: 40px;
+}
+
+.fpd-right {
+	padding-right:40px;
+	padding-left: 40px;
+	border-left: dashed 1px;
+	border-color: #767a81;
+}
+
+.fpd-close {
+	width: 13px;
+	height: 13px;
+	margin: 20px 0 0 20px;
+	cursor: pointer;
+}
+
+.fpd-rowMargins {
+	margin: 7px 0 0 0;
+}
+
+.fpd-time {
+	margin: 10px 0 0 0px;
+}
+
+.fpd-location {
+	margin: 15px 0 0 0px;
+	line-height: 1.6em;
+}
+
+.fpd-pilot {
+	margin: 10px 0 0 0;
+}
+
+.fpd-observer {
+	margin: 0 0 0 0;
+}
+
+.fpd-drone-info {
+	margin: 0 0 0 0;
+}
+.fpd-selectsMargin {
+	margin: -8px 0 0 0;
+}
+
+.fpd-drone-parts {
+	margin: 0 0 0 0;
+}
+
+.fpd-pic {
+	margin: 0 0 0 0;
+}
+
+.fpd-note {
+	margin: 10px 0 0 0;
+}
+
+.fpd-button {
+	margin: 20px 14px 20px 14px;
+}
+
+.fpd-heading {
+	margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.fpd-columnMargin {
+    margin-left: 30px;
+}
+
+.fpd-buttonTopMargin {
+    margin-top: 0px;
+}
+
+.fpd-selectsMargin {
+    margin-right: 40px;
+}
+
+/*Account Management*/
+
+.acm-pic {
+    margin: 10px 0 20px 0;
+    -webkit-box-shadow: 0px 0px 3px -1px rgba(0, 0, 0, 0.43);
+    -moz-box-shadow: 0px 0px 3px -1px rgba(0, 0, 0, 0.43);
+    box-shadow: 0px 0px 3px -1px rgba(0, 0, 0, 0.43);
+}
+
+.acm-button {
+    margin: 20px 0 10px 0;
+}
+
+.acm-avatar-text {
+    margin: 20px 0 5px 0;
+}
+
+.acm-avatar-upload {
+    margin: 20px 0 0 20px;
+}
+.acm-avatar-group {
+    margin-top: 0px;
+}
+
+.acm-section {
+    border-top: dashed 1px #c4ccd5;
+    margin-top: 10px;
+}
+
+.acm-profile-text {
+    margin-bottom: 10px;
+    margin-top: 25px;
+}
+
+.acm-profile-sub {
+    margin-top: 10px;
+}
+
+.acm-heading {
+    margin-top: 42px;
+    margin-bottom: 64px;
+}
+
+.acm-edit-info {
+    margin-top: 30px;
+    margin-bottom:40px;
+    width: 480px;
+}
+
+.acm-bottom {
+    margin-top: 66px;
+    margin-bottom:80px;
+    width: 480px;
+}
+
+.acm-select {
+    margin-right: 35px;
+}
+
+.acm-input {
+    width: 90% !important;
+    float: right !important;
+}
+
+.acm-button-right {
+    float: right;
+}
+
+.acm-plan {
+    margin-bottom: 20px;
+}
+
+.acm-checkbox {
+    margin-top: 10px;
+    margin-left: 2px !important;
+}
+
+.acm-check-group {
+    margin: 40px 0 20px 0px;
+    padding: 2px;
+}
+
+.acm-billing-address {
+    margin-bottom: 0px;
+}
+
+.acm-update {
+    margin-top: 10px;
+}
+
+.acm-payment {
+    margin: 10px 0 10px 0;
+}
+
+.acm-payment-history {
+    margin-top: 20px;
+}
+
+.acm-padding {
+    padding-right: 19px;
+}
+
+.acm-Margin {
+    margin-right: 35px;
+}
+
+/* Account Profile */
+
+.acp-pic {
+    margin: 10px 0 20px 0;
+    -webkit-box-shadow: 0px 0px 3px -1px rgba(0, 0, 0, 0.43);
+    -moz-box-shadow: 0px 0px 3px -1px rgba(0, 0, 0, 0.43);
+    box-shadow: 0px 0px 3px -1px rgba(0, 0, 0, 0.43);
+}
+
+
+.acp-button {
+    margin: 20px 0 10px 0;
+}
+
+.acp-avatar-text {
+    margin: 20px 0 5px 0;
+}
+
+.acp-avatar-upload {
+    margin: 20px 0 0 20px;
+}
+.acp-avatar-group {
+    margin-top: 0px;
+}
+
+.acp-section {
+    border-top: dashed 1px #c4ccd5;
+    margin-top: 10px;
+}
+
+.acp-profile-text {
+    margin-bottom: 10px;
+    margin-top: 25px;
+
+}
+
+.acp-profile-sub {
+    margin-top: 10px;
+}
+
+.acp-heading {
+    margin-top: 42px;
+    margin-bottom: 64px;
+}
+
+.acp-edit-info {
+    margin-top: 30px;
+    margin-bottom:20px;
+    width: 480px;
+}
+
+.acp-bottom {
+    margin-top: 66px;
+    margin-bottom:80px;
+}
+
+.acp-select {
+    width: 90%;
+}
+
+.acp-input {
+    width: 90% !important;
+    float: right !important;
+}
+
+.acp-button-right {
+    float: right;
+}
+
+.acp-Margin {
+    margin-right: 35px;
+}
+
+.acp-calendarMargin {
+    margin-left: -15px;
+}
+
+.acp-buttonMargin {
+    margin-top: 9px;
+    margin-bottom: 40px;
+}
+
+
+
+
+
+/* Hardware Detail */
+
+.hwd-container {
+    /*height: 710px;*/
+    width: 781px;
+    min-width: 781px;
+    max-height: 710px;
+    max-width: 781px;
+}
+
+
+.hwd-left {
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
+.hwd-right {
+    padding-right: 40px;
+    padding-left: 40px;
+    border-left: dashed 1px;
+    border-color: #767a81;
+}
+
+.hwd-check {
+	margin: 20px 0 20px 0px;
+}
+.hwd-close {
+    width: 13px;
+    height: 13px;
+    margin: 20px 0 0 20px;
+    cursor: pointer;
+}
+
+.hwd-doc {
+    width: 12px;
+    height: 15px;
+    margin: 10px 10px -2px 0;
+    cursor: pointer;
+}
+
+.hwd-doc-groups {
+    margin: 0 0 0 0;
+}
+
+.hwd-right-align {
+    text-align: right;
+    margin-top: 5px;
+}
+
+.hwd-info {
+    margin: 0 0 20px 0;
+}
+
+.hwd-service {
+    margin: 0 0 20px 0;
+}
+
+.hwd-pic {
+    margin: 0 0 0 0;
+}
+
+.hwd-pic-sm {
+    display: block;
+    margin: auto;
+    padding: 14px 19px 0px 0px;
+}
+
+.hwd-pic-group {
+	margin-bottom: 20px;
+}
+
+.hwd-note {
+    margin-bottom: 5px;
+}
+
+.hwd-button {
+    margin: 20px 14px 20px 14px;
+}
+
+.hwd-heading {
+    margin-bottom: 20px;
+}
+
+/* 3D Models */
+
+.tdm-container {
+    width: 781px;
+    min-width: 781px;
+    max-height: 710px;
+    max-width: 781px;
+}
+
+.tdm-av {
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    color: #393c40;
+    padding: 7.5px;
+    margin: 7px 20px 0 0;
+}
+
+.tdm-left {
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
+.tdm-right {
+    padding-right: 40px;
+    padding-left: 40px;
+    border-left: dashed 1px;
+    border-color: #767a81;
+}
+
+
+.tdm-close {
+    width: 13px;
+    height: 13px;
+    margin: 20px 0 0 20px;
+    cursor: pointer;
+}
+
+
+.tdm-info {
+    margin: 0 0 20px 0;
+}
+
+.tdm-service {
+    margin: 0 0 20px 0;
+}
+
+.tdm-pic {
+    margin: 0 0 0 0;
+}
+
+
+.tdm-pic-sm {
+    display: block;
+    margin: auto;
+    padding: 14px 19px 0px 0px;
+}
+
+.tdm-pic-group {
+	margin-bottom: 20px;
+}
+
+.tdm-note {
+    margin-bottom: 20px;
+}
+
+.tdm-button {
+    margin: 20px 14px 20px 14px;
+}
+
+.tdm-heading {
+    margin-bottom: 20px;
+}
+
+/* viewer toolbar */
+.vt-tag-search {
+    padding-left: 25px !important;
+    margin-bottom: 15px;
+}
+
+.vt-container {
+    width: 150px; 
+    margin-left: 30px;
+}
+
+.vt-radio {
+    width: 182px;
+}
+
+.vt-option {
+    height: 40px;
+}
+
+.vt-button {
+    margin-bottom: 15px;
+}
+
+.vt-icon {
+    margin-left: 0; 
+    margin-right: -20px;
+    margin-top: 12px;
+    height: 16px; 
+    width: 16px; 
+}
+
+.vt-input-container {
+    margin-right: 0;
+    margin-top: 0;
+    width: 180px; 
+}
+/* Globals */
+/* To-Do: review global scope */
+/* Select Control show list horizontal vs vertical */
+
+.md-container{
+      display: inline-block;
+}
+
+md-input-container .md-errors-spacer {
+    min-height: 0;
+}
+
+/*Common Stuff*/
+
+.closeButton {
+    color: #ffffff;
+    top: 20px;
+    left: 20px;
+    position: absolute;
+    cursor: pointer;
+}
+
+.dronesenseLogo {
+    margin-top: 40px;
+    margin-bottom: 26px;
+}
+
+.pageNumber {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.XofX {
+    margin-right: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.signIn-link {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #ffffff
+}
+
+/*Margins*/
+
+.buttonMargin {
+    margin-right: 22px;
+}
+
+.buttonTopMargin {
+    margin-top: 10px;
+}
+
+.pwRecovery-ButtonTopMargin {
+    margin-top: 3px;
+}
+
+.register-footerTopMargin {
+    margin-top: 31px;
+}
+
+.footerTopMargin {
+    margin-top: 24px;
+}
+
+.footer2TopMargin {
+    margin-top: 51px;
+}
+
+.register-ButtonTopMargin {
+    margin-top: 13px;
+}
+
+.sendButtonTopMargin {
+    margin-top: 5px;
+}
+
+.creditCard-ButtonTopMargin {
+    margin-top: 34px;
+}
+    
+.marginRight40 {
+    margin-right: 40px;
+}
+
+.marginRight92 {
+    margin-right: 92px;
+}
+
+.signIn-LinkMargins {
+    margin-bottom: 33px;
+    margin-top: 8px;
+}
+
+.creditCard-preHeadingBottomMargin {
+    margin-bottom: 8px;
+}
+
+.marginLeft {
+    margin-left: 3px;
+}
+
+.inputFieldMarginTop {
+    margin-top: 23px;
+}
+
+.inputFieldMarginTop2 {
+    margin-top: 60px;
+}
+
+.inputFieldMarginTop3 {
+    margin-top: 38px;
+}
+
+.gotoMyAccount-ButtonMargin {
+    margin-top: 56px;
+}
+
+.headerBottomMargin {
+    margin-bottom: 38px;
+}
+
+/*register html*/
+
+.register-Div {
+    width: 524px;
+    height: 797px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.register-HeaderBottomMargin {
+    margin-bottom: 23px;
+}
+
+.register-signupSocialButtonWidth {
+    width: 214px;
+}
+
+/*creditcard html*/
+
+.creditcard-Div {
+    width: 524px;
+    height: 611px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.creditcard-finePrintText {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    color: #abafb9;
+    margin-bottom: 60px;
+}
+
+.finePrintLineSpacing {
+    line-height: 20px;
+}
+
+.creditCard-ConfirmPayButtonWidth {
+    width: 184px;
+}
+
+.creditCard-inputFieldMarginTop {
+    margin-top: 21px;
+}
+
+/*signUp html*/
+
+.signIn-Div {
+    width: 432px;
+    height: 542px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.signin-SocialButtonWidth {
+    width: 168px;
+}
+
+.signin-HeaderBottomMargin {
+    margin-bottom: 23px;
+}
+
+/*passwordRecovery html*/
+
+.pwRecovery-Div {
+    width: 432px;
+    height: 456px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.pwRecovery-inputFieldMarginTop {
+    margin-top: 21px;
+}
+
+.pwRecovery-sendButtonTopMargin {
+    margin-top: 12px;
+}
+
+.pwRecovery-footerTopMargin {
+    margin-top: 31px;
+}
+
+.sendButtonWidth {
+    width: 112px;
+}
+
+/*passwordSent html*/
+
+.pwSent-Div {
+    width: 432px;
+    height: 309px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+/*passwordCreateNew html*/
+
+.pwCreateNew-Div {
+    width: 432px;
+    height: 448px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.pwCreateNew-resetPasswordButtonWidth {
+    width: 200px;
+}
+
+.pwCreateNew-ButtonTopMargin {
+    margin-top: 12px;
+}
+
+/*congratsNewPass html*/
+
+.congratsNewPass-Div {
+    width: 432px;
+    height: 336px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.congrats-GotoAcctButtonWidth {
+    width: 194px;
+}
+
+/**** Choose Flight Plan html ****/
+
+.chooseFlightPlan-Div {
+    width: 1080px;
+    height: 611px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.chooseFlightPlan-headingTopMargin {
+    margin-top: 40px;
+    margin-bottom: 54px;
+}
+
+.chooseFlightPlan-PriceBoxBorderLeftDiv {
+    height: 437px;
+    width: 240px;
+    border-width: 1px 0 1px 1px;
+    border-style: solid;
+    border-color: #ffffff;
+    position: relative;
+}
+
+.chooseFlightPlan-PriceBoxBorderRightDiv {
+    height: 437px;
+    width: 240px;
+    border-width: 1px 1px 1px 0;
+    border-style: solid;
+    border-color: #ffffff;
+    position: relative;
+}
+
+.chooseFlightPlan-PriceBoxHighlightDiv {
+    height: 482px;
+    width: 282px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #0a92ea;
+    position: relative;
+    margin-top: -22px;
+}
+
+.chooseFlightPlan-priceName {
+    margin-top: 30px;
+    margin-bottom: 28px;
+    letter-spacing: 2px;
+}
+
+.chooseFlightPlan-FeaturedPriceName {
+    margin-top: 14px;
+    margin-bottom: 28px;
+    letter-spacing: 2px;
+}
+
+.chooseFlightPlan-MostPopularPlan {
+    margin-top: 15px;
+}
+
+.chooseFlightPlan-DollarTopAlign {
+    vertical-align: top;
+}
+
+.chooseFlightPlan-PlanFeaturesTitle {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.chooseFlightPlan-Features {
+    margin-bottom: 7px;
+}
+
+
+.chooseFlightPlan-SelectButton {
+    position: absolute;
+    width: 100%;
+    bottom: 30px;
+}
+
+.chooseFlightPlan-SelectButtonWidth {
+    width: 116px;
+}
+
+/**** Invite html ****/
+
+.invite-Div {
+    width: 509px;
+    height: 390px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.invite-InviteButtonWidth {
+    width: 110px;
+}
+
+.invite-ButtonTopMargin {
+    margin-top: 18px;
+}
+
+.invite-emailIcon {
+    height: 8.82px;
+    width: 13.31px;
+    margin-left: 12px;
+    margin-top: 10px;
+}
+
+.invite-Margin {
+    margin-left: -33px;
+}
+
+/**** FlightPlanAddPilot html ****/
+
+.flightPlanAddPilot-Div {
+    width: 486px;
+    height: 308px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.flightPlanAddPilot-headingTopMargin {
+    margin-top: 60px;
+    margin-bottom: 10px;
+}
+
+.flightPlanAddPilot-letterSpacing2px {
+    letter-spacing: .2em;
+}
+
+.flightPlanAddPilot-ButtonTopMargin {
+    margin-top: 30px;
+}
+
+/*.flightPlanAddPilot-inputFieldMarginTop {
+    margin-top: 58px;
+}*/
+
+.flightPlanAddPilot-inputFieldMargins {
+    margin-top: 39px;
+    margin-left: 18px;
+}
+
+.flightPlanAddPilot-white30x30Box {
+    width: 30px;
+    height: 30px;
+    background: #ffffff;
+}
+
+.flightPlanAddPilot-whiteBoxMargin {
+    margin-top: 3px;
+    /*margin-left: -20px;*/
+}
+
+.flightPlanAddPilot-acceptButtonMarginTop {
+    margin-top: 19px;
+}
+
+/*Hardware - Add Sensors html*/
+
+.hardwareAddSensors-Div {
+    width: 721px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.hardwareAddSensors-HeadingTopMargin {
+    margin-top: 37px;
+    margin-bottom: 27px;
+}
+
+.hardwareAddSensors-DashedLine {
+  border: 0 none;
+  border-top: 1px dashed #767a81;
+  background: none;
+  height:0;
+} 
+
+hardwareAddSensors-NotesTopMargin {
+    margin-top: 500px;
+}
+
+.hardwareAddSensors-ButtonMargins {
+    margin-top: 12px;
+    margin-bottom: 39px;
+}
+
+.hardwareAddSensors-ButtonRtMargin {
+    margin-right: 10px;
+}
+
+.hardwareAddSensors-tagMargins {
+    margin-top: 6px;
+    margin-bottom: 28px;
+}
+
+.hardwareDrones-CheckboxTextMargin {
+    margin-left: 5px;
+    margin-top: -5px;
+}
+
+/*Hardware - Batteries html*/
+
+.hardwareBattery-Div {
+    width: 721px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.hardwareBattery-CalendarMargins {
+    margin-left: -33px;
+    margin-top: 15px;
+}
+
+.hardwareBattery-tagMargins {
+    margin-top: 40px;
+    margin-bottom: 28px;
+}
+
+.hardwareBattery-tagMargins {
+    margin-top: 0px;
+    margin-bottom: 28px;
+}
+
+.hardwareBattery-ButtonsMargin {
+    margin-bottom: 37px;
+}
+
+/*Hardware - Drones html*/
+
+.hardwareDrones-Div {
+    width: 721px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.hardwareDrones-CalendarMargins {
+    margin-top: 8px;
+}
+
+.hardwareDrones-tagMargins {
+    margin-top: 21px;
+    margin-bottom: 28px;
+}
+
+.checkboxMargin {
+    margin-bottom: 50px;
+}
+
+.hardwareDrone-ButtonsMargin {
+    margin-top: 12px;
+    margin-bottom: 39px;
+}
+
+.hardwareDrone-HoursDateTopMargin {
+    margin-top: -10px;
+}
+
+.hardwareDrone-AirworthyTopMargin {
+    margin-top: 15px;
+}
+
+.hardwareDrone-checkboxTextMargin {
+    margin-left: 7px;
+    margin-top: 2px;
+}
+
+/*Upload 3D Models html*/
+
+.upload3DModels-Div {
+    width: 750px;
+    /*min-height: 562px;*/
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.upload3DModels-DashedLine {
+   padding: 61px;
+   line-height: 1px;
+   border: 1px dashed #767a81;
+   border-radius: 10px;
+}
+
+.upload3DModels-dragboxMargin {
+      margin-top: 10px;
+}
+
+.upload3DModels-inputFieldMarginTop {
+    margin-top: 26px;
+}
+
+.upload3DModels-LeftRightMargins {
+    margin-left: 68px;
+    margin-right: 68px;
+}
+
+.upload3DModels-TagTopMargin {
+    margin-top: 0px;
+}
+
+.upload3DModels-ButtonsMargin {
+    margin-top: 38px;
+    margin-bottom: 38px;
+}
+
+/*Upload Docs html*/
+
+.uploadDocs-Div {
+    width: 750px;
+    height: 464px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.uploadDocs-ButtonTopMargin {
+    margin-top: 40px;
+}
+
+.uploadDocs-fileIcon {
+    height: 37px;
+    width: 31px;
+    margin-left: 0px;
+    margin-top: 30px;
+}
+
+.uploadDocs-inputFieldMarginTop {
+    margin-top: 42px;
+}
+
+.uploadDocs-xCloseButton {
+    height: 20px;
+    width: 20px;
+    margin-left: 9px;
+    margin-top: 39px;
+}
+
+    /*Doc Name Field*/
+
+.uploadDocs-marginRight {
+    margin-right: 40px;
+    margin-left: 15px;
+}
+
+    /*Doc Type Field*/
+
+.uploadDocs-marginRight2 {
+    margin-right: 7px;
+    margin-left: 0px;
+}
+
+.uploadDocs-ButtonMargins {
+    margin-right: 10px;
+    margin-left: 12px;
+}
+
+/* Employee Info Card */
+
+.eic-container {
+    /*height: 708px;*/
+	width: 450px;
+    background-color: #393c40;
+}
+
+.eic-margins {
+    margin: 40px;
+}
+
+.eic-close {
+    position: absolute;
+    margin: 15px;
+    /*left: 20px;*/
+    width: 13px;
+	height: 13px;
+	cursor: pointer;
+}
+
+.eic-right {
+    margin-left: 15px;
+}
+
+.eic-Upload {
+    margin-right: 8px;
+}
+
+.eic-ForceContainer {
+    width: 100%;
+}
+
+.eic-dateMargin {
+    margin-left: -15px;
+}
+
+.eic-SubTitleMargin {
+    margin-top: 20px;
+}
+
+.eic-DivBlockMargin {
+    margin-top: 3px;
+}
+
+.eic-buttonMargin {
+    margin-top: 40px;
+}
+
+.eic-ReadOnlyMargin {
+    margin-top: 10px;
+}
+
+.eic-LabelMargin {
+    margin-bottom: 4px;
+}
+
+.eic-NotesMargin {
+    margin-top: 6px;
+}
+
+/*Switch Account*/
+
+.swa-Div {
+    width: 509px;
+    /*height: 390px;
+    background-color: #393c40;*/
+    padding: 40px;
+    position: relative;
+    
+}
+
+.swa-divMargin {
+    padding: 10px;
+    border-bottom: 1px dashed #767a81;
+}
+
+.swa-RightColumn {
+    margin-left: 32px;
+    margin-top: -2px;
+}
+
+.swa-HeaderMargin {
+    margin-bottom: 30px;
+}
+
+.swa-AvatarMargin {
+    margin-left: 20px;
+    margin-top: 4px;
+}
+
+.swa-RowMargin {
+    margin-top: 0px;
+}
+
+
+md-tabs#controlTabs md-tab-item {
+    padding: 12px 18px;
+}
+

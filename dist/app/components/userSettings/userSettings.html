@@ -1,0 +1,69 @@
+<div class="userSettingsContainer md-whiteframe-z3">
+
+    <label class="userSettingsLabels  md-block">Profile</label>
+
+    <md-input-container class="dsDroneCameraTextBox md-block">
+        <label>First Name</label>
+        <input type="text" ng-model="$ctrl.user.firstName" ng-blur="$ctrl.updateProperty($ctrl.user, $ctrl.user.firstName, 'profile.firstName')"/>
+    </md-input-container>
+    <md-input-container class="dsDroneCameraTextBox md-block">
+        <label>Last Name</label>
+        <input type="text" ng-model="$ctrl.user.lastName" ng-blur="$ctrl.updateProperty($ctrl.user, $ctrl.user.lastName, 'profile.lastName')"/>
+    </md-input-container>
+    <md-input-container class="dsDroneCameraTextBox md-block">
+        <label>Email</label>
+        <input type="text" ng-model="$ctrl.user.email" ng-disabled="$ctrl.user.socialAuth"/>
+    </md-input-container>
+
+    <form name="passwordForm" ng-show="!$ctrl.user.socialAuth">
+        <md-input-container class="dsDroneCameraTextBox md-block">
+            <div ng-if="$ctrl.passwordSuccess" class="success-message">
+                <div>{{$ctrl.passwordSuccess}}</div>
+            </div>
+            <label>Change Password</label>
+            <input name="newPassword" type="password" ng-model="$ctrl.NewPassword"/>
+        </md-input-container>
+        <md-input-container ng-show="$ctrl.NewPassword" class="dsDroneCameraTextBox md-block">
+            <label>Current Password</label>
+            <input name="currentPassword" type="password" ng-model="$ctrl.CurrentPassword"/>
+            <div ng-if="$ctrl.passwordError" class="error">
+                <div>{{$ctrl.passwordError}}</div>
+            </div>
+        </md-input-container>
+
+        <div layout="row" layout-align="center center">
+
+        <md-button ng-show="$ctrl.NewPassword"  class="dsUpdateBtn" ng-click="$ctrl.changePassword()">Update</md-button>
+        <md-button ng-show="$ctrl.NewPassword" class="dsCancelBtn" ng-click="$ctrl.NewPassword = ''; $ctrl.CurrentPassword = ''">Cancel</md-button>
+
+        </div>
+
+    </form>
+
+    <md-divider class="userSettingsDivider"></md-divider>
+
+    <label class="userSettingsLabels">Settings</label>
+
+    <md-input-container class="dsDroneCameraTextBox md-block">
+        <label>Preferred Units</label>
+        <md-select md-on-close="$ctrl.SetUnitPref($ctrl.Unit);" ng-model="$ctrl.user.UnitPreference" aria-label="Select Units">
+            <md-option ng-repeat="unit in $ctrl.units" value="{{ unit }}">{{ unit }}</md-option>
+        </md-select>
+    </md-input-container>
+
+    <md-input-container class="dsDroneCameraTextBox md-block">
+        <label>Time Zone</label>
+        <md-select md-on-close="$ctrl.SetTimeZone(value);" ng-model="$ctrl.user.TimeZone" aria-label="Select Time Zone">
+            <md-option ng-repeat="timezone in $ctrl.timezones" value="{{ timezone }}">{{ timezone }}</md-option>
+        </md-select>
+    </md-input-container>
+
+    <md-divider class="userSettingsDivider"></md-divider>
+
+    <div layout="row" layout-align="center center">
+
+    <md-button class="dsCancelBtn" ng-click="$ctrl.logout()">Logout</md-button>
+
+    </div>
+
+</div>

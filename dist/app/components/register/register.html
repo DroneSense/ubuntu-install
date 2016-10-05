@@ -1,0 +1,140 @@
+<!--*** Register.html ***-->
+
+<md-content layout="column" md-theme='ds-dark' class="register-Div">
+
+<!--Close Button & Page No-->
+    <img src="./app/components/register/img/fill-1.svg" class="closeButton">
+    <div layout="row" layout-align="end center" class="pageNumber">
+      <label class="XofX">1</label>
+      <label class="XofX">of</label>
+      <label class="XofX">3</label>
+    </div>
+    
+<!--Header Image   -->
+    <div layout="column" class="dronesenseLogo"" layout-align="none center">
+        <img src="./app/components/register/img/logo.svg"/>
+    </div>
+    
+<!--Header Text-->
+    <div layout="column" layout-align="none center" class="heading-18-light register-HeaderBottomMargin" translate>
+        REGISTER.REGISTERFORACCOUNT
+    </div>
+    
+<!--First Name Last Name-->
+    <div layout="row">
+        <md-input-container class="md-block marginRight40" flex>
+            <label translate>REGISTER.FIRSTNAME</label>
+            <input required name="clientName" ng-model="project.clientName">
+        <div ng-messages="projectForm.clientName.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+        </md-input-container>
+        <md-input-container class="md-block" flex>
+            <label translate>REGISTER.LASTNAME</label>
+            <input required name="clientName" ng-model="project.clientName">
+        <div ng-messages="projectForm.clientName.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+        </md-input-container>
+    </div>
+    
+<!--Email-->
+    <div>
+        <md-input-container class="md-block" flex>
+            <label translate>REGISTER.EMAIL</label>
+            <input required type="email" name="clientEmail" ng-model="project.clientEmail"
+               minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+        <div ng-messages="projectForm.clientEmail.$error" role="alert">
+          <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+            Your email must be between 10 and 100 characters long and look like an e-mail address.
+          </div>
+        </div>
+        </md-input-container>
+    </div>
+    
+<!--Create Password-->
+    <div>
+        <md-input-container class="md-block" flex>
+            <label translate>REGISTER.CREATEPASSWORD</label>
+            <input required type="email" name="clientEmail" ng-model="project.clientEmail"
+               minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+        <div ng-messages="projectForm.clientEmail.$error" role="alert">
+          <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+            ***Fix pass requirements...alpha-nummeric...
+          </div>
+        </div>
+        </md-input-container>
+     </div>
+    
+<!--Confirm Password-->
+    <div>
+        <md-input-container class="md-block" flex>
+            <label translate>REGISTER.CONFIRMPASSWORD</label>
+            <input required type="email" name="clientEmail" ng-model="project.clientEmail"
+               minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+        <div ng-messages="projectForm.clientEmail.$error" role="alert">
+          <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+            ***Fix pass requirements...alpha-nummeric...
+          </div>
+        </div>
+        </md-input-container>
+    </div>
+    
+<!--Phone-->
+    <div>
+        <md-input-container class="md-block" flex>
+            <label translate>REGISTER.PHONE</label>
+            <input name="phone" ng-model="user.phone" ng-pattern="/^[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}$/" />
+            <div class="hint" ng-show="showHints">(###) ###-####</div>
+                 <div ng-messages="userForm.phone.$error" ng-hide="showHints">
+            <div ng-message="pattern">(###) ###-#### - Please enter a valid phone number. **International??</div>
+                </div>
+        </md-input-container>
+    </div>
+    
+<!--No of Pilots + Industry-->
+    <div layout="row">
+        <md-input-container class="md-block marginRight40" flex>
+            <label translate>REGISTER.NUMBERPILOTS</label>
+            <input type="number" min="1" ng-model="user.pilots">
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+            <label translate>REGISTER.INDUSTRY</label>
+            <md-select ng-model="user.industry">
+              <md-option>
+               Energy
+              </md-option>
+             <md-option>
+               Construction
+              </md-option>
+            </md-select>
+          </md-input-container>
+    </div>
+    
+
+<!--Create My Account Button-->
+
+    <div layout="column">
+        <md-button flex class="md-light register-ButtonTopMargin">
+            <label translate>REGISTER.CREATEACCOUNT</label>                
+            </md-button>
+    </div>
+
+<!--Sign Up with Social Account-->
+    <div layout="row" layout-align="space-between">
+        <md-button class="md-light-outline register-signupSocialButtonWidth buttonTopMargin">
+            <label translate>REGISTER.SIGNUPGOOGLE</label>
+            </md-button>
+        <md-button class="md-light-outline register-signupSocialButtonWidth buttonTopMargin">
+            <label translate>REGISTER.SIGNUPFACEBOOK</label>
+        </md-button>
+    </div>
+
+<!--Already have an account? Sign In-->
+    <div layout="row" layout-align="center center" class="body-14-grey register-footerTopMargin">
+        <label translate>REGISTER.ALREADYHAVEACCOUNT</label>
+    <a class="marginLeft" ng-href="" translate>REGISTER.SIGNIN</a>
+    </div>
+
+</md-content>
+</div>

@@ -1,0 +1,180 @@
+<div layout="column" layout-align="center center">
+    <md-content style="width: 1024px; padding-left: 20px; padding-right: 20px;">
+        <div class="profileHeaderText1 acp-heading" translate>PROFILE.MYPROFILE</div>
+        <div class="acp-section" layout="column" layout-gt-sm="row" layout-align="start center" layout-align-gt-sm="start start">
+            <div layout="column" flex>
+                <div class="profileHeaderText2 acp-profile-text" translate>PROFILE.PERSONALINFORMATION</div>
+                <div class="profileHeaderText3 acp-profile-sub" translate>PROFILE.YOURPERSONALDETAILS</div>
+            </div>
+            <div class="acp-edit-info" layout="column">
+                <div layout="row">
+                    <md-input-container class="acp-Margin" flex="50">
+                        <label translate>PROFILE.FIRSTNAME</label>
+                        <input ng-model="$ctrl.user.FirstName"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                         <md-input-container flex="50">
+                        <label translate>PROFILE.LASTNAME</label>
+                        <input ng-model="$ctrl.user.LastName"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>PROFILE.EMAIL</label>
+                        <input ng-model="$ctrl.user.Email"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>PROFILE.ADDRESS1</label>
+                        <input ng-model="$ctrl.user.Address.Address1"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>PROFILE.ADDRESS2</label>
+                        <input ng-model="$ctrl.user.Address.Address2"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container class="acp-Margin" flex>
+                        <label translate>PROFILE.CITY</label>
+                        <input ng-model="$ctrl.user.Address.City"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label translate>PROFILE.ZIP</label>
+                        <input ng-model="$ctrl.user.Address.Zip"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container class="acp-Margin" flex="50">
+                        <label translate>PROFILE.COUNTRY</label>
+                        <md-select ng-model="$ctrl.user.Address.Country">
+                            <md-option ng-repeat="country in $ctrl.countries" value="{{ country.name }}">
+                                {{ country.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label translate>PROFILE.STATE</label>
+                        <md-select ng-model="$ctrl.user.Address.State">
+                            <md-option ng-repeat="state in $ctrl.states" value="{{ state.name }}">
+                                {{ state.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>PROFILE.PHONE</label>
+                        <input name="phone" ng-model="$ctrl.user.Phone" 
+                                            ng-model-options="{ updateOn: 'blur' }"/>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container class="acp-Margin" flex="50">
+                        <label translate>PROFILE.CERTIFICATETYPE</label>
+                        <md-select ng-model="$ctrl.user.CertificateType">
+                            <md-option>Drone</md-option>
+                            <md-option>Sport</md-option>
+                            <md-option>Private</md-option>
+                            <md-option>Commercial</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label translate>PROFILE.CERTIFICATENO</label>
+                        <input ng-model="$ctrl.user.CertificateNumber"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div layout="column" class="acp-calendarMargin">
+                     <div style="margin-left: 18px; font-size: 13px; color: #acb0ba;" translate="">PROFILE.HIREDATE</div>
+                     <md-datepicker style="font-size: 16px;" ng-model="$ctrl.user.HireDate" ></md-datepicker>
+                </div>
+                <div layout="row" style="margin-top: 15px;" layout-align="start start">
+                    <div style="margin-right: 20px;">
+                        <div class="label-12" style="margin-bottom: 5px;" translate>PROFILE.AVATAR</div>
+                        <ds-user-avatar class="md-whiteframe-5dp" user="$ctrl.user" size="100"></ds-user-avatar>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div style="font-size: 14px; color: #292c32;" translate="">PROFILE.ADDAVATAR</div>
+                        <md-button style="margin-top: 15px;" class="md-dark btn-icn-md"><div translate>PROFILE.UPLOAD</div></md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="acp-section" layout="column" layout-gt-sm="row" layout-align="start center" layout-align-gt-sm="start start">
+            <div layout="column" flex>
+                <div class="profileHeaderText2 acp-profile-text" translate>PROFILE.USERSETTINGS</div>
+                <div class="profileHeaderText3 acp-profile-sub" translate>PROFILE.SELECTUSERPREFERENCES</div>
+            </div>
+            <div class="acp-edit-info" layout="column">
+                <div layout="row">
+                <md-input-container flex>
+                        <label translate>PROFILE.TIMEZONE</label>
+                        <md-select ng-model="$ctrl.user.TimeZone">
+                            <md-option ng-repeat="timezone in $ctrl.timezones" value="{{ timezone.text }}">
+                                {{ timezone.text }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                <md-input-container flex>
+                        <label translate>PROFILE.UNITPREFS</label>
+                        <md-select ng-model="$ctrl.user.UnitPreference">
+                            <md-option ng-repeat="unit in $ctrl.units" value="{{ unit.name }}">
+                                {{ unit.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                <md-input-container flex>
+                        <label translate>PROFILE.COORDINATEPREFS</label>
+                        <md-select ng-model="$ctrl.user.CoordinatePreference">
+                            <md-option ng-repeat="coordinate in $ctrl.coordinates" value="{{coordinate.name }}">
+                                {{ coordinate.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div> 
+        </div>
+        <div class="acp-section" layout="column" layout-gt-sm="row" layout-align="start center" layout-align-gt-sm="start start">
+            <div layout="column" flex>
+                <div class="profileHeaderText2 acp-profile-text" translate>PROFILE.PASSWORDHEADING</div>
+                <div class="profileHeaderText3 acp-profile-sub" translate>PROFILE.CHANGEPASSWORDHEADING</div>
+            </div>
+            <div class="acp-edit-info" layout="column">
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>PROFILE.CURRENTPASSWORD</label>
+                        <input type="password" ng-model="user.name">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>PROFILE.NEWPASSWORD</label>
+                        <input type="password" ng-model="user.email">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>PROFILE.CONFIRMPASSWORD</label>
+                        <input type="password" ng-model="user.email">
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-align="end end">
+                    <md-button class="md-dark btn-sm"><div translate>PROFILE.UPDATE</div></md-button>
+                </div>
+            </div> 
+        </div>
+    </md-content>
+</div>

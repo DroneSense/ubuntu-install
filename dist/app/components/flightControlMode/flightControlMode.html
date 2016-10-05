@@ -1,0 +1,141 @@
+<div layout="column" layout-align=" start" style="position: relative;">
+
+    <div layout="row" ng-show="$ctrl.modesOpen" style="position: absolute; left: 54px; top: 0px; z-index: 1;">
+        <div layout="column" ng-show="$ctrl.changeToManualModeButtonVisible" ng-click="$ctrl.modesOpen = false; $ctrl.setManualMode();" layout-align="center center" style="position: relative; margin-right: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+            <md-icon style="" md-svg-icon="./app/components/flightControlMode/images/manual-mode.svg"></md-icon>
+        </div>
+        <div layout="column" ng-show="$ctrl.changeToGuidedModeButtonVisible" ng-click="$ctrl.modesOpen = false; $ctrl.setGuidedMode();" layout-align="center center" style=" position: relative; margin-right: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+            <md-icon style="" md-svg-icon="./app/components/flightControlMode/images/guided-mode.svg"></md-icon>
+        </div>
+    </div>
+
+    <div layout="column" ng-show="$ctrl.manualModeButtonVisible" ng-click="$ctrl.modesOpen = !$ctrl.modesOpen" layout-align="center center" style="position: relative; margin-bottom: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+         <md-icon style="" md-svg-icon="./app/components/flightControlMode/images/manual-mode.svg"></md-icon>
+         <div class="noselect" style="position: absolute; left: 54px; top: 14px; color: white; font-size: 14px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.27); white-space: nowrap;">Manual Mode</div>
+    </div>
+    <div layout="column" ng-show="$ctrl.guidedModeButtonVisible" ng-click="$ctrl.modesOpen = !$ctrl.modesOpen" layout-align="center center" style="position: relative; margin-bottom: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+         <md-icon style="" md-svg-icon="./app/components/flightControlMode/images/guided-mode.svg"></md-icon>
+         <div class="noselect" style="position: absolute; left: 54px; top: 14px; color: white; font-size: 14px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.27); white-space: nowrap;">Guided Mode</div>
+    </div>
+    <div layout="column" ng-show="$ctrl.rtlModeButtonVisible" ng-click="$ctrl.modesOpen = !$ctrl.modesOpen" layout-align="center center" style="position: relative; margin-bottom: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+         <md-icon style="" md-svg-icon="./app/components/flightControlMode/images/rtl.svg"></md-icon>
+         <div class="noselect" style="position: absolute; left: 54px; top: 14px; color: white; font-size: 14px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.27); white-space: nowrap;">RTL Mode</div>
+    </div>
+    <div layout="column" ng-show="$ctrl.takeoffButtonVisible" ng-click="$ctrl.takeoff();" layout-align="center center" style="position: relative; margin-bottom: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+         <md-icon style="" md-svg-icon="./app/components/flightControlMode/images/takeoff.svg"></md-icon>
+         <div class="noselect" style="position: absolute; left: 54px; top: 14px; color: white; font-size: 14px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.27); white-space: nowrap;">Takeoff</div>
+    </div>
+    <div layout="column" ng-show="$ctrl.rtlButtonVisible" ng-click="$ctrl.rtl();" layout-align="center center" style="position: relative; margin-bottom: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+         <md-icon ng-hide="$ctrl.rtlIndicatorVisible" md-svg-icon="./app/components/flightControlMode/images/rtl.svg"></md-icon>
+         <md-icon ng-show="$ctrl.rtlIndicatorVisible" style="width: 20px; height: 20px;" md-svg-icon="./app/components/flightControlMode/images/loader.svg"></md-icon>
+         <div class="noselect" style="position: absolute; left: 54px; top: 14px; color: white; font-size: 14px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.27); white-space: nowrap;">Return to Land</div>
+    </div>
+    <div layout="column" ng-show="$ctrl.setNewHomePointButtonVisible" ng-click="$ctrl.setHomePoint();" layout-align="center center" style="position: relative; margin-bottom: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+         <md-icon style="" md-svg-icon="./app/components/flightControlMode/images/set-home-point.svg"></md-icon>
+         <div class="noselect" style="position: absolute; left: 54px; top: 14px; color: white; font-size: 14px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.27); white-space: nowrap;">Set New Home Point</div>
+    </div>
+    <div layout="column" ng-show="$ctrl.changeAltitudeButtonVisible" ng-click="$ctrl.changeAltitude();" layout-align="center center" style="position: relative; margin-bottom: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+         <md-icon style="" md-svg-icon="./app/components/flightControlMode/images/change-altitude.svg"></md-icon>
+         <div class="noselect" style="position: absolute; left: 54px; top: 14px; color: white; font-size: 14px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.27); white-space: nowrap;">Change Altitude</div>
+    </div>
+    <div layout="column" ng-show="$ctrl.resumeButtonVisible" ng-click="$ctrl.resume();" layout-align="center center" style="position: relative; margin-bottom: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+         <md-icon ng-hide="$ctrl.resumeIndicatorVisible" style="width: 13px;" md-svg-icon="./app/components/flightControlMode/images/resume.svg"></md-icon>
+         <md-icon ng-show="$ctrl.resumeIndicatorVisible" style="width: 20px; height: 20px;" md-svg-icon="./app/components/flightControlMode/images/loader.svg"></md-icon>
+         <div class="noselect" style="position: absolute; left: 54px; top: 14px; color: white; font-size: 14px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.27); white-space: nowrap;">Resume</div>
+    </div>
+    <div layout="column" ng-show="$ctrl.pauseButtonVisible" ng-click="$ctrl.pause();" 
+         layout-align="center center" style="position: relative; margin-bottom: 10px; width: 44px; height: 44px; background-color: #292c32; opacity: .9; cursor: pointer; outline: none;">
+         <md-icon ng-hide="$ctrl.pauseIndicatorVisible" style="width: 14px; height: 17px;" md-svg-icon="./app/components/flightControlMode/images/pause.svg"></md-icon>
+         <md-icon ng-show="$ctrl.pauseIndicatorVisible" style="width: 20px; height: 20px;" md-svg-icon="./app/components/flightControlMode/images/loader.svg"></md-icon>
+         <div class="noselect" style="position: absolute; left: 54px; top: 14px; color: white; font-size: 14px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.27); white-space: nowrap;">Pause</div>
+    </div>
+    <div layout="column" ng-show="$ctrl.addWaypointButtonVisible" style="margin-bottom: 10px; width: 44px; height: 44px; background-color: {{ $ctrl.waypointAddActive ? $ctrl.sessionColor: '#292c32' }}; opacity: .9; cursor: pointer; outline: none; position: relative;" ng-click="$ctrl.addWaypoint()" layout-align="center center">
+         <md-icon style="" md-svg-icon="./app/components/flightControlMode/images/add-waypoint.svg"></md-icon>
+         <div class="noselect" style="position: absolute; left: 54px; top: 14px; color: white; font-size: 14px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.27); white-space: nowrap;">Add Waypoint</div>
+    </div>
+</div>
+
+<md-content md-theme='ds-dark' ng-show="$ctrl.getTakeoffAltitudeVisible" class="md-whiteframe-15dp" style="position: fixed; top: 50%; left: 50%; margin-left: -190px; margin-top: -90px; padding: 20px 30px; width: 320px; background-color: #393c40">
+
+    <!--Header Text-->
+    <div layout="row" layout-align="center center" class="heading-18-light">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Enter Takeoff Altitude</label>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <md-input-container class="md-block" flex style="margin-bottom: 15px;">
+            <label >Takeoff Altitude</label>
+            <input type="number" ng-model="$ctrl.takeoffAltitude">
+        </md-input-container>
+    </div>
+
+    <div layout="row" style="margin-top: 10px;"  layout-align="center center">
+        <md-button ng-click="$ctrl.cancelTakeoff();" class="md-dark-outline btn-md" style="margin-right: 36px; width: 164px; height: 38px; color: #c4ccd5">
+            <label style="cursor: pointer;" >Cancel</label>
+        </md-button>
+        <md-button ng-click="$ctrl.takeoffToAltitude()" class="md-light btn-md" style="width: 164px;">
+            <label style="cursor: pointer;" >Takeoff</label>
+        </md-button>
+    </div>
+</md-content>
+
+<md-content md-theme='ds-dark' ng-show="$ctrl.getChangeAltitudeVisible" class="md-whiteframe-15dp" style="position: fixed; top: 50%; left: 50%; margin-left: -190px; margin-top: -90px; padding: 20px 30px; width: 320px; background-color: #393c40">
+
+    <!--Header Text-->
+    <div layout="row" layout-align="center center" class="heading-18-light">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Select New Altitude</label>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <md-input-container class="md-block" flex style="margin-bottom: 15px;">
+            <label >Altitude</label>
+            <input type="number" ng-model="$ctrl.changeAltitudeValue">
+        </md-input-container>
+    </div>
+
+    <div layout="row" style="margin-top: 10px;"  layout-align="center center">
+        <md-button ng-click="$ctrl.cancelChangeAltitude();" class="md-dark-outline btn-md" style="margin-right: 36px; width: 164px; height: 38px; color: #c4ccd5">
+            <label style="cursor: pointer;" >Cancel</label>
+        </md-button>
+        <md-button ng-click="$ctrl.changeAltitudeTo()" class="md-light btn-md" style="width: 164px;">
+            <label style="cursor: pointer;" >Change</label>
+        </md-button>
+    </div>
+</md-content>
+
+<md-content md-theme='ds-dark' ng-show="$ctrl.showWaypointDialog" class="md-whiteframe-15dp" style="position: fixed; top: 50%; left: 50%; margin-left: -190px; margin-top: -90px; padding: 20px 30px; width: 320px; background-color: #393c40">
+
+    <!--Header Text-->
+    <div layout="row" layout-align="center center" class="heading-18-light">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Set Waypoint Options</label>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <md-input-container class="md-block" flex style="margin-bottom: 15px;">
+            <label >Altitude</label>
+            <input type="number" ng-model="$ctrl.waypointAltitudeValue">
+        </md-input-container>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <md-input-container class="md-block" flex style="margin-bottom: 15px;">
+            <label >Speed</label>
+            <input type="number" ng-model="$ctrl.waypointSpeedValue">
+        </md-input-container>
+    </div>
+
+    <div>
+        <md-checkbox ng-model="$ctrl.waypointFlyToNow" aria-label="Guest Connections">
+            Fly to Now?
+        </md-checkbox>
+    </div>
+
+    <div layout="row" style="margin-top: 10px;"  layout-align="center center">
+        <md-button ng-click="$ctrl.closeWaypointDialog();" class="md-dark-outline btn-md" style="margin-right: 36px; width: 164px; height: 38px; color: #c4ccd5">
+            <label style="cursor: pointer;" >Cancel</label>
+        </md-button>
+        <md-button ng-click="$ctrl.setWaypointsActive()" class="md-light btn-md" style="width: 164px;">
+            <label style="cursor: pointer;" >Add</label>
+        </md-button>
+    </div>
+</md-content>

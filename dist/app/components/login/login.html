@@ -1,0 +1,42 @@
+<div class="loginModal md-whiteframe-z5" layout="column" layout-align="start center">
+    <div class="logoDiv" layout="row" layout-align="center center">
+        <div>
+            <md-icon md-svg-src="./app/components/login/images/secondaryLogo.svg" class="logoSecondaryIcon"></md-icon>
+            <md-icon md-svg-src="./app/components/login/images/primaryLogo.svg" class="logoPrimaryIcon"></md-icon>
+        </div>
+    </div>
+    <label class="loginModalLabel">Sign in to DroneSense</label>
+    <div class="loginInputSection" layout="column" layout-align="center center">
+        <form name="loginForm">
+            <p ng-if="message" class="success-message">{{message}}</p>
+            <md-input-container class="loginTextInput md-block">
+                <label>Email</label>
+                <input required type="email" name="Email" ng-model="$ctrl.Email" ng-pattern="/^.+@.+\..+$/">
+                <div ng-messages="loginForm.Email.$error" ng-show="loginForm.Email.$dirty">
+                    <div ng-message="required">Please enter an email address.</div>
+                    <div ng-message="pattern">Email address is invalid.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="loginTextInput md-block">
+                <label>Password</label>
+                <input type="password" ng-model="$ctrl.Password">
+            </md-input-container>
+            <p ng-if="error" class="error">{{error}}</p>
+        <div layout="row" layout-align="center">
+            <md-button ng-click="$ctrl.createAccount($ctrl.Email, $ctrl.Password);" class="dsUpdateBtn">Sign Up</md-button>
+            <md-button ng-click="$ctrl.login($ctrl.Email, $ctrl.Password);" class="dsCancelBtn">Sign In</md-button>
+        </div>
+        </form>
+    </div>
+    <div class="dsLoginDivider" layout="column" layout-align="center center">
+        <label class="loginModalLabel">or use one of these options</label>
+        <div layout="row" layout-align="">
+            <md-button aria-label="Google" class="socialAuthBtn" ng-click="$ctrl.loginGoogle()">
+                <md-icon class="socialAuthIcons" md-svg-src="./app/components/login/images/google.svg"></md-icon>
+            </md-button>
+            <md-button aria-label="Facebook" class="socialAuthBtn" ng-click="$ctrl.loginFacebook()">
+                <md-icon class="socialAuthIcons" md-svg-src="./app/components/login/images/facebook.svg"></md-icon>
+            </md-button>
+        </div>
+    </div>
+</div>

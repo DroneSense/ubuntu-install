@@ -1,0 +1,201 @@
+<div layout="row" layout-align="start end" class="flightInfoMainContainer md-whiteframe-z1">
+
+    <div class="flightInfoContainer">
+
+        <md-button ng-class="{ 'flightInfoBtn': !$ctrl.uiStateService.FlightInfoVisible, 'flightInfoBtnActive': $ctrl.uiStateService.FlightInfoVisible }"
+                   ng-click="$ctrl.uiStateService.FlightInfoVisible = !$ctrl.uiStateService.FlightInfoVisible;" >
+            <md-tooltip md-direction="left" md-delay="50" md-autohide="true">
+                Flight Info
+            </md-tooltip>
+            <md-icon md-svg-src="./app/components/flightInfoViewer/images/details.svg"
+                     ng-class="{ 'flightInfoDetailsIcon': !$ctrl.uiStateService.FlightInfoVisible, 'flightInfoDetailsIconActive': $ctrl.uiStateService.FlightInfoVisible }"
+                     aria-label="Flight Info"></md-icon>
+        </md-button>
+
+        <md-divider class="flightInfoDivider"></md-divider>
+
+        <!--<md-button ng-class="{ 'flightInfoBtn': !$ctrl.uiStateService.FlightElevationVisible, 'flightInfoBtnActive': $ctrl.uiStateService.FlightElevationVisible }"-->
+                   <!--ng-click="$ctrl.uiStateService.FlightElevationVisible = !$ctrl.uiStateService.FlightElevationVisible;">-->
+            <!--<md-icon md-svg-src="../images/flightInfo/elevation.svg"-->
+                     <!--ng-class="{ 'flightInfoElevationIcon': !$ctrl.uiStateService.FlightElevationVisible, 'flightInfoElevationIconActive': $ctrl.uiStateService.FlightElevationVisible }"-->
+                     <!--aria-label="Elevation Profile"></md-icon>-->
+        <!--</md-button>-->
+
+        <!--<md-divider class="flightInfoDivider"></md-divider>-->
+
+        <md-button ng-class="{ 'flightInfoBtn': !$ctrl.uiStateService.FlightWeatherVisible, 'flightInfoBtnActive': $ctrl.uiStateService.FlightWeatherVisible }"
+                   ng-click="$ctrl.uiStateService.FlightWeatherVisible = !$ctrl.uiStateService.FlightWeatherVisible;">
+            <md-icon md-svg-src="./app/components/flightInfoViewer/images/forecast.svg"
+                     ng-class="{ 'flightInfoForecastIcon': !$ctrl.uiStateService.FlightWeatherVisible, 'flightInfoForecastIconActive': $ctrl.uiStateService.FlightWeatherVisible }"
+                     aria-label="Weather Forecast"></md-icon>
+        </md-button>
+
+        <md-divider class="flightInfoDivider" ng-if="$ctrl.flightWeatherVisible"></md-divider>
+
+        <md-button ng-if="$ctrl.surveyDataService.activeSurveyData" ng-class="{ 'flightInfoBtn': !$ctrl.uiStateService.FlightSurveyVisible, 'flightInfoBtnActive': $ctrl.uiStateService.FlightSurveyVisible }"
+                   ng-click="$ctrl.uiStateService.FlightSurveyVisible = !$ctrl.uiStateService.FlightSurveyVisible;">
+            <md-icon md-svg-src="./app/components/flightInfoViewer/images/survey.svg"
+                     ng-class="{ 'flightInfoSurveyIcon': !$ctrl.uiStateService.FlightSurveyVisible, 'flightInfoSurveyIconActive': $ctrl.uiStateService.FlightSurveyVisible }"
+                     aria-label="Survey Details"></md-icon>
+        </md-button>
+
+        <md-divider class="flightInfoDivider"></md-divider>
+
+        <md-button ng-if="$ctrl.surveyDataService.activeSurveyData && $ctrl.surveyDataService.activeSurveyData.flightPathGenerated" ng-class="{ 'flightInfoBtn': !$ctrl.uiStateService.FlightSurveyImagesVisible, 'flightInfoBtnActive': $ctrl.uiStateService.FlightSurveyImagesVisible }"
+                   ng-click="$ctrl.uiStateService.FlightSurveyImagesVisible = !$ctrl.uiStateService.FlightSurveyImagesVisible;">
+            <md-icon md-svg-src="./app/components/flightInfoViewer/images/imagecount.svg"
+                     ng-class="{ 'flightInfoSurveyIcon': !$ctrl.uiStateService.FlightSurveyImagesVisible, 'flightInfoSurveyIconActive': $ctrl.uiStateService.FlightSurveyImagesVisible }"
+                     aria-label="Survey Images"></md-icon>
+        </md-button>
+
+    </div>
+
+</div>
+
+<div class="flightInfoDetailsPanel" layout="column" ng-if="$ctrl.uiStateService.FlightInfoVisible">
+
+    <label class="flightInfoDetailsHeader">Flight Details</label>
+
+    <div layout="row" layout-align="space-between start">
+
+        <div layout="column">
+            <label class="flightInfoLabel">Date of Flight</label>
+            <md-datepicker class="flightInfoDatePicker" ng-change="$ctrl.UpdateFlightDateTime();"
+                           ng-model="$ctrl.flightPlan.DateTime"
+                           md-placeholder="Flight Date"></md-datepicker>
+
+            <label class="flightInfoLabel">Flight Time</label>
+            <label class="flightInfoValue">{{ $ctrl.flightPlan.FlightTime  | secondsToDateTime | date:'HH:mm:ss' }}</label>
+            <!--<md-datepicker class="flightInfoDateSelector" ng-model="$ctrl.flightDate"></md-datepicker>-->
+
+            <label class="flightInfoLabel">Date Created</label>
+            <label class="flightInfoValue">{{ $ctrl.flightPlan.Created | date :"MM/dd/yyyy h:mma" }}</label>
+
+            <label class="flightInfoLabel">Last Modified</label>
+            <label class="flightInfoValue">{{ $ctrl.flightPlan.Modified | date :"MM/dd/yyyy h:mma" }}</label>
+
+            <label class="flightInfoLabel" >High Elevation</label>
+            <label class="flightInfoValue">{{ $ctrl.flightPlan.HighElevation | readableElevation }}</label>
+        </div>
+
+        <div layout="column">
+            <label class="flightInfoLabel">Time of Flight</label>
+            <label class="flightInfoValue">11:15am</label>
+
+            <label class="flightInfoLabel">Total Flight Distance</label>
+            <label class="flightInfoValue">{{ $ctrl.flightPlan.Distance | readableDistance }}</label>
+
+            <label class="flightInfoLabel">Waypoint Count</label>
+            <label class="flightInfoValue">{{ $ctrl.flightPlan.NavPointCount }}</label>
+
+            <label class="flightInfoLabel">Max Drone Distance</label>
+            <label class="flightInfoValue">{{ $ctrl.flightPlan.MaxDistance | readableDistance }}</label>
+
+            <label class="flightInfoLabel" >Low Elevation</label>
+            <label class="flightInfoValue">{{ $ctrl.flightPlan.LowElevation | readableElevation }}</label>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="flightInfoElevationPanel" layout="column" ng-if="$ctrl.uiStateService.FlightElevationVisible">
+
+    <label class="flightInfoDetailsHeader">Elevation Profile</label>
+
+    <canvas id="line" class="chart chart-line" chart-data="$ctrl.surveyDataService.activeSurveyData.command.elevationProfile.data"
+            chart-labels="$ctrl.surveyDataService.activeSurveyData.command.elevationProfile.labels" chart-legend="true" chart-series="$ctrl.surveyDataService.activeSurveyData.command.elevationProfile.series" chart-options="$ctrl.surveyDataService.activeSurveyData.command.elevationProfile.options"
+            chart-click="$ctrl.onClick" chart-colours="$ctrl.surveyDataService.activeSurveyData.command.elevationProfile.colors" >
+    </canvas>
+
+</div>
+
+<ds-weather-viewer map="$ctrl.map" ng-if="$ctrl.uiStateService.FlightWeatherVisible"></ds-weather-viewer>
+
+<div class="flightInfoSurveyPanel" layout="column" ng-if="$ctrl.uiStateService.FlightSurveyVisible">
+
+    <label class="flightInfoDetailsHeader">Survey Details</label>
+    <md-input-container class="flightInfoSurveySelect" >
+        <md-select ng-model="$ctrl.surveyDataService.activeSurveyData.ID" aria-label="Select Survey">
+            <md-option ng-repeat="sd in $ctrl.surveyDataService._surveyDataCollection" value="{{ sd.surveyData.ID }}" ng-click="$ctrl.SetActiveSurvey(sd.surveyData.ID);">
+                {{ sd.surveyData.command.Order }} - {{ sd.surveyData.command.Name }}
+            </md-option>
+        </md-select>
+    </md-input-container>
+
+    <div layout="row" layout-align="space-between start">
+
+        <div layout="column">
+            <label class="flightInfoLabel">Survey Flight Time</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.FlightTime | secondsToDateTime | date:'HH:mm:ss'}}</label>
+
+            <label class="flightInfoLabel">Drone Speed</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.Speed | readableSpeed }}</label>
+
+            <label class="flightInfoLabel">High Elevation</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.HighElevation | readableElevation }}</label>
+
+            <label class="flightInfoLabel">Flight Lanes</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.FlightLaneCount }}</label>
+
+        </div>
+
+        <div layout="column">
+            <label class="flightInfoLabel">Survey Flight Distance</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.Distance | readableDistance }}</label>
+
+            <label class="flightInfoLabel">Survey Area Size</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.SizeOfArea | readableArea }}</label>
+
+            <label class="flightInfoLabel">Low Elevation</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.LowElevation | readableElevation }}</label>
+
+            <label class="flightInfoLabel">Drone Heading</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.Heading }}&#176</label>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="flightInfoSurveyImages" layout="column" ng-if="$ctrl.uiStateService.FlightSurveyImagesVisible && $ctrl.surveyDataService.activeSurveyData && $ctrl.surveyDataService.activeSurveyData.flightPathGenerated">
+
+    <label class="flightInfoDetailsHeader">Survey Image Preview</label>
+    <md-input-container class="flightInfoSurveySelect">
+        <md-select ng-model="$ctrl.surveyDataService.activeSurveyData.ID" aria-label="Select Survey">
+            <md-option ng-repeat="sd in $ctrl.surveyDataService._surveyDataCollection" value="{{ sd.surveyData.ID }}" ng-click="$ctrl.SetActiveSurvey(sd.surveyData.ID);">
+                {{ sd.surveyData.command.Order }} - {{ sd.surveyData.command.Name }}
+            </md-option>
+        </md-select>
+    </md-input-container>
+
+    <ds-flight-plan-preview ng-if="$ctrl.surveyDataService.activeSurveyData.currentSelectedImage"></ds-flight-plan-preview>
+
+    <div layout="row" layout-align="space-between center">
+
+        <div layout="column">
+            <label class="flightInfoLabel">Image Sequence Number</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.currentSelectedImage.index + 1 }} of {{ $ctrl.surveyDataService.activeSurveyData.command.ImageCapturePoints.length }}</label>
+
+            <label class="flightInfoLabel">Image Interval Time</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.PhotoIntervalTime }}</label>
+
+            <label class="flightInfoLabel">Front Image Overlap</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.FrontOverlapDistance | readableDistance }}</label>
+        </div>
+
+        <div layout="column">
+            <label class="flightInfoLabel">Field of View</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.HorizontalCoverage | readableDistance }} x {{ $ctrl.surveyDataService.activeSurveyData.command.VerticalCoverage | readableDistance }}</label>
+
+            <label class="flightInfoLabel">Image Interval Distance</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.PhotoIntervalDistance | readableDistance }}</label>
+
+            <label class="flightInfoLabel">Side Image Overlap</label>
+            <label class="flightInfoValue">{{ $ctrl.surveyDataService.activeSurveyData.command.SideOverlapDistance | readableDistance }}</label>
+        </div>
+
+    </div>
+
+</div>

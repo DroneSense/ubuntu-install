@@ -1,0 +1,57 @@
+<!--*** Upload Docs html***-->
+
+<md-content layout="column" md-theme='ds-dark' class="uploadDocs-Div">
+
+    <!--Heading Text-->
+<div layout="column" layout-align="none left" class="heading-18-light hardwareAddSensors-HeadingTopMargin" translate>DOCUMENTSUPLOAD.UPLOADDOCUMENTS</div>
+
+    <!--Dashed Line-->
+<div layout="column" layout-align="center center" class="upload3DModels-DashedLine">
+    <div class="body-12">
+        <label translate>DOCUMENTSUPLOAD.UPLOADINSTRUCTIONS</label> <a ng-href="" translate>DOCUMENTSUPLOAD.BROWSE</a>
+    </div>
+    <div class="dragbox-10 upload3DModels-dragboxMargin" translate>
+    DOCUMENTSUPLOAD.SUGGESTEDDOCTYPES
+    </div>
+</div>
+
+    <!--Doc Name & Doc Type-->
+        <div layout="row">
+            <md-icon class="uploadDocs-fileIcon" md-svg-src="./app/components/documentUploader/img/icons/file_icon.svg"></md-icon>
+        <md-input-container class="uploadDocs-inputFieldMarginTop uploadDocs-marginRight" flex-gt-sm>
+            <label translate>DOCUMENTSUPLOAD.DOCUMENTNAME</label>
+            <input ng-model="user.Manufacturer">
+        </md-input-container>
+        <md-input-container class="uploadDocs-inputFieldMarginTop uploadDocs-marginRight2" flex>
+            <label translate>DOCUMENTSUPLOAD.DOCUMENTTYPE</label>
+                <md-select ng-model="user.LinkTo">
+                <md-option>
+                    DOC
+                </md-option>
+                <md-option>
+                    PDF
+                </md-option>
+                <md-option>
+                    TXT
+                </md-option>
+                </md-select> 
+        </md-input-container>
+        <md-icon class="uploadDocs-xCloseButton" md-svg-src="./app/components/documentUploader/img/icons/xCloseIcon.svg"></md-icon>
+    </div>
+
+    <!--Loader Bar-->
+    <div>
+        <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"></md-progress-linear>
+    </div>
+
+<!--Cancel & Upload-->
+    <div layout="row" layout-align="center center">
+        <md-button class="md-light-outine btn-md uploadDocs-ButtonTopMargin uploadDocs-ButtonMargins">
+            <label translate>DOCUMENTSUPLOAD.CANCEL</label>
+        </md-button>
+        <md-button class="md-light btn-md uploadDocs-ButtonTopMargin">
+            <label translate>DOCUMENTSUPLOAD.DONE</label>
+            </md-button>
+    </div>
+
+</md-content>

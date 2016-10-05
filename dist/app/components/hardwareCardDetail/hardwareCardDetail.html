@@ -1,0 +1,142 @@
+<!--<md-dialog aria-label="List dialog">
+  <md-dialog-content>
+    
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button ng-click="closeDialog()" class="md-primary">Close Dialog</md-button>
+  </md-dialog-actions>
+</md-dialog>-->
+
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div layout="column" ng-cloak class="md-inline-form">
+    <div class="hwd-container">
+        <md-content md-theme="ds-dark">
+            <div layout="column" class="hwd-close">
+                <img src="x.svg ">
+                <span flex></span>
+            </div>
+            <div class="hwd-heading" layout="column" layout-align="start-center" flex>
+                <div class="heading-18-light-normal-case">
+                    Drone Inspire 2 PRO
+                </div>
+            </div>
+            <div layout="row" layout-align="center start">
+                <div class="hwd-left" flex="50">
+                    <div class="hwd-info" layout="row">
+                        <div flex="50">
+                            <label class="label-12" translate>HARDWAREDETAIL.MANUFACTURER</label>
+                            <div class="body-16">DJI</div>
+                        </div>
+                        <div flex="50">
+                            <label class="label-12" translate>HARDWAREDETAIL.SERIALNUMBER</label>
+                            <div class="body-16">94858329D-894</div>
+                        </div>
+                    </div>
+                    <div class="hwd-info" layout="row">
+                        <div flex="50">
+                            <label class="label-12" translate>HARDWAREDETAIL.MODELTYPE</label>
+                            <div class="body-16">Inspire 2 PRO</div>
+                        </div>
+                        <div flex="50">
+                            <label class="label-12" translate>HARDWAREDETAIL.FAAREGISTRATION</label>
+                            <div class="body-16">94858-329D-894</div>
+                        </div>
+                    </div>
+                    <div class="hwd-info" layout="row">
+                        <div flex="50">
+                            <label class="label-12" translate>HARDWAREDETAIL.MODELNUMBER</label>
+                            <div class="body-16">94858-329D-894</div>
+                        </div>
+                        <div flex="50">
+                            <label class="label-12" translate>HARDWAREDETAIL.OWNER</label>
+                            <div class="body-16">XYZ Drone Corp.</div>
+                        </div>
+                    </div>
+                    <div class="hwd-info" layout="row">
+                        <div flex="50">
+                            <label class="label-12" translate>HARDWAREDETAIL.STATUS</label>
+                            <div class="body-16">Active</div>
+                        </div>
+                        <div flex="50">
+                            <label class="label-12" translate>HARDWAREDETAIL.TOTALFLIGHTTIME</label>
+                            <div class="body-16">98 hours</div>
+                        </div>
+                    </div>
+                    <div class="hwd-info" layout="row">
+                        <div flex="50">
+                            <label class="label-12">Custom Field</label>
+                        </div>
+                        <div flex="50">
+                            <br>
+                        </div>
+                    </div>
+                    <div style="border-bottom: dashed 1px; border-color: #767a81;"></div>
+                    <div class="hwd-check" layout="row">
+                        <div flex="50">
+                            <md-checkbox md-no-ink aria-label="Airworthy" class="md-primary">
+                                <div translate>HARDWAREDETAIL.AIRWORTHY</div>
+                            </md-checkbox>
+                        </div>
+                        <div flex="50">
+                            <md-checkbox md-no-ink aria-label="Pre-Flight Checklist" class="md-primary">
+                                <div translate>HARDWAREDETAIL.PREFLIGHTCHECKLIST</div>
+                            </md-checkbox>
+                        </div>
+                    </div>
+                    <div class="hwd-service" layout="row">
+                        <div flex>
+                            <label class="label-12" translate>HARDWAREDETAIL.SERVICEHISTORY</label>
+                            <div class="body-16">Service date 1 goes here</div>
+                        </div>
+                    </div>
+                    <div class="hwd-doc-groups" layout="column">
+                        <div flex>
+                            <label class="label-12" translate>HARDWAREDETAIL.DOCUMENTS</label>
+                        </div>
+                        <div layout="row" layout-align="center center">
+                            <div flex="75" class="body-16"><img src="x.svg " class="hwd-doc">Operation Manual</div>
+                            <div flex="25" class="body-16 hwd-right-align">85KB</div>
+                        </div>
+                        <div layout="row" flex>
+                            <div flex="75" class="body-16"><img src="x.svg " class="hwd-doc">Troubleshooting Guide</div>
+                            <div flex="25" class="body-16 hwd-right-align">15MB</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hwd-right" flex="50">
+                    <div layout="column" layout-align="space-between none">
+                        <div class="hwd-pic" flex>
+                            <img src="http://placehold.it/310x310" class="md-card-image pic-border-1" alt="image caption">
+                        </div>
+                        <div class="hwd-pic-group" layout="row">
+                            <div class="hwd-pic-sm">
+                                <img src="http://placehold.it/62x62" class="pic-border-1" alt="image caption">
+                            </div>
+                            <div class="hwd-pic-sm">
+                                <img src="http://placehold.it/62x62" class="pic-border-1" alt="image caption">
+                            </div>
+                            <div class="hwd-pic-sm">
+                                <img src="http://placehold.it/62x62" class="pic-border-1" alt="image caption">
+                            </div>
+                            <div class="hwd-pic-sm">
+                                <img src="http://placehold.it/62x62" class="pic-border-1" alt="image caption">
+                            </div>
+                        </div>
+                        <div class="hwd-note" flex>
+                            <label class="label-12" translate>HARDWAREDETAIL.NOTES</label>
+                            <div class="body-14">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div flex>
+                <div layout="row" layout-align="center center" class="hwd-button">
+                    <md-button class="md-light btn-md"><div translate>HARDWAREDETAIL.EDIT</div></md-button>
+                </div>
+            </div>
+        </md-content>
+    </div>
+</div>

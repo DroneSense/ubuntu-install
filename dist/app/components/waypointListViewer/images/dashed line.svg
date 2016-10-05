@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="2px" height="523px" viewBox="0 0 2 523" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>dashed line</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="3D-Models" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-dasharray="2,4">
+        <g id="3dmodels-detail" transform="translate(-619.000000, -174.000000)" stroke="#767A81">
+            <g id="Details" transform="translate(229.000000, 90.000000)">
+                <g id="Group-5" transform="translate(40.000000, 84.000000)">
+                    <path d="M351,522.484375 L351,0" id="dashed-line"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

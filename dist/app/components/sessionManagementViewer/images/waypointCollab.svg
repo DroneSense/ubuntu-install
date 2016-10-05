@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 20.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 26.9 24.8" style="enable-background:new 0 0 26.9 24.8;" xml:space="preserve">
+<style type="text/css">
+	.wc-st0{fill:none;stroke:#FFFFFF;stroke-width:1.8523;stroke-miterlimit:10;}
+	.wc-st1{fill:#FFFFFF;}
+	.wc-st2{fill:none;stroke:#FFFFFF;stroke-width:1.575;stroke-miterlimit:10;}
+	.wc-st3{fill:none;stroke:#FFFFFF;stroke-width:1.575;stroke-miterlimit:3;}
+	.wc-st4{fill:none;stroke:#FFFFFF;stroke-width:1.8;stroke-miterlimit:3;}
+</style>
+<g>
+	<g>
+		<g>
+			<path class="wc-st0" d="M3.3,18.6c-1.5-2.3-2.1-5.1-1.7-8c1-6.2,6.9-10.5,13.2-9.5"/>
+			<g>
+				<polygon class="wc-st1" points="0,20.7 6,15.6 5.5,21.1 				"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<path class="wc-st0" d="M23.4,7.5c1.2,2.5,1.5,5.4,0.6,8.2c-1.8,6.1-8.2,9.5-14.3,7.7"/>
+			<g>
+				<polygon class="wc-st1" points="26.9,5.9 20.3,10.1 21.5,4.7 				"/>
+			</g>
+		</g>
+	</g>
+</g>
+<g>
+	<circle class="wc-st2" cx="13" cy="12.4" r="5.2"/>
+	<circle class="wc-st1" cx="13" cy="12.4" r="1.8"/>
+	<line class="wc-st3" x1="18.2" y1="12.4" x2="20.3" y2="12.4"/>
+	<line class="wc-st3" x1="5.6" y1="12.4" x2="7.8" y2="12.4"/>
+	<line class="wc-st3" x1="13" y1="7.2" x2="13" y2="5"/>
+	<line class="wc-st4" x1="13" y1="19.7" x2="13" y2="17.6"/>
+</g>
+</svg>

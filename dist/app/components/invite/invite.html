@@ -1,0 +1,55 @@
+<!--*** Invite.html ***-->
+
+<md-content layout="column" md-theme='ds-dark' class="invite-Div">
+
+<!--Close Button & Page No-->
+    <img src="./app/components/invite/img/fill-1.svg" class="closeButton">
+    
+<!--Header Image   -->
+    <div layout="column" class="dronesenseLogo"" layout-align="none center">
+        <img src="./app/components/invite/img/logo.svg"/>
+    </div>
+
+<!--Header Text-->
+    <div layout="column" layout-align="none center" class="heading-18-light" translate>
+        INVITE.INVITETODRONESENSE
+    </div>
+
+    <div class="inputFieldMarginTop">
+       
+        <md-input-container style="padding-left: 35px;" class="md-block invite-Margin" flex>
+             <md-icon style="height: 8.82px; width: 13.31px; margin-left: 34px; margin-top: 7px;" md-svg-src="./app/components/invite/img/e-mail-envelope.svg">
+        </md-icon>
+            <label style="margin-left: 20px;" translate>INVITE.INVITEEMAIL</label>
+            <input style="padding-left: 22px;" required type="email" name="clientEmail" ng-model="project.clientEmail"
+               minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/"/>
+               <div ng-messages="projectForm.clientEmail.$error" role="alert">
+          <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+            Your email must be between 10 and 100 characters long and look like an e-mail address.
+          </div>
+        </div>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+            <label translate>INVITE.ROLE</label>
+            <md-select ng-model="user.industry">
+              <md-option>
+               Pilot
+              </md-option>
+             <md-option>
+               Observer
+              </md-option>
+              <md-option>
+               Admin
+              </md-option>
+              <md-option>
+               Other
+              </md-option>
+            </md-select>
+          </md-input-container>
+    </div>
+        <div layout="row"" layout-align="center center">
+                <md-button class="md-blue btn-md invite-ButtonTopMargin">
+                    <label translate>INVITE.INVITE</label>
+                </md-button>
+        </div>
+</md-content>

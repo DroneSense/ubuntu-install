@@ -1,0 +1,47 @@
+<div layout="row" layout-align="start end" class="mapControlsMainContainer md-whiteframe-z1">
+
+    <div class="mapControlsContainer">
+
+        <md-button class="mapControlsBtn" ng-click="$ctrl.zoomIn()">
+            <md-icon md-svg-src="./app/components/mapControls/images/zoomIn.svg" class="mapControlsIcon" aria-label="Zoom In"></md-icon>
+        </md-button>
+
+        <md-divider class="mapControlDivider"></md-divider>
+
+        <md-button class="mapControlsBtn" ng-click="$ctrl.zoomOut()">
+            <md-icon md-svg-src="./app/components/mapControls/images/zoomOut.svg" class="mapControlsIcon" aria-label="Zoom Out"></md-icon>
+        </md-button>
+
+        <md-divider class="mapControlDivider"></md-divider>
+
+        <md-button class="mapControlsBtn" ng-click="$ctrl.overlaysVisible = !$ctrl.overlaysVisible; $ctrl.mapLayersVisible = false">
+            <md-icon md-svg-src="./app/components/mapControls/images/weatherLayers.svg" class="mapControlsIcon" aria-label="Weather Layers"></md-icon>
+        </md-button>
+
+        <md-divider class="mapControlDivider"></md-divider>
+
+        <md-button class="mapControlsBtn" ng-click="$ctrl.mapLayersVisible = !$ctrl.mapLayersVisible; $ctrl.overlaysVisible = false">
+            <md-icon md-svg-src="./app/components/mapControls/images/mapLayers.svg" class="mapControlsIcon" aria-label="Map Layers"></md-icon>
+        </md-button>
+
+    </div>
+
+</div>
+
+<div class="mapControlsOverlaysContainer animate-show" layout="row" ng-if="$ctrl.overlaysVisible">
+
+    <md-button class="mapControlsOptionsBtn" ng-class="{ mapOverlaySelected: $ctrl.map.hasLayer(layer) }" ng-repeat="layer in $ctrl.weatherlayers" ng-click="$ctrl.hideShowOverlay(layer); $ctrl.overlaysVisible = false">
+        <md-icon md-svg-src="{{ layer.options.icon }}" class="mapControlsImage" aria-label="Zoom Out"></md-icon>
+        {{ layer.options.name }}
+    </md-button>
+
+</div>
+
+<div class="mapControlsOptionsContainer animate-show" layout="row" ng-if="$ctrl.mapLayersVisible">
+
+    <md-button class="mapControlsOptionsBtn" ng-class="{ mapOverlaySelected: $ctrl.map.imageryLayers.contains(layer) }" ng-repeat="layer in $ctrl.map.imageryLayers" ng-click="$ctrl.changeMap(layer); $ctrl.mapLayersVisible = false">
+        <md-icon md-svg-src="{{ layer.options.icon }}" class="mapControlsImage" aria-label="Zoom Out"></md-icon>
+        Layer {{ layer.imageryProvider.url }}
+    </md-button>
+
+</div>

@@ -1,0 +1,67 @@
+<!--*** Sign In ***-->
+
+<md-content layout="column" md-theme='ds-dark' class="signIn-Div">
+
+<!--Close Button & Page No-->
+    <img src="./app/components/signIn/img/fill-1.svg" class="closeButton">
+    
+<!--Header Image   -->
+    <div layout="column" class="dronesenseLogo"" layout-align="none center">
+        <img src="./app/components/signIn/img/logo.svg"/>
+    </div>
+
+<!--Header Text-->
+    <div layout="column" layout-align="none center" class="heading-18-light signin-HeaderBottomMargin" translate>
+        SIGNIN.SIGNIN
+    </div>
+
+<!--Email Address-->
+    <div>
+        <md-input-container class="md-block" flex>
+            <label translate>SIGNIN.EMAIL</label>
+            <input required type="email" name="clientEmail" ng-model="project.clientEmail"
+               minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+        <div ng-messages="projectForm.clientEmail.$error" role="alert">
+          <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+            Your email must be between 10 and 100 characters long and look like an e-mail address.
+          </div>
+        </div>
+        </md-input-container>
+    </div>
+
+<!--Password-->
+    <div>
+        <md-input-container class="md-block" flex>
+            <label translate>SIGNIN.PASSWORD</label>
+            <input ng-model="user.phone"/>
+        </md-input-container>
+    </div>
+
+<!--Forgot Password? -->
+    <div layout="column" class="signIn-link signIn-LinkMargins" layout-align="none center" translate>
+        SIGNIN.FORGOTPASSWORD
+    </div>
+
+<!--Sign In Button-->
+    <div layout="column">
+        <md-button flex class="md-light">
+            <label translate>SIGNIN.SIGNINBUTTON</label>
+        </md-button>
+    </div>
+
+<!--Social Authenticate-->
+    <div layout="row" layout-align="space-between">
+        <md-button class="md-light-outline signin-SocialButtonWidth buttonTopMargin">
+            <label translate>SIGNIN.SIGNINGOOGLE</label>
+        </md-button>
+        <md-button class="md-light-outline signin-SocialButtonWidth buttonTopMargin">
+            <label translate>SIGNIN.SIGNINFACEBOOK</label>
+        </md-button>
+    </div>
+
+<!--Don't have an account? Register-->
+    <div layout="row" layout-align="center center" class="body-14-grey register-footerTopMargin">
+        <label translate>SIGNIN.DONTHAVEACCOUNT</label>
+        <a class="marginLeft" ng-href="" translate>SIGNIN.REGISTER</a>
+    </div>
+</md-content>

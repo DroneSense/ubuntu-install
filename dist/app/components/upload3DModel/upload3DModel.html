@@ -1,0 +1,61 @@
+<!--*** Upload 3D Model html***-->
+
+<md-content layout="column" md-theme='ds-dark' class="upload3DModels-Div">
+
+    <!--Heading Text-->
+<div layout="column" layout-align="none left" class="heading-18-light hardwareAddSensors-HeadingTopMargin" translate>MODELUPLOAD.UPLOADMODEL</div>
+
+    <!--Dashed Line-->
+<div layout="column" layout-align="center center" class="upload3DModels-DashedLine">
+    <div class="body-12">
+        <label translate>MODELUPLOAD.UPLOADINSTRUCTIONS</label><a ng-href="" translate>MODELUPLOAD.BROWSE</a>
+    </div>
+    <div class="dragbox-10 upload3DModels-dragboxMargin" translate>
+    MODELUPLOAD.SUGGESTEDMODELTYPES
+    </div>
+</div>
+
+    <!--Model Name/ID-->
+    <div class="upload3DModels-inputFieldMarginTop upload3DModels-LeftRightMargins">
+        <md-input-container class="md-block" flex>
+            <label translate>MODELUPLOAD.MODELNAME</label>
+            <input md-maxlength="30" required md-no-asterisk="" name="modelName" ng-model="modelName">
+       <div ng-messages="projectForm.clientName.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+        </md-input-container>
+    </div>
+    
+    <!--3D Model Description -->
+    <div>
+        <md-input-container class="md-block upload3DModels-LeftRightMargins">
+          <label translate>MODELUPLOAD.MODELTYPE</label>
+          <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+        </md-input-container>
+    </div>
+
+    <!--Tags-->
+    <div class="upload3DModels-LeftRightMargins upload3DModels-TagTopMargin">
+        <md-chips>
+            <md-chip>Building</md-chip>
+            <md-chip>Tower</md-chip>
+            <md-chip>Bridge</md-chip>
+            <md-chip>Cell Phone Tower</md-chip>
+            <md-chip>Wind Turbine</md-chip>
+            <md-chip>Etc</md-chip>
+     <!-- Static chips are transcluded -->
+            <md-chip>{{ctrl.chipText}}</md-chip>
+        </md-chips>
+    </div>
+
+<!--Cancel & Upload-->
+    <div layout="row" layout-align="center center">
+        <md-button class="md-light-outine btn-md upload3DModels-ButtonsMargin hardwareAddSensors-ButtonRtMargin">
+            <label translate>MODELUPLOAD.CANCEL</label>
+            </md-button>
+        <md-button class="md-light btn-md upload3DModels-ButtonsMargin">
+            <label translate>MODELUPLOAD.UPLOAD</label>
+            </md-button>
+    </div>
+
+</md-content>

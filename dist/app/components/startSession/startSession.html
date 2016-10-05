@@ -1,0 +1,70 @@
+<md-content md-theme='ds-dark' class="md-whiteframe-15dp" style="padding: 20px 30px; width: 320px; background-color: #393c40">
+    
+    
+    <!--Header Text-->
+    <div layout="row" layout-align="center center" class="heading-18-light">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Start Flight Session</label>
+    </div>
+
+    <div layout="row" class="heading-16" style="margin-top: 20px;">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Session Info</label>
+    </div>
+
+    <div>
+        <md-input-container class="md-block" flex style="margin-top: 25px;">
+            <label>Name</label>
+            <input ng-model="$ctrl.name" ng-change="$ctrl.nameChanged = true;">
+        </md-input-container>
+    </div>
+
+    <div>
+        <md-checkbox ng-model="$ctrl.guestCanConnect" aria-label="Guest Connections">
+            Allow all guests to connect without asking.
+        </md-checkbox>
+    </div>
+
+    <div style="margin-top: 20px;" layout="row" layout-align="start center">
+        <div ng-repeat="color in $ctrl.teamColors" ng-click="$ctrl.selectedColor = color; $ctrl.setTeamName($index);" 
+        style="outline: none; cursor: pointer; margin-right: 15px; height: 15px; width: 15px; background-color: {{ color }}; border: white solid {{ $ctrl.selectedColor === color ? '1px' : '0px' }};"></div>
+    </div>
+
+    <div ng-hide="true">
+        <md-switch ng-model="$ctrl.mapMode" aria-label="Map Mode">
+            Map Mode: 3D
+        </md-switch>
+    </div>
+
+    <div layout="row" class="heading-16" style="margin-top: 20px;">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Drones</label>
+    </div>
+
+    <div>
+        <md-list>
+            <md-list-item class="md-2-line" ng-repeat="drone in $ctrl.drones" style="background-color: #393c40;border-bottom-color: #767a81; border-bottom-style: solid; border-bottom-width: 1px;">
+                <md-checkbox aria-label="drone" ng-disabled="drone.checkoutState.isCheckedOut" ng-click="$ctrl.clearDroneSelection(drone);" ng-model="drone.isSelected"></md-checkbox>
+                <div class="md-list-item-text">
+                    <label class="md-block body-14">{{ drone.configuration.name }} {{ drone.checkoutState.isCheckedOut ? '(Checked out)' : '' }}</label> </br>
+                    <label class="md-block label-12">{{ drone.configuration.autopilot.type }}</label>
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+
+    <div style="margin-bottom: 5px;" ng-show="$ctrl.showError" class="body-14">
+        <label style="display: block; line-height: 20px;">We could not find any drones. Ensure your drone is connected to the server and turned on.</label>
+    </div>
+
+    <div ng-show="$ctrl.creating">
+        <md-progress-linear md-theme='ds-dark' md-mode="indeterminate"></md-progress-linear>
+    </div>
+
+    <div layout="row" style="margin-top: 10px;"  layout-align="center center">
+        <md-button ng-click="$ctrl.onCancel();" class="md-dark-outline btn-md" style="margin-right: 36px; width: 164px; height: 38px; color: #c4ccd5">
+            <label style="cursor: pointer;">Cancel</label>
+        </md-button>
+        <md-button ng-click="$ctrl.createSession()" class="md-light btn-md" style="width: 164px;">
+            <label style="cursor: pointer;" >{{ $ctrl.connectButtonText }}</label>
+        </md-button>
+    </div>
+
+</md-content>

@@ -1,0 +1,122 @@
+<md-toolbar class="md-seventy md-hue-1 md-whiteframe-z2">
+
+    <div layout="row" layout-align="space-between center" ng-if="$ctrl.view === 'flightplan'">
+
+        <div class="toolbarLocationSearchContainer" layout="row" layout-align="start center">
+            <md-autocomplete class="locationSearch md-block" flex
+                             md-input-name="autocompleteField"
+                             md-no-cache="true"
+                             md-selected-item="$ctrl.selectedItem"
+                             md-search-text="$ctrl.searchText"
+                             md-selected-item-change="$ctrl.goTo($ctrl.selectedItem)"
+                             md-items="item in $ctrl.search($ctrl.searchText)"
+                             md-item-text="item"
+                             md-floating-label="Location Search">
+                <md-icon md-svg-src="./app/components/toolbar/images/search.svg"
+                         class="locationSearchIcon"
+                         aria-label="Search">
+                </md-icon>
+                <md-item-template>
+                    <span md-highlight-text="$ctrl.searchText">{{item}}</span>
+                </md-item-template>
+            </md-autocomplete>
+
+            <md-button class="btnGeoLocate" aria-label="Geo Locate" ng-click="vm.geoLocate()">
+                <md-icon md-svg-src="./app/components/toolbar/images/geo.svg" class="geoIcon" aria-label="Geo Locate"></md-icon>
+            </md-button>
+        </div>
+
+        <div class="toolbarDroneCameraContainer" layout="row" layout-align="center center">
+            <md-button aria-label="Show Drones" class="droneCameraBtn" ng-click="$ctrl.onShowDroneCamera({ show: !$ctrl.showDroneCamera })">
+                <md-icon class="droneIcon" md-svg-src="./app/components/toolbar/images/drone.svg"></md-icon>
+                <div>{{ $ctrl.drone.Name }}</div>
+            </md-button>
+
+            <div class="toolbarLogo">
+                <img class="logoIcon" ng-src="./app/components/toolbar/images/logo.png" width="77px" height="55px">
+                <div class="droneCameraButtonsDivider"></div>
+            </div>
+
+            <md-button aria-label="Show Cameras" class="droneCameraBtn" ng-click="$ctrl.onShowDroneCamera({ show: !$ctrl.showDroneCamera })">
+                <md-icon class="cameraIcon" md-svg-src="./app/components/toolbar/images/camera.svg"></md-icon>
+                <div>{{ $ctrl.camera.Name }}</div>
+            </md-button>
+        </div>
+
+        <div>
+
+        </div>
+
+        <div layout="row" layout-align="center center">
+            <md-button class="btnToolBar" ng-if="false" ng-click="vm.undo()">
+                <md-icon md-svg-src="./app/components/toolbar/images/undo.svg" class="redoIcon" aria-label="Undo"></md-icon>
+                Undo
+            </md-button>
+            <md-button class="btnToolBar" ng-if="false" ng-click="vm.redo()">
+                <md-icon md-svg-src="./app/components/toolbar/images/redo.svg" class="redoIcon" aria-label="Redo"></md-icon>
+                Redo
+            </md-button>
+            <md-button class="btnToolBar" ng-click="$ctrl.onShowSettings()">
+                <md-icon md-svg-src="./app/components/toolbar/images/settings.svg" class="settingsIcon" aria-label="Settings"></md-icon>
+                Flight Plan Settings
+            </md-button>
+            <md-button class="btnToolBar" ng-click="$ctrl.onClearFlightPlan()">
+                <md-icon md-svg-src="./app/components/toolbar/images/clear.svg" class="clearIcon" aria-label="Clear"></md-icon>
+                Clear Flight Plan
+            </md-button>
+        </div>
+
+    </div>
+
+    <div class="md-toolbar-tools" ng-if="$ctrl.view === 'dashboard'">
+        <md-input-container class="flightPlanSearch">
+            <md-icon md-svg-src="./app/components/toolbar/search.svg" class="flightPlanSearchIcon" aria-label="Search"></md-icon>
+            <label class="flightPlanSearchLabel">Search Flight Plans</label>
+            <input class="flightPlanSearchInput" key-enter ng-model="$ctrl.searchService.searchText">
+        </md-input-container>
+        <div class="toolbarVerticalDivider">
+
+        </div>
+
+        <!--<span flex></span>-->
+
+        <div class="toolbarDroneCameraContainerDashboard" layout="row" layout-align="center center">
+            <div class="toolbarLogo">
+                <img class="logoIcon" ng-src="../../images/droneCamera/logo.png" width="77px" height="55px">
+            </div>
+        </div>
+
+        <span flex></span>
+
+        <md-button ng-show="!vm.toolBarService.listViewMode" class="dashboardGridSortReverse" ng-click="vm.toolBarService.sortReverse = !vm.toolBarService.sortReverse;" aria-label="Sort Direction">
+            <md-icon class="flightPlanListViewSortIconDown" ng-show="vm.toolBarService.sortReverse" md-svg-src="../../images/dashboard/down.svg"></md-icon>
+            <md-icon class="flightPlanListViewSortIconUp" ng-show="!vm.toolBarService.sortReverse" md-svg-src="../../images/dashboard/down.svg"></md-icon>
+        </md-button>
+        <md-select ng-class="dashboardGridSortSelect" ng-show="!vm.toolBarService.listViewMode" placeholder="Sort Order" class="dashboardGridSortSelect" ng-model="vm.toolBarService.selectedSort" aria-label="Grid Sort Options">
+            <md-option ng-repeat="sortOption in vm.toolBarService.sortOptions" value="{{ sortOption.SortValue }}">
+                {{ sortOption.Name }}
+            </md-option>
+        </md-select>
+
+        <md-button class="btnToolBar" ng-click="vm.toolBarService.listViewMode = false;">
+            <md-icon md-svg-src="../../images/toolbar/grid.svg"
+                     ng-class="{ 'gridIcon': vm.toolBarService.listViewMode, 'gridIconSelected': !vm.toolBarService.listViewMode }"
+                     aria-label="Grid View"></md-icon>
+            Grid
+        </md-button>
+        <md-button class="btnToolBar" ng-click="vm.toolBarService.listViewMode = true;">
+            <md-icon md-svg-src="../../images/toolbar/list.svg"
+                     ng-class="{ 'listIcon': !vm.toolBarService.listViewMode, 'listIconSelected': vm.toolBarService.listViewMode }"
+                     aria-label="List"></md-icon>
+            List
+        </md-button>
+
+    </div>
+
+</md-toolbar>
+
+<ds-drone-camera-viewer ng-lazy-show="$ctrl.showDroneCamera"
+                        drone="$ctrl.drone"
+                        camera="$ctrl.camera"
+                        on-save-camera="$ctrl.onSaveCamera({ camera: camera })"
+                        on-save-drone="$ctrl.onSaveDrone({ drone: drone })"></ds-drone-camera-viewer>

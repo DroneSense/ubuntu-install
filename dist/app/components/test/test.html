@@ -1,0 +1,255 @@
+<!-- Account Switch Viewer html-->
+
+<md-content layout="column" md-theme='ds-dark' class="swa-Div">
+
+<!--Close Button & Page No-->
+    <img src="./app/components/invite/img/fill-1.svg" class="closeButton">
+
+<!--Header Text-->
+    <div layout="column" layout-align="none center" class="heading-18-light swa-HeaderMargin" translate>
+        SWITCHACCOUNT.HEADING
+    </div>
+
+    <div layout="row" class="swa-divMargin" layout-align="center center">
+                <div>
+                        <div class="swa-AvatarMargin" flex>
+                            <img src="http://placehold.it/30x30" class="pic-border-1">
+                        </div>
+                </div>
+                <div class="swa-RightColumn" layout-align="center center" flex>
+                        <div flex>
+                            DroneSense (Company)
+                        </div>
+                </div>
+    </div>
+    <div layout="row" class="swa-divMargin" layout-align="center center">
+                <div>
+                        <div class="swa-AvatarMargin" layout-align="center center" flex>
+                            <img src="http://placehold.it/30x30" class="pic-border-1">
+                        </div>
+                </div>
+                <div class="swa-RightColumn" layout-align="center center" flex>
+                        <div flex>
+                            Gerard Juarez (Individual)
+                        </div>
+                </div>
+    </div>
+    <div layout="row" class="swa-divMargin" layout-align="center center">
+                <div>
+                        <div class="swa-AvatarMargin" flex>
+                            <img src="http://placehold.it/30x30" class="pic-border-1">
+                        </div>
+                </div>
+                <div class="swa-RightColumn" layout-align="center center" flex>
+                        <div flex>
+                            Chris Eyhorn (Individual)
+                        </div>
+                </div>
+    </div>
+
+</md-content>
+
+</br>
+
+
+
+
+<!--*** Employee Info Card html ***-->
+
+<div layout="column" class="eic-container">
+        <md-content md-theme="ds-dark">
+
+<!--Close Button & Page No-->
+    <div class="eic-close"><img src="./app/components/passwordSent/img/fill-1.svg"></div>
+            
+        <div class="eic-margins">
+            <div layout="row">
+                <div class="eic-left" flex="50">
+                        <div flex>
+                            <img src="http://placehold.it/167x167" class="pic-border-1">
+                        </div>
+                        <div layout="row" layout-align="end end" class="dragbox-10 eic-Upload">Upload Photo</div>
+                </div>           
+                <div class="eic-right" layout="column" layout-align=" none" flex="50">
+                        <div class="heading-18">Gerard G Juarez</div>
+                        <div class="eic-ReadOnlyMargin">
+                            <div class="body-12-grey eic-LabelMargin" translate>EMPLOYEEINFOCARD.ROLE</div>
+                            <div class="body-16">Observer</div>
+                        </div>
+                        <div class="eic-ReadOnlyMargin">
+                            <div class="body-12-grey eic-LabelMargin" translate>EMPLOYEEINFOCARD.HIREDATE</div>
+                            <div class="body-16">10/31/2016</div>
+                        </div>
+                        <div class="eic-ReadOnlyMargin">
+                            <div>
+                                <div class="body-12-grey eic-LabelMargin" translate>EMPLOYEEINFOCARD.PERMISSIONS</div>
+                                <div class="body-16">Admin</div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div layout="row" layout-align="start start">
+                <div class="eic-left" flex="50">
+                        <div class="eic-ReadOnlyMargin">
+                            <div>
+                                <div class="body-12-grey eic-LabelMargin" translate>EMPLOYEEINFOCARD.ADDRESS</div>
+                                <div class="body-16">123 Main St</div>
+                                <div class="body-16">Suite #21B</div>
+                                <div class="body-16">Austin, Texas 78701</div>
+                                <div class="body-16">USA</div>
+                            </div>
+                        </div>
+                </div>
+                <div class="eic-right" flex="50">
+                        <div class="eic-ReadOnlyMargin">
+                            <div>
+                                <div class="body-12-grey eic-LabelMargin" translate>EMPLOYEEINFOCARD.PHONE</div>
+                                <div class="body-16">(512) 555-5555</div>
+                            </div>
+                        </div>
+
+                </div>        
+            </div>
+            <div layout="row" class="eic-DivBlockMargin" layout-align="start start">
+                <div flex="100">
+                        <div class="eic-ReadOnlyMargin">
+                            <div>
+                                <div class="body-12-grey eic-LabelMargin" translate>EMPLOYEEINFOCARD.EMAIL</div>
+                                <div class="body-16">gerardgjuarez@dronesense.com</div>
+                            </div>
+                        </div>
+                </div>        
+            </div>
+            <div>
+                <div layout="row" class="eic-NotesMargin" layout-align="none start">
+                    <md-input-container class="eic-ForceContainer md-block" flex="100">
+                        <label translate>EMPLOYEEINFOCARD.NOTES</label>
+                        <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+                    </md-input-container>
+                </div>
+                <div>
+                    <md-chips>
+                        <md-chip>Team A</md-chip>
+                        <md-chip>Solar</md-chip>
+                        <md-chip>Austin</md-chip>
+                        <md-chip>Texas</md-chip>
+                        <md-chip>Part 107</md-chip>
+                        <md-chip>Pilot</md-chip>
+                <!-- Static chips are transcluded -->
+                        <md-chip>{{ctrl.chipText}}</md-chip>
+                    </md-chips>
+                </div>
+            </div>
+                <div layout="row" class="eic-buttonMargin" layout-align="end end">
+                    <md-button class="md-light btn-md"><div translate>EMPLOYEEINFOCARD.EDITINFO</div></md-button>
+                </div>
+            </div>
+        </md-content>
+        </div>
+</div>
+
+</br>
+
+<!--CSS Styles-->
+<div layout="row" flex>
+    <div flex>
+        <md-content md-theme="ds-dark" style="padding: 10px 10px 10px 10px;">
+            <div class="heading-60">Heading-60</div>
+            <br>
+            <div class="heading-24">Heading-24</div>
+            <br>
+            <div class="heading-18">Heading-18</div>
+            <br>
+            <div class="heading-18-light">Heading-18-light</div>
+            <br>
+            <div class="heading-16">Heading-16</div>
+            <br>
+            <div class="body-16">Body-16</div>
+            <br>
+            <div class="body-16-light">Body-16-light</div>
+            <br>
+            <div class="body-14">Body-14</div>
+            <br>
+            <div class="body-14-grey">Body-14-grey</div>
+            <br>
+            <div class="body-13-light">Body-13-light</div>
+            <br>
+            <div class="body-12">Body-12</div>
+            <br>
+            <div class="body-12-grey">Body-21-grey</div>
+            <br>
+            <div class="cardTitle">cardTitle</div>
+            <br>
+            <div class="cardSubtitle">cardSubtitle</div>
+            <br>
+            <div class="pricing-20">Pricing-20</div>
+            <br>
+            <div class="label-12">label-12</div>
+            <br>
+            <div class="dragbox-12">dragbox-12</div>
+            <br>
+            <div class="dragbox-10">dragbox-10</div>
+            <br>
+            <div class="tag-11">tag-11</div>
+            <br>
+            <div class="tag-14">tag-14</div>
+            <br>
+            <div class="hint-10">hint-10</div>
+            <br>
+        </md-content>
+    </div>
+    <div flex>
+        <md-content style="padding: 10px 10px 10px 10px;">
+            <div layout="column">
+                <div flex>
+                    <md-button class="md-blue">md-blue</md-button>
+                    <md-button class="md-blue btn-sm">btn-sm</md-button>
+                    <md-button class="md-blue btn-md">btn-md</md-button>
+                    <md-button class="md-blue btn-lg">btn-lg</md-button>
+                    <md-button class="md-blue btn-icn-sm">btn-icn-sm</md-button>
+                    <md-button class="md-blue btn-icn-md">btn-icn-md</md-button>
+                </div>
+                <div style="padding: 10px 10px"></div>
+                <div flex>
+                    <md-button class="md-light">md-light</md-button>
+                    <md-button class="md-light btn-sm">btn-sm</md-button>
+                    <md-button class="md-light btn-md">btn-md</md-button>
+                    <md-button class="md-light btn-lg">btn-lg</md-button>
+                    <md-button class="md-light btn-icn-sm">btn-icn-sm</md-button>
+                    <md-button class="md-light btn-icn-md">btn-icn-md</md-button>
+                </div>
+                <div style="padding: 10px 10px"></div>
+                <div flex>
+                    <md-button class="md-light-outline">md-light-outline</md-button>
+                    <md-button class="md-light-outline btn-sm">btn-sm</md-button>
+                    <md-button class="md-light-outline btn-md">btn-md</md-button>
+                    <md-button class="md-light-outline btn-lg">btn-lg</md-button>
+                    <md-button class="md-light-outline btn-icn-sm">btn-icn-sm</md-button>
+                    <md-button class="md-light-outline btn-icn-md">btn-icn-md</md-button>
+                </div>
+                <div style="padding: 10px 10px"></div>
+                <div flex>
+                    <md-button class="md-dark">md-dark</md-button>
+                    <md-button class="md-dark btn-sm">btn-sm</md-button>
+                    <md-button class="md-dark btn-md">btn-md</md-button>
+                    <md-button class="md-dark btn-lg">btn-lg</md-button>
+                    <md-button class="md-dark btn-icn-sm">btn-icn-sm</md-button>
+                    <md-button class="md-dark btn-icn-md">btn-icn-md</md-button>
+                </div>
+                <div style="padding: 10px 10px"></div>
+                <div flex>
+                    <md-button class="md-dark-outline">md-dark-outline</md-button>
+                    <md-button class="md-dark-outline btn-sm">btn-sm</md-button>
+                    <md-button class="md-dark-outline btn-md">btn-md</md-button>
+                    <md-button class="md-dark-outline btn-lg">btn-lg</md-button>
+                    <md-button class="md-dark-outline btn-icn-sm">btn-icn-sm</md-button>
+                    <md-button class="md-dark-outline btn-icn-md">btn-icn-md</md-button>
+                </div>
+            </div>
+        </md-content>
+    </div>
+</div>
+
+
+
+</br>

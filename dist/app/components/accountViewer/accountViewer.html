@@ -1,0 +1,286 @@
+<div layout="column" layout-align="center center">
+    <md-content style="width: 1024px; padding-left: 20px; padding-right: 20px;">
+        <div class="profileHeaderText1 acm-heading" translate>ACCOUNT.ACCOUNTSETTINGS</div>
+        <div class="acm-section" layout="column" layout-gt-sm="row" layout-align="start center" layout-align-gt-sm="start start">
+            <div layout="column" flex>
+                <div class="profileHeaderText2 acm-profile-text" translate>ACCOUNT.ACCOUNTINFORMATION</div>
+                <div class="profileHeaderText3 acm-profile-sub" translate>ACCOUNT.ACCOUNTDETAILS</div>
+            </div>
+            <div class="acm-edit-info" layout="column">
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>ACCOUNT.ACCOUNTNAME</label>
+                        <input ng-model="$ctrl.account.Name" 
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container class="acm-select" flex="50">
+                        <label translate>ACCOUNT.ACCOUNTTYPE</label>
+                        <md-select ng-model="$ctrl.account.AccountType"
+                                   ng-model-options="{ updateOn: 'blur' }">
+                            <md-option>Individual</md-option>
+                            <md-option>Company</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label translate>ACCOUNT.ADMIN</label>
+                        <md-select ng-model="$ctrl.account.Admins"
+                                   ng-model-options="{ updateOn: 'change' }" multiple>
+                            <md-option ng-value="user" ng-repeat="user in $ctrl.account.Users">{{ user.UserName }}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+        </div> 
+        <div class="acm-section" layout="column" layout-gt-sm="row" layout-align="start center" layout-align-gt-sm="start start">
+            <div layout="column" flex>
+                <div class="profileHeaderText2 acm-profile-text" translate>ACCOUNT.COMPANYINFORMATION</div>
+                <div class="profileHeaderText3 acm-profile-sub" translate>ACCOUNT.YOURORGANIZATIONDETAILS</div>
+            </div>
+            <div class="acm-edit-info" layout="column">              
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>ACCOUNT.COMPANYNAME</label>
+                        <input ng-model="$ctrl.account.CompanyName" 
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>ACCOUNT.PRIMARYEMAILADDRESS</label>
+                        <input ng-model="$ctrl.account.Email"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container class="acm-select" flex="50">
+                        <label translate>ACCOUNT.WEBSITE</label>
+                        <input ng-model="$ctrl.account.Website"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label translate>ACCOUNT.COMPANYPHONENUMBER</label>
+                        <input ng-model="$ctrl.account.Phone"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div class="acm-avatar-group" layout="row">
+                    <md-input-container flex="25">
+                        <div class="label-12" translate>ACCOUNT.COMPANYAVATAR</div>
+                        <img src="http://placehold.it/100x100" class="acm-pic pic-border-3">
+                    </md-input-container>
+                    <md-input-container class="acm-avatar-upload" flex="75">
+                        <div class="acm-avatar-text" flex>
+                            <div class="body-14-charcoal" translate>ACCOUNT.ADDCOMPANYLOGO</div>
+                        </div>
+                        <div class="acm-button" flex>
+                            <md-button class="md-dark btn-icn-md" translate="ACCOUNT.UPLOAD"></md-button>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+        <div class="acm-section" layout="column" layout-gt-sm="row" layout-align="start center" layout-align-gt-sm="start start">
+            <div layout="column" flex>
+                <div class="profileHeaderText2 acm-profile-text" translate>ACCOUNT.MAILINGBILLING</div>
+                <div class="profileHeaderText3 acm-profile-sub" translate>ACCOUNT.MAILINGBILLINGDESC</div>
+            </div>
+            <div class="acm-edit-info">
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>ACCOUNT.MAILINGADDRESS1</label>
+                        <input ng-model="$ctrl.account.MailAddress.Address1"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>ACCOUNT.MAILINGADDRESS2</label>
+                        <input ng-model="$ctrl.account.MailAddress.Address2"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>                
+                <div layout="row">
+                    <md-input-container flex>
+                        <label translate>ACCOUNT.CITY</label>
+                        <input ng-model="$ctrl.account.MailAddress.City"
+                               ng-model-options="{ updateOn: 'blur' }">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container class="acm-select" flex="50">
+                        <label translate>ACCOUNT.STATE</label>
+                        <md-select ng-model="$ctrl.account.MailAddress.State">
+                            <md-option ng-repeat="state in $ctrl.states" value="{{ state.name }}">
+                                {{ state.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label translate>ACCOUNT.POSTALCODE</label>
+                        <input ng-model="$ctrl.account.MailAddress.Zip">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container class="acm-select" flex="50">
+                        <label translate>ACCOUNT.COUNTRY</label>
+                        <md-select ng-model="$ctrl.account.MailAddress.Country">
+                            <md-option ng-repeat="country in $ctrl.countries" value="{{ country.name }}">
+                                {{ country.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <div flex="50"></div>
+                </div>
+                <div layout="row">
+                    <div class="acm-check-group" layout="column" flex>
+                        <label class="label-12" translate>ACCOUNT.BILLINGADDRESS</label>
+                        <md-checkbox md-no-ink ng-change="$ctrl.setOrClearMailToBill();" ng-model="$ctrl.useMailForBill" class="md-primary acm-checkbox">
+                            <label translate>ACCOUNT.USEMAILINGADDRESS</label>
+                        </md-checkbox>
+                    </div>
+                </div>
+                <div class="acm-billing-address" ng-show="!cb1">
+                    <div layout="row">
+                        <md-input-container flex>
+                            <label translate>ACCOUNT.BILLINGADDRESS1</label>
+                            <input ng-model="$ctrl.account.BillAddress.Address1">
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <label translate>ACCOUNT.BILLINGADDRESS2</label>
+                            <input ng-model="$ctrl.account.BillAddress.Address2">
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex>
+                             <label translate>ACCOUNT.CITY</label>
+                            <input ng-model="$ctrl.account.BillAddress.City">
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container class="acm-select" flex="50">
+                            <label translate>ACCOUNT.STATE</label>
+                            <md-select ng-model="$ctrl.account.BillAddress.State">
+                                <md-option ng-repeat="state in $ctrl.states" value="{{ state.name }}">
+                                    {{ state.name }}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex="50">
+                            <label translate>ACCOUNT.POSTALCODE</label>
+                            <input ng-model="$ctrl.account.BillAddress.Zip">
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container class="acm-select" flex="50">
+                            <label translate>ACCOUNT.COUNTRY</label>
+                            <md-select ng-model="$ctrl.account.BillAddress.Country">
+                                <md-option ng-repeat="country in $ctrl.countries" value="{{ country.name }}">
+                                    {{ country.name }}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <div flex="50"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="acm-section" layout="column" layout-gt-sm="row" layout-align="start center" layout-align-gt-sm="start start">
+            <div layout="column" flex>
+                <div class="profileHeaderText2 acm-profile-text" translate>ACCOUNT.PLANBILLING</div>
+                <div class="profileHeaderText3 acm-profile-sub">Where we send your bills and your mail to</div>
+            </div>
+            <div class="acm-edit-info">
+                <div class="acm-plan" layout="row" layout-align="center center">
+                    <div flex class="body-16">Current Plan $40/month</div>
+                    <div flex>
+                        <md-button class="md-dark-outline btn-lg acm-button-right">Learn About our Plans</md-button>
+                    </div>
+                </div>
+                <div layout="row">
+                    <md-input-container class="acm-select" flex="50">
+                        <label>Your Plan</label>
+                        <md-select ng-model="user.plan">
+                            <md-option ng-repeat="plan in plans" value="{{plan}}">
+                                {{plan}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Billing</label>
+                        <md-select ng-model="user.bill">
+                            <md-option ng-repeat="bill in bills" value="{{bill}}">
+                                {{bill}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container class="acm-select" flex="50">
+                        <label>Billing Address</label>
+                        <md-select ng-model="user.billing">
+                            <md-option ng-repeat="billing in billings" value="{{billing}}">
+                                {{billing}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                <div flex="50"></div>
+                </div>
+                <div layout="column" layout-align="end end">
+                    <div flex class="acm-update">
+                        <md-button class="md-dark btn-md">Update</md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="acm-section" layout="column" layout-gt-sm="row" layout-align="start center" layout-align-gt-sm="start start">
+            <div layout="column" flex>
+                <div class="profileHeaderText2 acm-profile-text">Payment and Receipts</div>
+                <div class="profileHeaderText3 acm-profile-sub">Change your payment method or plan.</div>
+            </div>
+            <div class="acm-edit-info">
+                <div layout="row" layout-align="center center">
+                    <div flex>
+                        <div class="label-12">Payment Method</div>
+                        <div class="body-16">**** **** **** 4325</div>
+                    </div>
+                    <div flex>
+                        <md-button class="md-dark-outline btn-lg acm-button-right">Change Credit Card</md-button>
+                    </div>
+                </div>
+                <div class="acm-payment-history" layout="column">
+                    <div class="label-12">Payment History</div>
+                    <div flex class="acm-payment" layout="row">
+                        <div flex class="body-16">June 26, 2016</div>
+                        <div flex class="body-16-grey">$40.00</div>
+                    </div>
+                    <div flex class="acm-payment" layout="row">
+                        <div flex class="body-16">May 26, 2016</div>
+                        <div flex class="body-16-grey">$40.00</div>
+                    </div>
+                    <div flex class="acm-payment" layout="row">
+                        <div flex class="body-16">April 26, 2016</div>
+                        <div flex class="body-16-grey">$40.00</div>
+                    </div>
+                    <div flex class="acm-payment" layout="row">
+                        <div flex class="body-16">March 26, 2016</div>
+                        <div flex class="body-16-grey">$40.00</div>
+                    </div>
+                    <div flex class="acm-payment" layout="row">
+                        <a href="">Show all</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="acm-section" layout="row" layout-align="center center">
+            <div layout="row" layout-align="center center" class="acm-bottom">
+                <md-button class="md-dark btn-lg">
+                    Cancel Account
+                </md-button>
+            </div>
+        </div>
+    </md-content>
+</div>

@@ -1,0 +1,754 @@
+/*Common Stuff*/
+
+.closeButton {
+    color: #ffffff;
+    top: 20px;
+    left: 20px;
+    position: absolute;
+    cursor: pointer;
+}
+
+.dronesenseLogo {
+    margin-top: 40px;
+    margin-bottom: 26px;
+}
+
+.pageNumber {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.XofX {
+    margin-right: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.signIn-link {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #ffffff
+}
+
+/*Margins*/
+
+.buttonMargin {
+    margin-right: 22px;
+}
+
+.buttonTopMargin {
+    margin-top: 10px;
+}
+
+.pwRecovery-ButtonTopMargin {
+    margin-top: 3px;
+}
+
+.register-footerTopMargin {
+    margin-top: 31px;
+}
+
+.footerTopMargin {
+    margin-top: 24px;
+}
+
+.footer2TopMargin {
+    margin-top: 51px;
+}
+
+.register-ButtonTopMargin {
+    margin-top: 13px;
+}
+
+.sendButtonTopMargin {
+    margin-top: 5px;
+}
+
+.creditCard-ButtonTopMargin {
+    margin-top: 34px;
+}
+    
+.marginRight40 {
+    margin-right: 40px;
+}
+
+.marginRight92 {
+    margin-right: 92px;
+}
+
+.signIn-LinkMargins {
+    margin-bottom: 33px;
+    margin-top: 8px;
+}
+
+.creditCard-preHeadingBottomMargin {
+    margin-bottom: 8px;
+}
+
+.marginLeft {
+    margin-left: 3px;
+}
+
+.inputFieldMarginTop {
+    margin-top: 23px;
+}
+
+.inputFieldMarginTop2 {
+    margin-top: 60px;
+}
+
+.inputFieldMarginTop3 {
+    margin-top: 38px;
+}
+
+.gotoMyAccount-ButtonMargin {
+    margin-top: 56px;
+}
+
+.headerBottomMargin {
+    margin-bottom: 38px;
+}
+
+/*register html*/
+
+.register-Div {
+    width: 524px;
+    height: 797px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.register-HeaderBottomMargin {
+    margin-bottom: 23px;
+}
+
+.register-signupSocialButtonWidth {
+    width: 214px;
+}
+
+/*creditcard html*/
+
+.creditcard-Div {
+    width: 524px;
+    height: 611px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.creditcard-finePrintText {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    color: #abafb9;
+    margin-bottom: 60px;
+}
+
+.finePrintLineSpacing {
+    line-height: 20px;
+}
+
+.creditCard-ConfirmPayButtonWidth {
+    width: 184px;
+}
+
+.creditCard-inputFieldMarginTop {
+    margin-top: 21px;
+}
+
+/*signUp html*/
+
+.signIn-Div {
+    width: 432px;
+    height: 542px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.signin-SocialButtonWidth {
+    width: 168px;
+}
+
+.signin-HeaderBottomMargin {
+    margin-bottom: 23px;
+}
+
+/*passwordRecovery html*/
+
+.pwRecovery-Div {
+    width: 432px;
+    height: 456px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.pwRecovery-inputFieldMarginTop {
+    margin-top: 21px;
+}
+
+.pwRecovery-sendButtonTopMargin {
+    margin-top: 12px;
+}
+
+.pwRecovery-footerTopMargin {
+    margin-top: 31px;
+}
+
+.sendButtonWidth {
+    width: 112px;
+}
+
+/*passwordSent html*/
+
+.pwSent-Div {
+    width: 432px;
+    height: 309px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+/*passwordCreateNew html*/
+
+.pwCreateNew-Div {
+    width: 432px;
+    height: 448px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.pwCreateNew-resetPasswordButtonWidth {
+    width: 200px;
+}
+
+.pwCreateNew-ButtonTopMargin {
+    margin-top: 12px;
+}
+
+/*congratsNewPass html*/
+
+.congratsNewPass-Div {
+    width: 432px;
+    height: 336px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.congrats-GotoAcctButtonWidth {
+    width: 194px;
+}
+
+/**** Choose Flight Plan html ****/
+
+.chooseFlightPlan-Div {
+    width: 1080px;
+    height: 611px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.chooseFlightPlan-headingTopMargin {
+    margin-top: 40px;
+    margin-bottom: 54px;
+}
+
+.chooseFlightPlan-PriceBoxBorderLeftDiv {
+    height: 437px;
+    width: 240px;
+    border-width: 1px 0 1px 1px;
+    border-style: solid;
+    border-color: #ffffff;
+    position: relative;
+}
+
+.chooseFlightPlan-PriceBoxBorderRightDiv {
+    height: 437px;
+    width: 240px;
+    border-width: 1px 1px 1px 0;
+    border-style: solid;
+    border-color: #ffffff;
+    position: relative;
+}
+
+.chooseFlightPlan-PriceBoxHighlightDiv {
+    height: 482px;
+    width: 282px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #0a92ea;
+    position: relative;
+    margin-top: -22px;
+}
+
+.chooseFlightPlan-priceName {
+    margin-top: 30px;
+    margin-bottom: 28px;
+    letter-spacing: 2px;
+}
+
+.chooseFlightPlan-FeaturedPriceName {
+    margin-top: 14px;
+    margin-bottom: 28px;
+    letter-spacing: 2px;
+}
+
+.chooseFlightPlan-MostPopularPlan {
+    margin-top: 15px;
+}
+
+.chooseFlightPlan-DollarTopAlign {
+    vertical-align: top;
+}
+
+.chooseFlightPlan-PlanFeaturesTitle {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.chooseFlightPlan-Features {
+    margin-bottom: 7px;
+}
+
+
+.chooseFlightPlan-SelectButton {
+    position: absolute;
+    width: 100%;
+    bottom: 30px;
+}
+
+.chooseFlightPlan-SelectButtonWidth {
+    width: 116px;
+}
+
+/**** Invite html ****/
+
+.invite-Div {
+    width: 509px;
+    height: 390px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: relative;
+}
+
+.invite-InviteButtonWidth {
+    width: 110px;
+}
+
+.invite-ButtonTopMargin {
+    margin-top: 18px;
+}
+
+.invite-emailIcon {
+    height: 8.82px;
+    width: 13.31px;
+    margin-left: 12px;
+    margin-top: 10px;
+}
+
+.invite-Margin {
+    margin-left: -33px;
+}
+
+/**** FlightPlanAddPilot html ****/
+
+.flightPlanAddPilot-Div {
+    width: 486px;
+    height: 308px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.flightPlanAddPilot-headingTopMargin {
+    margin-top: 60px;
+    margin-bottom: 10px;
+}
+
+.flightPlanAddPilot-letterSpacing2px {
+    letter-spacing: .2em;
+}
+
+.flightPlanAddPilot-ButtonTopMargin {
+    margin-top: 30px;
+}
+
+/*.flightPlanAddPilot-inputFieldMarginTop {
+    margin-top: 58px;
+}*/
+
+.flightPlanAddPilot-inputFieldMargins {
+    margin-top: 39px;
+    margin-left: 18px;
+}
+
+.flightPlanAddPilot-white30x30Box {
+    width: 30px;
+    height: 30px;
+    background: #ffffff;
+}
+
+.flightPlanAddPilot-whiteBoxMargin {
+    margin-top: 3px;
+    /*margin-left: -20px;*/
+}
+
+.flightPlanAddPilot-acceptButtonMarginTop {
+    margin-top: 19px;
+}
+
+/*Hardware - Add Sensors html*/
+
+.hardwareAddSensors-Div {
+    width: 721px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.hardwareAddSensors-HeadingTopMargin {
+    margin-top: 37px;
+    margin-bottom: 27px;
+}
+
+.hardwareAddSensors-DashedLine {
+  border: 0 none;
+  border-top: 1px dashed #767a81;
+  background: none;
+  height:0;
+} 
+
+hardwareAddSensors-NotesTopMargin {
+    margin-top: 500px;
+}
+
+.hardwareAddSensors-ButtonMargins {
+    margin-top: 12px;
+    margin-bottom: 39px;
+}
+
+.hardwareAddSensors-ButtonRtMargin {
+    margin-right: 10px;
+}
+
+.hardwareAddSensors-tagMargins {
+    margin-top: 6px;
+    margin-bottom: 28px;
+}
+
+.hardwareDrones-CheckboxTextMargin {
+    margin-left: 5px;
+    margin-top: -5px;
+}
+
+/*Hardware - Batteries html*/
+
+.hardwareBattery-Div {
+    width: 721px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.hardwareBattery-CalendarMargins {
+    margin-left: -33px;
+    margin-top: 15px;
+}
+
+.hardwareBattery-tagMargins {
+    margin-top: 40px;
+    margin-bottom: 28px;
+}
+
+.hardwareBattery-tagMargins {
+    margin-top: 0px;
+    margin-bottom: 28px;
+}
+
+.hardwareBattery-ButtonsMargin {
+    margin-bottom: 37px;
+}
+
+/*Hardware - Drones html*/
+
+.hardwareDrones-Div {
+    width: 721px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.hardwareDrones-CalendarMargins {
+    margin-top: 8px;
+}
+
+.hardwareDrones-tagMargins {
+    margin-top: 21px;
+    margin-bottom: 28px;
+}
+
+.checkboxMargin {
+    margin-bottom: 50px;
+}
+
+.hardwareDrone-ButtonsMargin {
+    margin-top: 12px;
+    margin-bottom: 39px;
+}
+
+.hardwareDrone-HoursDateTopMargin {
+    margin-top: -10px;
+}
+
+.hardwareDrone-AirworthyTopMargin {
+    margin-top: 15px;
+}
+
+.hardwareDrone-checkboxTextMargin {
+    margin-left: 7px;
+    margin-top: 2px;
+}
+
+/*Upload 3D Models html*/
+
+.upload3DModels-Div {
+    width: 750px;
+    /*min-height: 562px;*/
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.upload3DModels-DashedLine {
+   padding: 61px;
+   line-height: 1px;
+   border: 1px dashed #767a81;
+   border-radius: 10px;
+}
+
+.upload3DModels-dragboxMargin {
+      margin-top: 10px;
+}
+
+.upload3DModels-inputFieldMarginTop {
+    margin-top: 26px;
+}
+
+.upload3DModels-LeftRightMargins {
+    margin-left: 68px;
+    margin-right: 68px;
+}
+
+.upload3DModels-TagTopMargin {
+    margin-top: 0px;
+}
+
+.upload3DModels-ButtonsMargin {
+    margin-top: 38px;
+    margin-bottom: 38px;
+}
+
+/*Upload Docs html*/
+
+.uploadDocs-Div {
+    width: 750px;
+    height: 464px;
+    background-color: #393c40;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.uploadDocs-ButtonTopMargin {
+    margin-top: 40px;
+}
+
+.uploadDocs-fileIcon {
+    height: 37px;
+    width: 31px;
+    margin-left: 0px;
+    margin-top: 30px;
+}
+
+.uploadDocs-inputFieldMarginTop {
+    margin-top: 42px;
+}
+
+.uploadDocs-xCloseButton {
+    height: 20px;
+    width: 20px;
+    margin-left: 9px;
+    margin-top: 39px;
+}
+
+    /*Doc Name Field*/
+
+.uploadDocs-marginRight {
+    margin-right: 40px;
+    margin-left: 15px;
+}
+
+    /*Doc Type Field*/
+
+.uploadDocs-marginRight2 {
+    margin-right: 7px;
+    margin-left: 0px;
+}
+
+.uploadDocs-ButtonMargins {
+    margin-right: 10px;
+    margin-left: 12px;
+}
+
+.flightControlButton {
+    margin-bottom: 10px; 
+    width: 44px; 
+    height: 44px; 
+    background-color: #292c32; 
+    opacity: .9; 
+    cursor: pointer; 
+    outline: none;
+    position: relative;
+}
+
+.flightControlButtonActive {
+    margin-bottom: 10px; 
+    width: 44px; 
+    height: 44px; 
+    background-color: #0a92ea; 
+    opacity: .9; 
+    cursor: pointer; 
+    outline: none;
+    position: relative;
+}
+
+.sessionManagementItem {
+    width: 255px; 
+    height: 37px; 
+    opacity: 1; 
+    background-color: #565758;
+    margin-top: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.sessionManagementItemActive {
+    width: 255px; 
+    height: 37px; 
+    opacity: 1; 
+    background-color: #565758;
+    border: white solid 1px;
+    margin-top: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.mapLayersSelector {
+    outline: none; 
+    width: 120px; 
+    height: 35px; 
+    text-align: center; 
+    font-weight: 300;
+    color: white; 
+    font-size: 12px; 
+    border: #767a81 solid 1px;
+    cursor: pointer;
+}
+
+.mapLayersSelectorActive {
+    outline: none; 
+    width: 120px; 
+    height: 35px; 
+    text-align: center; 
+    color: white; 
+    font-size: 12px; 
+    border: #767a81 solid 1px;
+    cursor: pointer;
+    background-color: #141619;
+}
+
+.waypointListViewerWaypoint {
+    margin-top: 5px; 
+    height: 37px; 
+    background-color: #545659
+}
+
+.waypointListViewerWaypointActive {
+    margin-top: 5px; 
+    height: 37px; 
+    background-color: #545659;
+    border: white 1px solid;
+}
+
+/* Turn on custom 8px wide scrollbar */
+::-webkit-scrollbar {
+  width: 0px;
+  background-color: rgba(0,0,0,0);
+  -webkit-border-radius: 100px;
+}
+/* hover effect for both scrollbar area, and scrollbar 'thumb' */
+::-webkit-scrollbar:hover {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+
+/* The scrollbar 'thumb' ...that marque oval shape in a scrollbar */
+::-webkit-scrollbar-thumb:vertical {
+
+  background: rgba(0,0,0,0.5);
+  -webkit-border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:vertical:active {
+  background: rgba(0,0,0,0.61); /* Some darker color when you click it */
+  -webkit-border-radius: 100px;
+}
+
+::-webkit-scrollbar-corner{ /* 6 */ 
+    background-color: rgba(0,0,0,0);
+}
+
+.sessionManagementOption {
+    width: 44px; 
+    height: 44px; 
+    background-color: #565758; 
+    opacity: .4; 
+    cursor: pointer; 
+    outline: none;
+    margin-bottom: 2px;
+}
+
+.sessionManagementOptionActive {
+    width: 44px; 
+    height: 44px; 
+    background-color: #565758; 
+    opacity: .95; 
+    cursor: pointer; 
+    outline: none;
+    margin-bottom: 2px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+.navigation-controls {
+    display: none;
+}

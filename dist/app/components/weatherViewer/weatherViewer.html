@@ -1,0 +1,96 @@
+<div class="flightInfoWeatherPanel" layout="column" layout-align="space-between start" ng-show="$ctrl.weatherLoading">
+    <label class="flightInfoWeatherHeader">Loading Weather...</label>
+    <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+</div>
+
+<div class="flightInfoWeatherPanel" layout="row" layout-align="space-between start" ng-hide="$ctrl.weatherLoading" >
+
+    <div layout="column" layout-align="start start">
+        <label class="flightInfoWeatherHeader">Weather</label>
+
+        <label class="flightWeatherLabel">Temp</label>
+        <div class="flightInfoWeatherCurrentTemp" layout="row" layout-align="start center">
+            <label>{{ $ctrl.weatherData.current.temperature | number: 0 }}</label><label class="flightInfoWeatherUnitSymbol">&#8457;</label>
+            <md-icon class="flightInfoWeatherCurrentTempIcon" ng-if="$ctrl.showIcon" md-svg-src="./app/components/weatherViewer/images/{{ $ctrl.weatherData.current.icon }}.svg"></md-icon>
+        </div>
+
+        <label class="flightWeatherLabel">Cloud Cover</label>
+        <div class="flightInfoWeatherCurrentTemp" layout="row" layout-align="start center">
+            <label>{{ $ctrl.weatherData.current.cloudCover | percentage: 0 }}</label>
+        </div>
+
+        <label class="flightWeatherLabel">KP Index</label>
+        <div class="flightInfoWeatherKPWind" layout="row" layout-align="start center">
+            <label>{{ $ctrl.weatherData.kp.current }}</label>
+            <label class="flightInfoWeatherKPLabel">Active Mag Field</label>
+        </div>
+
+        <label class="flightWeatherLabel">Humidity</label>
+        <div class="flightInfoWeatherCurrentTemp" layout="row" layout-align="start center">
+            <label>{{ $ctrl.weatherData.current.humidity | percentage: 0 }}</label>
+        </div>
+
+        <label class="flightWeatherLabel">12 Hour</label>
+
+        <div class="flightWeatherScrollHourForecast">
+
+            <div layout="row" layout-align="space-around center" class="flightInfoWeatherHourRepeatContainer" ng-repeat="hour in $ctrl.weatherData.hourly | limitTo:12">
+                <label class="flightInfoWeatherHourForecast">{{hour.date | date: 'h:mma' }}</label>
+                <label class="flightInfoWeatherHourForecast alignRight marginLeftRight">{{hour.temperature | number: 0 }}&#8457;</label>
+                <md-icon class="flightInfoWeatherHourForecastIcon" md-svg-src="./app/components/weatherViewer/images/{{ hour.icon }}.svg"></md-icon>
+                <label class="flightInfoWeatherHourForecast">{{ hour.precipitation | percentage:0 }}</label>
+            </div>
+
+        </div>
+    </div>
+
+    <div layout="column" layout-align="start start">
+
+        <div class="flightInfoWeatherCurrentLocation">
+            <md-icon class="flightInfoWeatherCurrentLocationIcon" md-svg-src="./app/components/weatherViewer/images/geo.svg"></md-icon>
+            {{ $ctrl.geocodeData.city }}, {{ $ctrl.geocodeData.state}}
+        </div>
+
+        <label class="flightWeatherLabel">Hi/Lo Temp</label>
+        <div class="flightInfoWeatherCurrentTemp" layout="row" layout-align="start center">
+            <md-icon class="flightInfoWeatherHighIcon" md-svg-src="./app/components/weatherViewer/images/high.svg"></md-icon>
+            <label>{{ $ctrl.weatherData.daily[0].temperature.max | number: 0 }}</label><label class="flightInfoWeatherUnitSymbol">&#8457;</label>
+
+            <md-icon class="flightInfoWeatherLowIcon" md-svg-src="./app/components/weatherViewer/images/low.svg"></md-icon>
+            <label>{{ $ctrl.weatherData.daily[0].temperature.min | number: 0 }}</label><label class="flightInfoWeatherUnitSymbol">&#8457;</label>
+        </div>
+
+        <label class="flightWeatherLabel">Wind</label>
+        <div class="flightInfoWeatherKPWind" layout="row" layout-align="start center">
+            <md-icon class="flightInfoWeatherWindDirection" md-svg-src="./app/components/weatherViewer/images/windCompass.svg"></md-icon>
+            <md-icon class="flightInfoWeatherWindDirectionArrow" ng-style="{'transform': 'rotate('+ $ctrl.weatherData.current.wind.bearing +'deg)', '-webkit-transform': 'rotate('+$ctrl.weatherData.current.wind.bearing+'deg)', '-ms-transform': 'rotate('+$ctrl.weatherData.current.wind.bearing+'deg)'}" md-svg-src="./app/components/weatherViewer/images/windArrow.svg"></md-icon>
+            <label>{{ $ctrl.weatherData.current.wind.speed | number: 0 }}</label>
+            <label class="flightInfoWeatherKPLabel">MPH</label>
+            <label class="flightInfoWeatherKPLabel"> at </label>
+            <label class="marginLeftRight">{{ $ctrl.weatherData.current.wind.bearing | number: 0 }}&deg;</label>
+        </div>
+
+        <label class="flightWeatherLabel">Barometric Pressure</label>
+        <div class="flightInfoWeatherCurrentTemp" layout="row" layout-align="start center">
+            <label>{{ $ctrl.weatherData.current.pressure | number: 0 }}</label><label class="flightInfoWeatherUnitSymbol"> mb</label>
+        </div>
+
+        <label class="flightWeatherLabel">Dew Point</label>
+        <div class="flightInfoWeatherCurrentTemp" layout="row" layout-align="start center">
+            <label>{{ $ctrl.weatherData.current.dewPoint | number: 0 }}</label><label class="flightInfoWeatherUnitSymbol">&#8457;</label>
+        </div>
+
+        <label class="flightWeatherLabel">Week Forecast</label>
+
+        <div layout="row" class="flightInfoWeatherHourRepeatContainer" ng-repeat="day in $ctrl.weatherData.daily">
+            <md-tooltip class="weatherToolTip" md-direction="left">{{ day.summary }}</md-tooltip>
+            <label class="flightInfoWeatherHourForecast">{{day.date | date:'EEE' }}</label>
+            <label class="flightInfoWeatherHourForecast alignRight marginLeftRight">{{day.temperature.max | number: 0 }}&#8457;</label>
+            <label class="flightInfoWeatherHourForecast alignRight">{{day.temperature.min | number: 0 }}&#8457;</label>
+            <md-icon class="flightInfoWeatherHourForecastIcon" md-svg-src="./app/components/weatherViewer/images/{{ day.icon }}.svg"></md-icon>
+            <label class="flightInfoWeatherHourForecast">{{day.precipitation | percentage:0 }}</label>
+        </div>
+
+    </div>
+
+</div>

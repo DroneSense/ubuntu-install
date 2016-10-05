@@ -1,0 +1,86 @@
+<md-card style="position: relative; outline: none; cursor: pointer;" ng-click="$ctrl.showModelCard('foo');">
+
+  <div style="position: relative;">
+    <img ng-src="./app/components/modelCard/images/image@2x.png" class="md-card-image" alt="image caption">
+    <md-menu style="position: absolute; top: 5px; right: 20px; cursor: pointer; outline: 0;" md-offset="0 27" md-position-mode="target-right target" >
+      <md-icon ng-click="$mdOpenMenu($event)" md-svg-icon="./app/components/ModelCard/images/overflow.svg">
+      
+      </md-icon>
+      <md-menu-content>
+
+        <div style="background-color: white;width: 15px;height: 15px;position: absolute;top: -4px;right: 20px;-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);"></div>
+
+        <md-menu-item>
+          <md-button ng-click="$ctrl.showModelCard('foo');">
+            <div layout="row" flex>
+              <p flex>View</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="$ctrl.showModelCard('foo');">
+            <div layout="row" flex>
+              <p flex>Edit</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="ctrl.announceClick($index)">
+            <div layout="row" flex>
+              <p flex>Fly Now</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="ctrl.announceClick($index)">
+            <div layout="row" flex>
+              <p flex>Mark Done</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="ctrl.announceClick($index)">
+            <div layout="row" flex>
+              <p flex>Archive</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="ctrl.announceClick($index)">
+            <div layout="row" flex>
+              <p flex>Change Tag</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="ctrl.announceClick($index)">
+            <div layout="row" flex>
+              <p flex>Remove</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+      </md-menu-content>
+  </md-menu>
+  </div>
+  
+  <md-card-title>
+    <md-card-title-text>
+      <span class="cardTitle">London Tower - Dronesense Version</span>
+      <span style="margin: 6px 0;" class="cardSubtitle">Buildings</span>
+    </md-card-title-text>
+  </md-card-title>
+
+  <md-divider style="margin: 0 13px;"></md-divider>
+
+  <md-card-content>
+      <md-chips ng-model="$ctrl.testChipNames" readonly="true"></md-chips>
+  </md-card-content>
+
+</md-card>

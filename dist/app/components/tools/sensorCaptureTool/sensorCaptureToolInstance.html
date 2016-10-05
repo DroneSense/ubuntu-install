@@ -1,0 +1,92 @@
+<div>
+
+    <ds-command-header command="$ctrl.command" on-fly-to="$ctrl.FlyTo()"></ds-command-header>
+
+    <div ng-show="$ctrl.command.Expanded" class="commandExpandedContainer" layout="column">
+        <div layout="row" class="commandBtnContainer">
+            <md-button class="commandBtn" aria-label="Edit Layer" ng-click="$ctrl.Edit()">
+                <md-icon ng-class="{ 'commandEditIconOff': !$ctrl.isEditing, 'commandEditIconOn': $ctrl.isEditing }"
+                         md-svg-src="./app/components/tools/images/editlayer.svg"></md-icon>
+            </md-button>
+            <md-button class="commandBtn" aria-label="Hide/Show Layer" ng-click="$ctrl.HideShow()">
+                <md-icon ng-class="{ 'commandViewIconOff': !$ctrl.entity.show, 'commandViewIconOn': $ctrl.entity.show }"
+                         md-svg-src="./app/components/tools/images/view.svg"></md-icon>
+            </md-button>
+            <md-button class="commandBtnDelete" aria-label="Fly to Command" ng-click="$ctrl.TrackEntity()">
+                <md-icon ng-class="{ 'commandCameraIcon': !$ctrl.trackedFlag, 'commandCameraIconOn': $ctrl.trackedFlag }"
+                         md-svg-src="./app/components/tools/waypointTool/images/cameraLock.svg"></md-icon>
+            </md-button>
+            <md-button class="commandBtnDelete" aria-label="Delete layer" ng-click="$ctrl.Delete()">
+                <md-icon class="commandDeleteIcon" md-svg-src="./app/components/tools/images/delete.svg"></md-icon>
+            </md-button>
+        </div>
+
+        <div layout="column" layout-align="space-around">
+            <div layout="row" layout-align="space-around">
+                <div layout="column" class="commandInputContainer">
+                    <md-input-container class="dsDroneCameraTextBox commandInputFieldSpacing">
+                        <label>Latitude</label>
+                        <input type="number" min="-90" max="90" ng-model="$ctrl.position.lat" step=".00001" ng-change="$ctrl.drawSensor()" ng-blur="$ctrl.UpdatePosition();"/>
+                        <div class="input-unit">deg</div>
+                    </md-input-container>
+                    <md-input-container ng-show="$ctrl.EditMode('AGL')" class="dsDroneCameraTextBox commandInputFieldSpacing">
+                        <md-tooltip>
+                            This is altitude above ground level.
+                        </md-tooltip>
+                        <label>AGL Altitude</label>
+                        <input type="number" readable-elevation ng-model="$ctrl.altitude" min="0" ng-change="$ctrl.drawSensor()" ng-blur="$ctrl.UpdateAltitude(false);"/>
+                        <ds-unit-string user="$ctrl.user" format="elevation"></ds-unit-string>
+                    </md-input-container>
+                    <md-input-container ng-show="$ctrl.EditMode('MSL')" class="dsDroneCameraTextBox commandInputFieldSpacing">
+                        <label>MSL Altitude</label>
+                        <input type="number" readable-elevation ng-model="$ctrl.altitudeMSL" min="0" ng-change="$ctrl.drawSensor()" ng-blur="$ctrl.UpdateAltitude(false);"/>
+                        <ds-unit-string user="$ctrl.user" format="elevation"></ds-unit-string>
+                    </md-input-container>
+                </div>
+                <div layout="column" class="commandInputContainer">
+                    <md-input-container class="dsDroneCameraTextBox commandInputFieldSpacing">
+                        <label>Longitude</label>
+                        <input type="number" min="-180" max="180" ng-model="$ctrl.position.lng" step=".00001" ng-change="$ctrl.drawSensor()" ng-blur="$ctrl.UpdatePosition();"/>
+                        <div class="input-unit">deg</div>
+                    </md-input-container>
+                    <md-input-container class="dsDroneCameraTextBox commandInputFieldSpacing">
+                        <md-tooltip>
+                            This is the horizontal speed of the drone from this waypoint to the next.
+                        </md-tooltip>
+                        <label>Flight Speed</label>
+                        <input type="number" readable-elevation ng-model="$ctrl.flightSpeed" ng-blur="$ctrl.command.SaveProperty($ctrl.flightSpeed, 'FlightSpeed')"/>
+                        <ds-unit-string user="$ctrl.user" format="speed"></ds-unit-string>
+                    </md-input-container>
+                    <md-input-container class="dsDroneCameraTextBox commandInputFieldSpacing">
+                        <label>Heading</label>
+                        <input type="number" readable-elevation ng-model="$ctrl.heading" ng-change="$ctrl.drawSensor()" ng-blur="$ctrl.command.SaveProperty($ctrl.heading, 'Heading')"/>
+                        <div class="input-unit">deg</div>
+                    </md-input-container>
+                    <md-input-container class="dsDroneCameraTextBox commandInputFieldSpacing">
+                        <label>Camera Angle</label>
+                        <input type="number" readable-elevation ng-model="$ctrl.roll" ng-change="$ctrl.drawSensor()" ng-blur="$ctrl.command.SaveProperty($ctrl.roll, 'Roll')"/>
+                        <div class="input-unit">deg</div>
+                    </md-input-container>
+                </div>
+            </div>
+            <!--<md-divider></md-divider>-->
+            <div layout="row" class="commandReadOnlyInfoContainer" layout-align="space-around">
+                <div layout="column" class="commandInputContainer">
+                    <div layout="row" ng-show="$ctrl.EditMode('MSL')">
+                        <ds-info-formatter class="dsFormatter" user="$ctrl.user" label="Altitude (AGL)" value="$ctrl.altitude" format="elevation" can-edit="true" on-edit="$ctrl.editMode = 0"></ds-info-formatter>
+                    </div>
+                    <div layout="row" ng-show="$ctrl.EditMode('AGL')">
+                        <ds-info-formatter class="dsFormatter" user="$ctrl.user" label="Altitude (MSL)" value="$ctrl.altitudeMSL" format="elevation" can-edit="true" on-edit="$ctrl.editMode = 1"></ds-info-formatter>
+                    </div>
+                    <!--<div layout="row">-->
+                        <!--<ds-info-formatter class="dsFormatter" user="$ctrl.user" label="GSD" value="$ctrl.gsd" can-edit="true"></ds-info-formatter>-->
+                    <!--</div>-->
+                </div>
+                <div layout="column" class="commandInputContainer">
+                    <ds-info-formatter class="dsFormatter" user="$ctrl.user" label="Ground Elevation (MSL)" value="$ctrl.command.GroundElevationMSL" format="elevation"></ds-info-formatter>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

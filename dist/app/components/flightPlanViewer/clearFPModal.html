@@ -1,0 +1,13 @@
+<div class="modalDeleteFlightPlan" layout="column" layout-align="center center">
+
+    <md-icon class="modalDeleteFlightPlanIcon"
+             md-svg-src="./app/components/flightPlanViewer/images/eraser.svg"></md-icon>
+
+    <p>Are you sure you want to clear all commands from this flight plan?</p>
+
+    <div class="droneCameraButtonsContainer" layout="row" layout-align="center center">
+        <md-button class="dsCancelBtn" ng-click="closeThisDialog(false)">Cancel</md-button>
+        <md-button class="dsUpdateBtn" ng-click="closeThisDialog(true)">Clear</md-button>
+    </div>
+
+</div>

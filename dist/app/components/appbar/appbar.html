@@ -1,0 +1,40 @@
+<md-toolbar style="min-height: 40px;">
+    <div style="height: 40px;">
+        <md-button ng-if="$ctrl.mode === 'dashboard'" class="md-icon-button" aria-label="Menu">
+            <md-icon md-svg-icon="./app/components/appbar/images/menu.svg"></md-icon>
+        </md-button>
+        <label class="dashboardLogo" ng-if="$ctrl.mode === 'dashboard'">DroneSense</label>
+        <md-button class="btnAppBarExit" ng-click="$ctrl.onExit();" ng-if="$ctrl.mode === 'flightplan'">
+            <md-icon md-svg-src="./app/components/appbar/images/exit.svg" class="exitIcon" aria-label="Exit Flight Plan"></md-icon>
+            Exit Flight Plan
+        </md-button>
+
+        <md-input-container class="flightPlanNameBtn" ng-if="$ctrl.mode === 'flightplan'">
+            <label class="flightPlanNameLabel">Flight Plan Name</label>
+            <md-icon md-svg-src="./app/components/appbar/images/editname.svg" class="flightPlanNameIcon" aria-label="Name Flight Plan"></md-icon>
+            <input class="flightPlanNameInput"
+                   ng-model="$ctrl.flightPlanName" ng-blur="$ctrl.onSaveFlightPlan({ name: $ctrl.flightPlanName });"
+                   key-enter>
+        </md-input-container>
+
+        <span flex></span>
+
+        <md-button class="btnSave" ng-click="$ctrl.onSaveFlightPlan({ name: $ctrl.flightPlanName }); this.flightPlanNameFocus = false" ng-if="$ctrl.mode === 'flightplan'">
+            <md-icon md-svg-src="./app/components/appbar/images/check.svg"
+                     ng-class="{ 'checkIcon': !$ctrl.flightPlanSaved, 'checkIconSaved checkIcon': $ctrl.flightPlanSaved }"
+                     aria-label="Save Flight Plan"></md-icon>
+            Save
+        </md-button>
+
+        <md-button ng-class="{ 'btnUserActive': $ctrl.uiStateService.UserSettingsVisible == true }"
+                   class="btnUser" ng-click="$ctrl.onShowUserSettings({ show: !$ctrl.userSettingsVisible })">
+                   <label class="initialsLabel">{{ $ctrl.userInitials }}</label>
+            <md-icon md-svg-src="./app/components/appbar/images/initials.svg" class="initialsIcon" aria-label="User Initials"></md-icon>
+            
+            {{ $ctrl.userName }}
+            <md-icon md-svg-src="./app/components/appbar/images/arrow.svg" class="arrowIcon" aria-label="User Menu"></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<ds-user-settings ng-show="$ctrl.userSettingsVisible" user="$ctrl.user"></ds-user-settings>

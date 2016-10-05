@@ -1,0 +1,91 @@
+<md-content md-theme='ds-dark' class="md-whiteframe-15dp" style="padding: 20px 30px; width: 320px; background-color: #393c40">
+    
+    
+    <!--Header Text-->
+    <div ng-show="$ctrl.newFlightSession" layout="row" layout-align="center center" class="heading-18-light">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Start New Flight</label>
+    </div>
+
+    <div ng-hide="$ctrl.newFlightSession" layout="row" layout-align="center center" class="heading-18-light">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Join Existing Flight</label>
+    </div>
+
+    <div ng-show="$ctrl.connectedServers.length > 0">
+        <div layout="row" class="heading-16" style="margin-top: 20px;">
+            <label style="display: block; text-align: center; letter-spacing: .1em;">Connected Servers</label>
+        </div>
+
+        <div>
+            <md-list>
+                <md-list-item class="md-2-line" 
+                              ng-click="$ctrl.setSelectedServer(server);" 
+                              ng-repeat="server in $ctrl.connectedServers" 
+                              style="background-color: #393c40;border-bottom-color: #767a81; border-bottom-style: solid; border-bottom-width: 1px; cursor: pointer;">
+                    <!--<md-checkbox ng-click="$ctrl.setSelectedServer(server);" ng-model="server.isSelected"></md-checkbox>-->
+                    <md-icon style="margin-right: 10px; height: 18px; width: 18px; margin-top: auto; margin-bottom: auto;" 
+                             ng-click="$ctrl.setSelectedServer(server);" 
+                             md-svg-src="./app/components/controlConnect/images/onlineStatus.svg" 
+                             aria-label="online "></md-icon>
+                    <div class="md-list-item-text">
+                        <label style="cursor: pointer;" class="md-block body-14">{{ server.name }}</label>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </div>
+    </div>
+
+    <div layout="row" class="heading-16" style="margin-top: 20px;">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Local Server Settings</label>
+    </div>
+
+    <div>
+        <md-input-container class="md-block" flex style="margin-top: 25px;">
+            <label translate>CONTROLCONNECT.SERVERIP</label>
+            <input ng-model="$ctrl.ip">
+        </md-input-container>
+    </div>
+
+    <div>
+        <md-input-container class="md-block" flex style="margin-bottom: 15px;">
+            <label translate>CONTROLCONNECT.SERVERPORT</label>
+            <input type="number" ng-model="$ctrl.port">
+        </md-input-container>
+    </div>
+
+    <div ng-hide="$ctrl.newFlightSession">
+        <div layout="row" class="heading-16" style="margin-top: 20px;">
+            <label style="display: block; text-align: center; letter-spacing: .1em;">Remote Server Settings</label>
+        </div>
+
+        <div>
+            <md-input-container class="md-block" flex style="margin-top: 25px;">
+                <label>URL</label>
+                <input ng-model="$ctrl.url">
+            </md-input-container>
+        </div>
+    </div>
+
+    <div ng-show="$ctrl.connecting">
+        <md-progress-linear md-theme='ds-dark' md-mode="indeterminate"></md-progress-linear>
+    </div>
+
+    <div style="margin-bottom: 5px;" ng-show="$ctrl.showConnectionError" class="body-14">
+        <label style="display: block;">Connection Error:</label>
+        <label style="margin-top: 10px; display: block; line-height: 20px;">Ensure your server is turned on and you have the correct address.</label>
+    </div>
+
+    <div style="margin-bottom: 5px;" ng-show="$ctrl.showSameServerConnectionError" class="body-14">
+        <label style="display: block;">Existing Connection Detected:</label>
+        <label style="margin-top: 10px; display: block; line-height: 20px;">You are already connected to this server. Select above and click connect.</label>
+    </div>
+
+    <div layout="row" style="margin-top: 10px;"  layout-align="center center">
+        <md-button ng-click="$ctrl.onCancel();" class="md-dark-outline btn-md" style="margin-right: 36px; width: 164px; height: 38px; color: #c4ccd5">
+            <label style="cursor: pointer;" translate>CONTROLCONNECT.CANCEL</label>
+        </md-button>
+        <md-button ng-click="$ctrl.connect()" class="md-light btn-md" style="width: 164px;">
+            <label style="cursor: pointer;" >{{ $ctrl.connectButtonText }}</label>
+        </md-button>
+    </div>
+
+</md-content>

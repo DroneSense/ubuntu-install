@@ -1,0 +1,68 @@
+
+<md-card style="position: relative; outline: none; cursor: pointer;" ng-click="$ctrl.showFlightPlanCard('foo');">
+
+  <div style="position: relative; height: 128px;">
+    <!--<img style="position: absolute; top: 18px; left: 18px; height: 100px; width: 100px;" ng-src="./app/components/pilotCard/images/img-thumbnail-lrg.svg" class="md-card-image" alt="image caption">-->
+    <div layout="column" layout-align="center center" style="position: absolute; top: 14px; left: 14px; height: 100px; width: 100px; background-color: white; color: gray;">
+        CE
+    </div>
+    <md-menu style="position: absolute; top: 5px; right: 20px; cursor: pointer; outline: 0;" md-offset="0 27" md-position-mode="target-right target" >
+      <md-icon ng-click="$mdOpenMenu($event)" md-svg-icon="./app/components/flightPlanCard/images/overflow.svg">
+      
+      </md-icon>
+      <md-menu-content>
+
+        <div style="background-color: white;width: 15px;height: 15px;position: absolute;top: -4px;right: 20px;-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);"></div>
+
+        <md-menu-item>
+          <md-button ng-click="$ctrl.showFlightPlanCard('foo');">
+            <div layout="row" flex>
+              <p flex>View</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="$ctrl.showFlightPlanCard('foo');">
+            <div layout="row" flex>
+              <p flex>Change Role</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="ctrl.announceClick($index)">
+            <div layout="row" flex>
+              <p flex>Change Label</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button ng-click="ctrl.announceClick($index)">
+            <div layout="row" flex>
+              <p flex>Remove</p>
+            </div>
+          </md-button>
+        </md-menu-item>
+
+      </md-menu-content>
+  </md-menu>
+  </div>
+  
+  <md-card-title>
+    <md-card-title-text>
+      <span class="cardTitle">Christopher Eyhorn</span>
+      <span style="margin: 6px 0;" class="cardSubtitle">Owner (Pilot)</span>
+    </md-card-title-text>
+  </md-card-title>
+
+  <md-divider style="margin: 0 13px; margin-top: 40px;"></md-divider>
+
+  <md-card-content>
+      <span class="cardSubtitle">Last active 2 days ago</span>
+      </br>
+      <md-chips ng-model="$ctrl.testChipNames" readonly="true"></md-chips>
+  </md-card-content>
+
+</md-card>

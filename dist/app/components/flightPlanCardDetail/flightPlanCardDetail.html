@@ -1,0 +1,190 @@
+<!--<md-dialog aria-label="List dialog">
+  <md-dialog-content>
+    
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button ng-click="closeDialog()" class="md-primary">Close Dialog</md-button>
+  </md-dialog-actions>
+</md-dialog>-->
+
+<div class="fpd-container">
+
+    <md-content md-theme="ds-dark">
+
+        <div layout="column" 
+             ng-click="$ctrl.close();" 
+             style="position: absolute; z-index: 1; cursor: pointer; outline: none;">
+            <img src="./app/components/test/img/fill-1.svg" style="padding: 15px;">
+        </div>
+
+        <!--Tab 1: Flight Info-->
+        <md-tabs id="fpd" 
+                 md-dynamic-height 
+                 md-border-bottom
+                 md-no-ink
+                 md-no-tab-content
+                 md-stretch-tabs="always">
+
+            <md-tab class="fpd-tabs" ng-class="">
+                <label translate>FLIGHTPLANDETAILS.FLIGHTINFO</label>
+            </md-tab>
+
+            <!--Tab 2: Flight Settings-->
+            <md-tab label="FLIGHT SETTINGS">
+                <md-content class="md-padding">
+                    <p>Lorem</p>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+
+        <div ng-show="$ctrl.flightInfo">
+            <div class="fpd-heading" layout="column" layout-align="start-center" flex>
+                <div class="heading-18-light">
+                    {{ $ctrl.flightPlan.Name }}
+                </div>
+            </div>
+            <div layout="row" layout-align="center start">
+                <div class="fpd-left" flex="49">
+                    <div layout="row">
+                        <div flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.FLIGHTDATE</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.ScheduledDate | date:'MM/dd/yyyy' }}</div>
+                        </div>
+                        <div class="fpd-columnMargin" flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.FLIGHTTIME</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.ScheduledDate | date:'h:mma' }}</div>
+                        </div>
+                    </div>
+                    <div layout="row">
+                        <div flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.DRONE</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.Drone.Name }}</div>
+                        </div>
+                        <div class="fpd-columnMargin" flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.CAMERA</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.Camera.Name }}</div>
+                        </div>
+                    </div>
+                    <div class="fpd-rowMargins" layout="row">
+                        <div flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.TOTALFLIGHTTIME</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.FlightTime | secondsToDateTime | date:'HH:mm:ss'}}</div>
+                        </div>
+                        <div class="fpd-columnMargin" flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.TOTALFLIGHTDISTANCE</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.Distance }} meters</div>
+                        </div>
+                    </div>
+                    <div class="fpd-rowMargins" layout="row">
+                        <div flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.HIGHELEVATION</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.HighElevation }} meters</div>
+                        </div>
+                        <div class="fpd-columnMargin" flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.LOWELEVATION</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.LowElevation }} meters</div>
+                        </div>
+                    </div>
+                    <div class="fpd-rowMargins" layout="row">
+                        <div flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.WAYPOINTCOUNT</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.NavPointCount }}</div>
+                        </div>
+                        <div class="fpd-columnMargin" flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.MAXDRONEDISTANCE</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.MaxDistance }} meters</div>
+                        </div>
+                    </div>
+                    <div class="fpd-rowMargins" layout="row">
+                        <div flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.STARTLOCATION</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.LocationName }}
+                            </div>
+                        </div>
+                        <div class="fpd-columnMargin" flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.STARTLATLNG</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.LocationLatLng }}</div>
+                        </div>
+                    </div>
+                    <div class="fpd-rowMargins" layout="row">
+                        <div flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.DATECREATED</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.CreateDate | date:"MM/dd/yyyy 'at' h:mma" }}</div>
+                        </div>
+                        <div class="fpd-columnMargin" flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.DATEMODIFIED</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.ModifiedDate | date:"MM/dd/yyyy 'at' h:mma" }}</div>
+                        </div>
+                    </div>
+                    <div class="fpd-rowMargins" layout="row">
+                        <div flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.USERCREATED</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.CreatedUser.UserName }}</div>
+                        </div>
+                        <div class="fpd-columnMargin" flex>
+                            <label class="label-12" translate>FLIGHTPLANDETAILS.USERMODIFIED</label>
+                            <div class="body-16">{{ $ctrl.flightPlan.ModifiedUser.UserName }}</div>
+                        </div>
+                    </div>
+                    <div class="fpd-observer" layout="row" layout-align="center center">
+                         <div flex>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label translate>FLIGHTPLANDETAILS.OWNERS</label>
+                                <md-select id="fpd-owners" multiple ng-model="$ctrl.flightPlan.Owners" ng-model-options="{trackBy: '$value.ID'}">
+                                    <md-option ng-readonly="true" ng-value="user" ng-repeat="user in $ctrl.account.Users">{{ user.UserName }}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="fpd-right" flex="51">
+                    <div layout="column">
+                        <div class="fpd-pic" flex>
+                            <img src="http://placehold.it/250x250" class="md-card-image pic-border-1" alt="image caption">
+                        </div>
+                        <div>
+                            <label class="body-12-grey">Tags</label>
+                            <!--<md-chips ng-model="$ctrl.flightPlan.Tags"></md-chips>-->
+                            <md-chips ng-model="$ctrl.flightPlan.Tags" 
+                                      md-autocomplete-snap="" 
+                                      md-require-match="true">
+                                <md-autocomplete style="color: white;" md-selected-item="$ctrl.tagSelectedSearch" 
+                                                 md-search-text="$ctrl.tagSearchText" 
+                                                 md-items="tag in $ctrl.tagSearch($ctrl.tagSearchText)" 
+                                                 md-item-text="tag.Name" 
+                                                 placeholder="Search for a tag">
+                                    <span md-highlight-text="$ctrl.tagSearchText">{{tag.Name}}</span>
+                                </md-autocomplete>
+                                <md-chip-template>
+                                    <label style="">{{ $chip.Name }}</label>
+                                </md-chip-template>
+                            </md-chips>
+                        </div>
+                        <div class="fpd-note" flex>
+                            <!--<label class="label-12" ng-hide="$ctrl.editNotes" translate>FLIGHTPLANDETAILS.NOTES</label>
+                            <div class="body-14" ng-hide="$ctrl.editNotes">
+                                {{ $ctrl.flightPlan.Notes }} <img ng-click="$ctrl.editNotes = true;" style="cursor: pointer; outline: none;" src="./app/components/flightPlanCardDetail/images/icon-edit.svg">
+                            </div>-->
+                            <md-input-container style="width: 100%;" ng-blur="">
+                                <label translate>FLIGHTPLANDETAILS.NOTES</label>
+                                <textarea ng-model="$ctrl.flightPlan.Notes"></textarea>
+                            </md-input-container>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="fpd-buttonTopMargin" flex>
+                <div layout="row" layout-align="center center">
+                    <md-button style="width: 141px;" ng-click="$ctrl.plan();" class="md-light-outline fpd-button">
+                        <div translate>FLIGHTPLANDETAILS.EDIT</div>
+                    </md-button>
+                    <md-button style="width: 141px;" ng-click="$ctrl.fly();" class="md-light fpd-button">
+                        <div translate>FLIGHTPLANDETAILS.FLYNOW</div>
+                    </md-button>
+                </div>
+            </div>
+        </div>
+    </md-content>
+
+</div>

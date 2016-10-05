@@ -1,0 +1,42 @@
+
+<div layout="row" layout-align="center top">
+    <div style="max-width: 1280px;" layout="column" layout-align="center top">
+        <md-content layout="row" layout-align="none center">
+            <md-input-container style="width: 150px;">
+                <label></label>
+                <md-select ng-model="size" multiple>
+                    <md-select-header layout="column" layout-align="center center" class="demo-select-header">
+                        
+                        <input ng-model="searchTerm"
+                            type="search"
+                            placeholder="Search for a tag.."
+                            class="demo-header-searchbox _md-text">
+                        <md-button style="width: 150px; height: 27px;	background-color: #66696c;">Manage Tags</md-button>
+
+                    </md-select-header>
+                    <md-option>All</md-option>
+                    <md-option>Survey</md-option>
+                    <md-option>Canon S100</md-option>
+                    <md-option>Iris+</md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container style="width: 150px;">
+                <label></label>
+                <md-select ng-model="size">
+                    <md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>
+                </md-select>
+            </md-input-container>
+        </md-content>
+        <div layout="row" layout-align="center top">
+            <md-content layout="row" layout-align="start top" layout-wrap md-theme='ds-dark' style="background-color: white;" >
+                <ds-model-card style="min-width: 261px;" flex="25" ng-repeat="item in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"></ds-model-card>
+            </md-content>
+        </div>
+    </div>
+    <!--<md-grid-list md-cols="5" style="width: 1280px;" md-gutter="20px" md-row-height="347">
+        <md-grid-tile ng-repeat="item in [1, 2, 3, 4, 5, 6, 7, 8]">
+            <ds-flight-plan-card></ds-flight-plan-card>
+        </md-grid-tile>
+    </md-grid-list>-->
+</div>
+
