@@ -1,4 +1,4 @@
-### Ubuntu Server 16 Installation ###  
+### Ubuntu Server 16 Installation  
 1. Enter bios on server and set the boot device to be the usb with Ubuntu .iso installed  
 2. Save changes and restart  
 3. Start Ubuntu installation process  
@@ -11,7 +11,7 @@
 10. Default packages to be installed  
   
   
-### Red5Pro Installation ###  
+### Red5Pro Installation  
 1. sudo apt-get update  
 2. sudo apt-get install default-jre  
 3. sudo apt-get install unzip  
@@ -26,7 +26,7 @@
 12. cd /home/dronesense  
 13. sudo /etc/init.d/red5pro start  
   
-### NVM Installation ### 
+### NVM Installation  
 1. curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash  
 2. reboot  
 3. command -v nvm (this will verify correct installation)  
@@ -34,10 +34,10 @@
 5. nvm use node  
 6. node install npm?  
 
-### DroneSense Server Bluetooth Prerequisite ###  
+### DroneSense Server Bluetooth Prerequisite  
 1. sudo apt-get install libbluetooth-dev  
 
-### DroneSense Server ZMQ Prerequisite ###
+### DroneSense Server ZMQ Prerequisite  
 1. sudo apt-get update  
 2. sudo apt-get upgrade  
 3. sudo apt-get install python3.5-dev  
@@ -62,13 +62,13 @@
 22. sudo ldconfig  
 23. reboot  
   
-### DroneSense Server Installation ###  
+### DroneSense Server Installation  
 1. npm login (Login with credentials)  
 2. sudo apt-get install python  
 3. npm install -g @dronesense/server  
 4. dronesense (confirm installation)  
   
-### Setting up services ###  
+### Setting up services  
 1. Copy the foo.service files into /etc/systemd/system/ directory  
 2. systemctl enable foo  
 3. systemctl start foo  
