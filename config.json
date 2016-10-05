@@ -49,14 +49,14 @@
             },
             {
                 "id": "6fe967c7-07ed-40b5-a7f1-c3660eacfa87",
-                "name": "SITL Simulator (UDP)",
+                "name": "Baseball Field (UDP)",
                 "autopilot": {
                     "type": "mavlink",
                     "transport": {
                         "type": "udp",
                         "settings": {
-                            "address": "0.0.0.0",
-                            "port": 14550
+                            "address": "10.0.1.105",
+                            "port": 14551
                         }
                     }
                 }
