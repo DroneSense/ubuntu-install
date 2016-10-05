@@ -75,3 +75,8 @@
 4. systemctl status foo  
 5. reboot to verify running  
   
+### Setting up dswebserver.service 
+1. cp dswebserver.service /etc/systemd/system/  
+2. systemctl enable dswebserver  
+3. systemctl start dswebserver  
+4. systemctl status dswebserver  
