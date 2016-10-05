@@ -63,14 +63,28 @@
             },
             {
                 "id": "efeec257-ee13-4999-8236-ce908b258ba3",
-                "name": "SITL Simulator (TCP)",
+                "name": "Robert's Iphone Phantom",
                 "autopilot": {
                     "type": "mavlink",
                     "transport": {
                         "type": "tcp",
                         "settings": {
-                            "address": "10.0.1.90",
-                            "port": 5760
+                            "address": "192.168.0.186",
+                            "port": 3008
+                        }
+                    }
+                }
+            },
+            {
+                "id": "efeec257-ee13-4999-8236-ce908b258bb4",
+                "name": "Chris's IPad Phantom",
+                "autopilot": {
+                    "type": "mavlink",
+                    "transport": {
+                        "type": "tcp",
+                        "settings": {
+                            "address": "192.168.0.145",
+                            "port": 3008
                         }
                     }
                 }
