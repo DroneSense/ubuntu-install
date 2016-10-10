@@ -1,7 +1,7 @@
-System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/controlTelemetry', '../controlConnect/controlConnect', '../startSession/startSession', '../joinSession/joinSession', './sessionController', '../flightControlMode/flightControlMode', './mapMode', 'backbone-events-standalone', '../sessionManagementViewer/sessionManagementViewer', '../waypointListViewer/waypointListViewer', '../mapLayers/mapLayers'], function(exports_1, context_1) {
+System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/controlTelemetry', '../controlConnect/controlConnect', '../startSession/startSession', '../joinSession/joinSession', './sessionController', '../flightControlMode/flightControlMode', './mapMode', 'backbone-events-standalone', '../sessionManagementViewer/sessionManagementViewer', '../waypointListViewer/waypointListViewer', '../mapLayers/mapLayers', './flightControlSettings'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var controlToolbar_1, controlTelemetry_1, controlConnect_1, startSession_1, joinSession_1, sessionController_1, flightControlMode_1, mapMode_1, backbone_events_standalone_1, sessionManagementViewer_1, waypointListViewer_1, mapLayers_1;
+    var controlToolbar_1, controlTelemetry_1, controlConnect_1, startSession_1, joinSession_1, sessionController_1, flightControlMode_1, mapMode_1, backbone_events_standalone_1, sessionManagementViewer_1, waypointListViewer_1, mapLayers_1, flightControlSettings_1;
     var FlightControlViewerEventing, FlightControlViewer;
     return {
         setters:[
@@ -40,6 +40,9 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
             },
             function (mapLayers_1_1) {
                 mapLayers_1 = mapLayers_1_1;
+            },
+            function (flightControlSettings_1_1) {
+                flightControlSettings_1 = flightControlSettings_1_1;
             }],
         execute: function() {
             FlightControlViewerEventing = (function () {
@@ -67,9 +70,16 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                     this.hideBackground = false;
                     this.lockCamera = true;
                     this.firstSessionLoaded = false;
+                    this.serverDisconnect = false;
+                    this.waypointError = false;
+                    this.waypointErrorName = '';
+                    this.showingVideo = false;
+                    this.showMap = true;
                 }
                 FlightControlViewer.prototype.$onInit = function () {
                     var _this = this;
+                    // Create new for now, eventually load from profile
+                    this.flightControlSettings = new flightControlSettings_1.FlightControlSettings();
                     this.eventing = new FlightControlViewerEventing();
                     this.sessionController = new sessionController_1.SessionController(this.eventing);
                     this.eventing.on('locating-drone', function () {
@@ -90,6 +100,29 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                         _this.guestUserRequest = true;
                         // Update user interface
                         _this.bindings.$applyAsync();
+                    });
+                    this.eventing.on('server-disconnected', function (serverConnection) {
+                        if (_this.sessionController.ownerSession) {
+                            _this.serverDisconnect = true;
+                            // Update user interface
+                            _this.bindings.$applyAsync();
+                        }
+                        // Add to active connections if does not already exist.
+                        if (_this.connectedServers.filter(function (connection) {
+                            if (connection.ip === serverConnection.ip && connection.port === serverConnection.port) {
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
+                        }).length === 1) {
+                            _this.connectedServers.splice(_this.connectedServers.indexOf(serverConnection), 1);
+                        }
+                        ;
+                    });
+                    this.eventing.on('waypoint-error', function (name) {
+                        _this.waypointError = true;
+                        _this.waypointErrorName = name;
                     });
                 };
                 // Start new flight button clicked on main screen
@@ -133,6 +166,7 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                             return false;
                         }
                     }).length === 0) {
+                        serverConnection.eventing = this.eventing;
                         this.connectedServers.push(serverConnection);
                     }
                     ;
@@ -224,6 +258,24 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                 FlightControlViewer.prototype.lookDownBoundingBox = function () {
                     this.sessionController.map.flyTo(this.sessionController.activeSession.mapEntityCollection);
                     this.lockCamera = false;
+                };
+                FlightControlViewer.prototype.showVideoPreview = function () {
+                    // check if in full screen mode by looking at map visibility flag
+                    if (!this.showMap) {
+                        this.showMap = true;
+                        return;
+                    }
+                    // Check if 
+                    if (this.showingVideo) {
+                        this.showingVideo = false;
+                    }
+                    else {
+                        this.showingVideo = true;
+                    }
+                };
+                FlightControlViewer.prototype.showFullScreen = function () {
+                    this.showMap = false;
+                    this.showingVideo = false;
                 };
                 // Constructor
                 FlightControlViewer.$inject = [

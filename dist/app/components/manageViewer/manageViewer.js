@@ -33,11 +33,14 @@ System.register(['../dashboardViewer/dashboardViewer', '../../common/ngLazyShow'
                 }
                 // Set the active tab based on URL
                 ManageViewer.prototype.setActiveTab = function () {
-                    if (this.stateService.current.name === 'manage.flightplans') {
+                    if (this.stateService.current.name === 'manage.sessions') {
                         this.selectedTab = 1;
                     }
-                    else if (this.stateService.current.name === 'manage.hardware') {
+                    else if (this.stateService.current.name === 'manage.flightplans') {
                         this.selectedTab = 2;
+                    }
+                    else if (this.stateService.current.name === 'manage.hardware') {
+                        this.selectedTab = 3;
                     }
                     else if (this.stateService.current.name === 'manage.profile') {
                         this.selectedTab = -1;

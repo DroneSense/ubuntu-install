@@ -41,6 +41,7 @@ System.register([], function(exports_1, context_1) {
                     },
                     TABS: {
                         DASHBOARD: 'Dashboard',
+                        SESSIONS: 'Sessions',
                         FLIGHTPLANS: 'Flight Plans',
                         HARDWARE: 'Hardware',
                         PILOTS: 'Pilots',

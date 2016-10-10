@@ -34,6 +34,7 @@ export class Translations {
             },
             TABS: {
                 DASHBOARD: 'Dashboard',
+                SESSIONS: 'Sessions',
                 FLIGHTPLANS: 'Flight Plans',
                 HARDWARE: 'Hardware',
                 PILOTS: 'Pilots',

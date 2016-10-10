@@ -43,6 +43,15 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                             _this.startDronePositionUpdatesStream();
                             _this.createDrone();
                             _this.startInterval();
+                            _this.drone.on('disconnected', function () {
+                                console.log('drone disconnected');
+                            });
+                            _this.drone.on('connected', function () {
+                                console.log('drone connected');
+                            });
+                            _this.drone.on('unreachable', function () {
+                                console.log('drone unreachable');
+                            });
                             _this.eventing.trigger('drone-located');
                             resolve(_this);
                         });

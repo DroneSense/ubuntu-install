@@ -60,6 +60,11 @@ export class SessionController implements ISessionControllerEvents {
 
             this.activeSession = ownerSession;
 
+            // Start video stream if drone is connected and this is an owner session
+            /* !cordova-start */
+            dronesense.bridgeManager.startVideoStream('192.168.0.115', 8554, this.ownerSession.name);
+            /* !cordova-stop */
+
             this.eventing.trigger('session-added', this.ownerSession);
         });
 
@@ -204,7 +209,7 @@ export class SessionController implements ISessionControllerEvents {
 
         var options: any = {};
 
-        options.enableCompass = true;
+        options.enableCompass = false;
         options.enableZoomControls = true;
         options.enableDistanceLegend = false;
         this.map.extend(Cesium.viewerCesiumNavigationMixin, options);
@@ -255,6 +260,11 @@ export class SessionController implements ISessionControllerEvents {
 
     endSession(): void {
         this.ownerSession.session.endSession();
+
+        /* !cordova-start */
+        dronesense.bridgeManager.stopVideoStream();
+        /* !cordova-stop */
+        
     }
 
 }

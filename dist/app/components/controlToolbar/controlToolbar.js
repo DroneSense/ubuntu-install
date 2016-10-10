@@ -111,6 +111,42 @@ System.register(['../gpsStatusIcon/gpsStatusIcon', '../batteryStatusIcon/battery
                     this.sysStatus = false;
                     this.battery = false;
                     this.videoLink = false;
+                    this.settingsDialog = false;
+                };
+                ControlToolbar.prototype.toggleTab = function (name) {
+                    if (name === 'battery') {
+                        if (this.battery) {
+                            this.battery = false;
+                            this.selectedTab = -1;
+                        }
+                        else {
+                            this.hidetabs();
+                            this.battery = true;
+                            this.selectedTab = 4;
+                        }
+                    }
+                    if (name === 'gps') {
+                        if (this.gps) {
+                            this.gps = false;
+                            this.selectedTab = -1;
+                        }
+                        else {
+                            this.hidetabs();
+                            this.gps = true;
+                            this.selectedTab = 0;
+                        }
+                    }
+                    if (name === 'settings') {
+                        if (this.settingsDialog) {
+                            this.settingsDialog = false;
+                            this.selectedTab = -1;
+                        }
+                        else {
+                            this.hidetabs();
+                            this.settingsDialog = true;
+                            this.selectedTab = 6;
+                        }
+                    }
                 };
                 // Constructor
                 ControlToolbar.$inject = [
@@ -127,7 +163,8 @@ System.register(['../gpsStatusIcon/gpsStatusIcon', '../batteryStatusIcon/battery
                 videoStatusIcon_1.default.name
             ]).component('dsControlToolbar', {
                 bindings: {
-                    sessionController: '<'
+                    sessionController: '<',
+                    settings: '<'
                 },
                 controller: ControlToolbar,
                 templateUrl: './app/components/controlToolbar/controlToolbar.html'

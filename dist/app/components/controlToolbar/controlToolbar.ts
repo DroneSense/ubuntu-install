@@ -12,6 +12,8 @@ import { SessionController } from '../flightControlViewer/sessionController';
 import { OwnerMapSession, MapSession } from '../flightControlViewer/mapSession';
 import { Firmware } from '@dronesense/core/lib/common/enums/Firmware';
 
+import { FlightControlSettings } from '../flightControlViewer/flightControlSettings';
+
 export interface IControlToolbar extends ng.IScope {
 
 }
@@ -43,12 +45,15 @@ class ControlToolbar {
     sysStatus: boolean;
     battery: boolean;
     videoLink: boolean;
+    settingsDialog: boolean;
 
     sessionController: SessionController;
 
     drone: IDrone;
 
     isDJIDrone: boolean = true;
+
+    settings: FlightControlSettings;
 
     // Constructor
     static $inject: Array<string> = [
@@ -137,6 +142,43 @@ class ControlToolbar {
         this.sysStatus = false;
         this.battery = false;
         this.videoLink = false;
+        this.settingsDialog = false;
+    }
+
+    toggleTab(name: string): void {
+
+        if (name === 'battery') {
+            if (this.battery) {
+                this.battery = false;
+                this.selectedTab = -1;
+            } else {
+                this.hidetabs();
+                this.battery = true;
+                this.selectedTab = 4;
+            }
+        }
+
+        if (name === 'gps') {
+            if (this.gps) {
+                this.gps = false;
+                this.selectedTab = -1;
+            } else {
+                this.hidetabs();
+                this.gps = true;
+                this.selectedTab = 0;
+            }
+        }
+
+        if (name === 'settings') {
+            if (this.settingsDialog) {
+                this.settingsDialog = false;
+                this.selectedTab = -1;
+            } else {
+                this.hidetabs();
+                this.settingsDialog = true;
+                this.selectedTab = 6;
+            }
+        }
     }
 }
 
@@ -149,7 +191,8 @@ export default angular.module('DroneSense.Web.ControlToolbar', [
     videoStatusIcon.name
 ]).component('dsControlToolbar', {
     bindings: {
-        sessionController: '<'
+        sessionController: '<',
+        settings: '<'
     },
     controller: ControlToolbar,
     templateUrl: './app/components/controlToolbar/controlToolbar.html'

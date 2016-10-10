@@ -1,7 +1,7 @@
-System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/components/login/login', '../app/components/flightControlViewer/flightControlViewer', '../app/components/test/test', '../app/components/manageViewer/manageViewer', '../app/components/flightPlansViewer/flightPlansViewer', '../app/components/hardwareViewer/hardwareViewer', '../app/components/pilotViewer/pilotViewer', '../app/components/checklistViewer/checklistViewer', '../app/components/documentViewer/documentViewer', '../app/components/modelViewer/modelViewer', '../app/components/scheduleViewer/scheduleViewer', '../app/components/accountViewer/accountViewer', '../app/components/profileViewer/profileViewer', './translations'], function(exports_1, context_1) {
+System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/components/login/login', '../app/components/flightControlViewer/flightControlViewer', '../app/components/test/test', '../app/components/manageViewer/manageViewer', '../app/components/sessionViewer/sessionViewer', '../app/components/flightPlansViewer/flightPlansViewer', '../app/components/hardwareViewer/hardwareViewer', '../app/components/pilotViewer/pilotViewer', '../app/components/checklistViewer/checklistViewer', '../app/components/documentViewer/documentViewer', '../app/components/modelViewer/modelViewer', '../app/components/scheduleViewer/scheduleViewer', '../app/components/accountViewer/accountViewer', '../app/components/profileViewer/profileViewer', './translations'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var flightPlanViewer_1, login_1, flightControlViewer_1, test_1, manageViewer_1, flightPlansViewer_1, hardwareViewer_1, pilotViewer_1, checklistViewer_1, documentViewer_1, modelViewer_1, scheduleViewer_1, accountViewer_1, profileViewer_1, translations_1;
+    var flightPlanViewer_1, login_1, flightControlViewer_1, test_1, manageViewer_1, sessionViewer_1, flightPlansViewer_1, hardwareViewer_1, pilotViewer_1, checklistViewer_1, documentViewer_1, modelViewer_1, scheduleViewer_1, accountViewer_1, profileViewer_1, translations_1;
     var ConfigRoutes, ConfigTranslate, Run, dsApp;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/
             },
             function (manageViewer_1_1) {
                 manageViewer_1 = manageViewer_1_1;
+            },
+            function (sessionViewer_1_1) {
+                sessionViewer_1 = sessionViewer_1_1;
             },
             function (flightPlansViewer_1_1) {
                 flightPlansViewer_1 = flightPlansViewer_1_1;
@@ -70,6 +73,10 @@ System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/
                         .state('manage', {
                         url: '/manage',
                         template: '<ds-manage></ds-manage>'
+                    })
+                        .state('manage.sessions', {
+                        url: '/sessions',
+                        template: '<ds-session-viewer></ds-session-viewer>'
                     })
                         .state('manage.flightplans', {
                         url: '/flightplans?id',
@@ -187,6 +194,7 @@ System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/
                 flightControlViewer_1.default.name,
                 test_1.default.name,
                 manageViewer_1.default.name,
+                sessionViewer_1.default.name,
                 flightPlansViewer_1.default.name,
                 hardwareViewer_1.default.name,
                 pilotViewer_1.default.name,

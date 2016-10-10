@@ -99,6 +99,18 @@ export class MapDrone {
 
                 this.startInterval();
 
+                this.drone.on('disconnected', () => {
+                    console.log('drone disconnected');
+                });
+
+                this.drone.on('connected', () => {
+                    console.log('drone connected');
+                });
+
+                this.drone.on('unreachable', () => {
+                    console.log('drone unreachable');
+                });
+
                 this.eventing.trigger('drone-located');
 
                 resolve(this);

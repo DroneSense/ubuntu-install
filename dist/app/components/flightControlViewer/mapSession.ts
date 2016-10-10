@@ -71,7 +71,7 @@ export class MapWaypoints {
     // Container for all map UI related to this session
     mapEntityCollection: Cesium.CustomDataSource;
 
-    constructor(drone: MapDrone, map: Cesium.Viewer, color: string, sesisonId: string, entityCollection: Cesium.CustomDataSource) {
+    constructor(drone: MapDrone, map: Cesium.Viewer, color: string, sesisonId: string, entityCollection: Cesium.CustomDataSource, public eventing: FlightControlViewerEventing) {
         this.drone = drone;
         this.map = map;
         this.color = color;
@@ -133,6 +133,9 @@ export class MapWaypoints {
 
         this.drone.drone.FlightController.Guided.on('waypoint-error', (index: number, error: any) => {
             console.log('waypoint-error: ' + index);
+            if (this.waypoints[index]) {
+                this.eventing.trigger('waypoint-error', this.waypoints[index].name);
+            }
         });
 
         this.drone.drone.FlightController.Guided.on('waypoint-started', (index: number) => {
@@ -417,7 +420,7 @@ export class MapSession {
                     this.mapDrone = mapDrone;
 
                     // Initialize waypoints for guided mode
-                    this.mapWaypoints = new MapWaypoints(this.mapDrone, this.map, this.color, this.id, this.mapEntityCollection);
+                    this.mapWaypoints = new MapWaypoints(this.mapDrone, this.map, this.color, this.id, this.mapEntityCollection, this.eventing);
 
                     // Resume entity events after added
                     this.mapEntityCollection.entities.resumeEvents();
@@ -526,7 +529,7 @@ export class OwnerMapSession extends MapSession implements IMapSessionEvents {
                     this.setupEvents();
 
                     // Initialize waypoints for guided mode
-                    this.mapWaypoints = new MapWaypoints(this.mapDrone, this.map, this.color, this.id, this.mapEntityCollection);
+                    this.mapWaypoints = new MapWaypoints(this.mapDrone, this.map, this.color, this.id, this.mapEntityCollection, this.eventing);
 
                     resolve(this);
                 });                

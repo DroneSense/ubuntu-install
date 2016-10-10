@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="node_modules/ngDialog.css">
     <link rel="stylesheet" type="text/css" href="node_modules/ngDialog-theme-default.css">
     <link rel="stylesheet" type="text/css" href="app/styles/new.css">
+    <link rel="stylesheet" type="text/css" href="node_modules/video-js.min.css">
     <!--<link rel="stylesheet" type="text/css" href="app/styles/application.css">-->
 
     <script src="node_modules/jquery.js"></script>
@@ -36,6 +37,10 @@
     <script src="node_modules/angular-translate.js"></script>
     <script src="node_modules/angular-sanitize.min.js"></script>
     <script src="node_modules/fastclick.js"></script>
+    <script src="node_modules/video.min.js"></script>
+    <script>
+      videojs.options.flash.swf = "node_modules/video-js.swf";
+    </script>
     
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
         
@@ -46,7 +51,7 @@
     </script>
     
   </head>
-  <body>
+  <body style="background: transparent;">
     
     <div ui-view class="uiViewWrapper"></div>
   

@@ -15,6 +15,7 @@ import SessionManagementViewer from '../sessionManagementViewer/sessionManagemen
 import WaypointListViewer from '../waypointListViewer/waypointListViewer';
 import MayLayers from '../mapLayers/mapLayers';
 import { CesiumMapUtils } from '../../common/mapUtils';
+import { FlightControlSettings } from './flightControlSettings';
 
 import { IEventEmitter } from '@dronesense/core/lib/common/IEventEmitter';
 
@@ -27,6 +28,8 @@ export interface IFlightControlViewerEvents extends IEventEmitter {
     on(eventName: 'session-removed', callback?: (session: MapSession) => void, context?: any): any;
     on(eventName: 'map-loaded', callback?: () => void, context?: any): any;
     on(eventName: 'session-changed', callback?: (session: MapSession) => void, context?: any): any;
+    on(eventName: 'server-disconnected', callback?: (serverConnection: ServerConnection) => void, context?: any): any;
+    on(eventName: 'waypoint-error', callback?: (name: string) => void, context?: any): any;
 }
 
 export class FlightControlViewerEventing implements IFlightControlViewerEvents {
@@ -80,6 +83,8 @@ class FlightControlViewer {
     // Flag to hide connect buttons
     hideButtons: boolean = false;
 
+    flightControlSettings: FlightControlSettings;
+
     hasLoadedMap: boolean = false;
 
     hideBackground: boolean = false;
@@ -87,6 +92,11 @@ class FlightControlViewer {
     lockCamera: boolean = true;
 
     firstSessionLoaded: boolean = false;
+
+    serverDisconnect: boolean = false;
+
+    waypointError: boolean = false;
+    waypointErrorName: string = '';
 
     // Constructor
     static $inject: Array<string> = [
@@ -103,6 +113,9 @@ class FlightControlViewer {
     }
 
     $onInit(): void {
+
+        // Create new for now, eventually load from profile
+        this.flightControlSettings = new FlightControlSettings();
 
         this.eventing = new FlightControlViewerEventing();
 
@@ -134,6 +147,33 @@ class FlightControlViewer {
 
             // Update user interface
             this.bindings.$applyAsync();
+        });
+
+        this.eventing.on('server-disconnected', (serverConnection: ServerConnection) => {
+            
+            if (this.sessionController.ownerSession) {
+                this.serverDisconnect = true;
+                
+                // Update user interface
+                this.bindings.$applyAsync();
+            }
+
+            // Add to active connections if does not already exist.
+            if (this.connectedServers.filter((connection: ServerConnection) => {
+                if (connection.ip === serverConnection.ip && connection.port === serverConnection.port) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }).length === 1) {
+                this.connectedServers.splice(this.connectedServers.indexOf(serverConnection), 1);
+            };
+            
+        });
+
+        this.eventing.on('waypoint-error', (name: string) => {
+            this.waypointError = true;
+            this.waypointErrorName = name;
         });
 
     }
@@ -186,6 +226,7 @@ class FlightControlViewer {
                 return false;
             }
         }).length === 0) {
+            serverConnection.eventing = this.eventing;
             this.connectedServers.push(serverConnection);
         };
         
@@ -302,6 +343,54 @@ class FlightControlViewer {
     lookDownBoundingBox(): void {
         this.sessionController.map.flyTo(this.sessionController.activeSession.mapEntityCollection);
         this.lockCamera = false;
+    }
+
+    showingVideo: boolean = false;
+
+    showMap: boolean = true;
+
+    showVideoPreview(): void {
+
+        // check if in full screen mode by looking at map visibility flag
+        if (!this.showMap) {
+            this.showMap = true;
+
+            /* !cordova-start */
+            dronesense.bridgeManager.hideVideoView();
+            /* !cordova-stop */
+
+            return;
+        }
+
+        // Check if 
+        if (this.showingVideo) {
+            this.showingVideo = false;
+
+            /* !cordova-start */
+            dronesense.bridgeManager.hideVideoView();
+            /* !cordova-stop */
+
+        } else {
+            this.showingVideo = true;
+
+            /* !cordova-start */
+            // Left, Top, Width, Height
+            dronesense.bridgeManager.setVideoViewSmall(660, 115, 300, 168);
+            /* !cordova-stop */
+        }
+
+    }
+
+    showFullScreen(): void {
+        
+        /* !cordova-start */
+        dronesense.bridgeManager.setVideoViewFull();
+        /* !cordova-stop */
+
+        this.showMap = false;
+
+        this.showingVideo = false;
+
     }
 
 }

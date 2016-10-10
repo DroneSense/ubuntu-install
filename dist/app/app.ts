@@ -4,6 +4,7 @@ import flightControl from '../app/components/flightControlViewer/flightControlVi
 import test from '../app/components/test/test';
 
 import manage from '../app/components/manageViewer/manageViewer';
+import sessions from '../app/components/sessionViewer/sessionViewer';
 import flightPlans from '../app/components/flightPlansViewer/flightPlansViewer';
 import hardware from '../app/components/hardwareViewer/hardwareViewer';
 import pilot from '../app/components/pilotViewer/pilotViewer';
@@ -44,6 +45,10 @@ class ConfigRoutes {
         .state('manage', {
             url: '/manage',
             template: '<ds-manage></ds-manage>'
+        })
+        .state('manage.sessions', {
+            url: '/sessions',
+            template: '<ds-session-viewer></ds-session-viewer>'
         })
         .state('manage.flightplans', {
             url: '/flightplans?id',
@@ -172,6 +177,7 @@ let dsApp: any = angular.module('DroneSense.Web', [
     flightControl.name,
     test.name,
     manage.name,
+    sessions.name,
     flightPlans.name,
     hardware.name,
     pilot.name,

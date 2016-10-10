@@ -35,6 +35,7 @@ System.register(['backbone-events-standalone', './mapMode', './mapSession'], fun
                         // Fly to
                         ownerSession.mapDrone.flyToDroneOn3DMap();
                         _this.activeSession = ownerSession;
+                        // Start video stream if drone is connected and this is an owner session
                         _this.eventing.trigger('session-added', _this.ownerSession);
                     });
                 };
@@ -144,7 +145,7 @@ System.register(['backbone-events-standalone', './mapMode', './mapSession'], fun
                         sceneMode: sceneMode //,
                     });
                     var options = {};
-                    options.enableCompass = true;
+                    options.enableCompass = false;
                     options.enableZoomControls = true;
                     options.enableDistanceLegend = false;
                     this.map.extend(Cesium.viewerCesiumNavigationMixin, options);

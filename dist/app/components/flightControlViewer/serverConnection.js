@@ -19,6 +19,7 @@ System.register([], function(exports_1, context_1) {
                     this.droneService.on('disconnected', function () {
                         _this.disconnect().then(function () {
                             _this.isConnected = false;
+                            _this.eventing.trigger('server-disconnected', _this);
                         });
                     });
                     this.droneService.on('connect-error', function (error) {

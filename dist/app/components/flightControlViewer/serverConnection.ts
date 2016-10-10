@@ -1,4 +1,5 @@
 import IDroneService from '@dronesense/core/lib/common/IDroneSenseService';
+import { FlightControlViewerEventing } from './FlightControlViewer';
 
 export default class ServerConnection {
 
@@ -21,6 +22,9 @@ export default class ServerConnection {
     // Last connection error string
     lastConnectionError: string;
 
+    // Eventing access from flightControlViewer
+    eventing: FlightControlViewerEventing;
+
     constructor(public ip: string, public port: number, public droneService: IDroneService) {
 
         // wire up the connection events
@@ -32,6 +36,7 @@ export default class ServerConnection {
         this.droneService.on('disconnected', () => {
             this.disconnect().then(() => {
                 this.isConnected = false;
+                this.eventing.trigger('server-disconnected', this);
             });
         });
 

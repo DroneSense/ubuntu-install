@@ -42,8 +42,9 @@ System.register(['./mapDrone', 'backbone-events-standalone', './mapMode', '@dron
             }());
             exports_1("MapWaypoint", MapWaypoint);
             MapWaypoints = (function () {
-                function MapWaypoints(drone, map, color, sesisonId, entityCollection) {
+                function MapWaypoints(drone, map, color, sesisonId, entityCollection, eventing) {
                     var _this = this;
+                    this.eventing = eventing;
                     this.waypoints = [];
                     this.terrainProvider = new Cesium.CesiumTerrainProvider({
                         url: 'https://www.cesiumcontent.com/api/terrain/world?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkMTM4ZDE2OS05NWYwLTQ0YmItOWY3YS0yNjEwOGE5Y2Y3NjYiLCJpZCI6NywiaWF0IjoxNDU1MjkyNzg5fQ.NDKlrwQZE_04ntDuL89hvatEmuycQo5llhtz3Mi6Wo0'
@@ -94,6 +95,9 @@ System.register(['./mapDrone', 'backbone-events-standalone', './mapMode', '@dron
                     });
                     this.drone.drone.FlightController.Guided.on('waypoint-error', function (index, error) {
                         console.log('waypoint-error: ' + index);
+                        if (_this.waypoints[index]) {
+                            _this.eventing.trigger('waypoint-error', _this.waypoints[index].name);
+                        }
                     });
                     this.drone.drone.FlightController.Guided.on('waypoint-started', function (index) {
                         console.log('waypoint-started: ' + index);
@@ -281,7 +285,7 @@ System.register(['./mapDrone', 'backbone-events-standalone', './mapMode', '@dron
                             _this.mapDrone.initializeDrone(_this.eventing, drones[0], _this.map, _this.color, false).then(function (mapDrone) {
                                 _this.mapDrone = mapDrone;
                                 // Initialize waypoints for guided mode
-                                _this.mapWaypoints = new MapWaypoints(_this.mapDrone, _this.map, _this.color, _this.id, _this.mapEntityCollection);
+                                _this.mapWaypoints = new MapWaypoints(_this.mapDrone, _this.map, _this.color, _this.id, _this.mapEntityCollection, _this.eventing);
                                 // Resume entity events after added
                                 _this.mapEntityCollection.entities.resumeEvents();
                                 resolve(_this);
@@ -350,7 +354,7 @@ System.register(['./mapDrone', 'backbone-events-standalone', './mapMode', '@dron
                                 _this.mapDrone = mapDrone;
                                 _this.setupEvents();
                                 // Initialize waypoints for guided mode
-                                _this.mapWaypoints = new MapWaypoints(_this.mapDrone, _this.map, _this.color, _this.id, _this.mapEntityCollection);
+                                _this.mapWaypoints = new MapWaypoints(_this.mapDrone, _this.map, _this.color, _this.id, _this.mapEntityCollection, _this.eventing);
                                 resolve(_this);
                             });
                         });

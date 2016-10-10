@@ -4,40 +4,35 @@
                 md-center-tabs
                 md-no-tab-content
                 md-stretch-tabs="always" flex style="max-width: 1280px; min-width: 1024px;">
-            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.gps = !$ctrl.gps; $ctrl.gps ? $ctrl.selectedTab = 0 : $ctrl.selectedTab = -1;" layout="row" layout-align="center center">
-                <!--<md-icon style="width: 35px; height: 17px; fill: #ffffff; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-gps.svg"></md-icon>-->
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.toggleTab('gps');" layout="row" layout-align="center center">
                 <ds-gps-status-icon gps-lock="$ctrl.gpsFixType"></ds-gps-status-icon>
                 <label style="text-transform: none;" class="manageViewerTab">GPS</label>
             </md-tab>
             <md-tab ng-if="!$ctrl.isDJIDrone" style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.telementry = !$ctrl.telementry; $ctrl.telementry ? $ctrl.selectedTab = 1 : $ctrl.selectedTab = -1;">
-                <!--<md-icon style="width: 31px; height: 16px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-telemetry.svg"></md-icon>-->
                 <ds-telemetry-status-icon signal-strength="$ctrl.drone.FlightController.Telemetry.RadioControl.rssi"></ds-telemetry-status-icon>
                 <label style="text-transform: none;" class="manageViewerTab">Telemetry</label>
             </md-tab>
-            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.datalink = !$ctrl.datalink; $ctrl.datalink ? $ctrl.selectedTab = 1 : $ctrl.selectedTab = -1;">
-                <!--<md-icon style="width: 36px; height: 18px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-rc.svg"></md-icon>-->
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.selectedTab = -1;">
                 <ds-rc-status-icon signal-strength="$ctrl.rcSignalPercentage" ></ds-rc-status-icon>
                 <label style="text-transform: none;" class="manageViewerTab">Remote</label>
             </md-tab>
-            <md-tab ng-if="$ctrl.isDJIDrone" style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.videoLink = !$ctrl.videoLink; $ctrl.videoLink ? $ctrl.selectedTab = 2 : $ctrl.selectedTab = -1;">
-                <!--<md-icon style="width: 36px; height: 18px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-rc.svg"></md-icon>-->
+            <md-tab ng-if="$ctrl.isDJIDrone" style="padding: 12px 18px;" ng-click="$ctrl.selectedTab = -1;">
                 <ds-video-status-icon signal-strength="$ctrl.videoSignalPercentage"></ds-video-status-icon>
                 <label style="text-transform: none;" class="manageViewerTab">Video</label>
             </md-tab>
-            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.sysStatus = !$ctrl.sysStatus; $ctrl.sysStatus ? $ctrl.selectedTab = 3 : $ctrl.selectedTab = -1;">
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.selectedTab = -1;">
                 <md-icon style="width: 18px; height: 16px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-warning.svg"></md-icon>
                 <label style="text-transform: none;" class="manageViewerTab">Status</label>
             </md-tab>
-            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.battery = !$ctrl.battery; $ctrl.battery ? $ctrl.selectedTab = 4 : $ctrl.selectedTab = -1;">
-                <!--<md-icon style="width: 12px; height: 18px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-battery.svg"></md-icon>-->
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.toggleTab('battery');">
                 <ds-battery-status-icon battery-percentage="$ctrl.batteryRemainingPercent"></ds-battery-status-icon>
                 <label style="text-transform: none;" class="manageViewerTab">Battery</label>
             </md-tab>
-            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.goTo('manage.documents');">
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.selectedTab = -1;">
                 <md-icon style="width: 12px; height: 18px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-safechecks.svg"></md-icon>
                 <label style="text-transform: none;" class="manageViewerTab">Checklists</label>
             </md-tab>
-            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.hidetabs(); $ctrl.goTo('manage.models');">
+            <md-tab style="padding: 12px 18px;" ng-click="$ctrl.toggleTab('settings');">
                 <md-icon style="width: 16px; height: 16px; fill: #00C120; margin-bottom: 5px" md-svg-icon="./app/components/controlToolbar/images/icon-settings.svg"></md-icon>
                 <label style="text-transform: none;" class="manageViewerTab">Settings</label>
             </md-tab>
@@ -103,17 +98,78 @@
     <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
         Battery Temp: {{ $ctrl.batteryTemp }} C
     </div>
-    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+    <div style="padding: 0 30px;">
         Remaining: {{ $ctrl.batteryRemainingPercent }}%
     </div>
-    <div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
+    <!--<div style="padding: 0 30px; border-right-width: 1px; border-right-style: dashed; border-right-color: #767a81;">
         Lifetime: {{ $ctrl.lifetimeRemaining }}%
-    </div>
+    </div>-->
 </div>
 
 <div ng-show="$ctrl.sysStatus" style="height: 300px; width: 300px; background-color: white;">
 
 </div>
+
+<md-content ng-show="$ctrl.settingsDialog" md-theme='ds-dark' class="md-whiteframe-15dp" style="position: fixed; top: 115px; left: 50%; margin-left: -190px; padding: 20px 30px; width: 320px; background-color: rgb(57, 60, 64);
+    z-index: 1;">
+
+    <!--Header Text-->
+    <div layout="row" layout-align="center center" class="heading-18-light">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Settings</label>
+    </div>
+
+    <div layout="row" class="heading-16" style="margin-top: 20px;">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Local Video Server Settings</label>
+    </div>
+
+    <div>
+        <md-input-container class="md-block" flex style="margin-top: 25px;">
+            <label>IP Address</label>
+            <input ng-model="$ctrl.settings.localVideoServerIP">
+        </md-input-container>
+    </div>
+
+    <div>
+        <md-input-container class="md-block" flex style="margin-bottom: 15px;">
+            <label>Port</label>
+            <input type="number" ng-model="$ctrl.settings.localVideoServerPort">
+        </md-input-container>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <md-checkbox ng-model="$ctrl.settings.remoteVideoServerEnabled" aria-label="Remote Video Server">
+            Stream to remote video server
+        </md-checkbox>
+    </div>
+
+    <div ng-show="$ctrl.settings.remoteVideoServerEnabled" layout="row" class="heading-16" style="margin-top: 20px;">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Remote Video Server Settings</label>
+    </div>
+
+    <div ng-show="$ctrl.settings.remoteVideoServerEnabled">
+        <md-input-container class="md-block" flex style="margin-top: 25px;">
+            <label>IP Address</label>
+            <input ng-model="$ctrl.settings.remoteVideoServerIP">
+        </md-input-container>
+    </div>
+
+    <div ng-show="$ctrl.settings.remoteVideoServerEnabled">
+        <md-input-container class="md-block" flex style="margin-bottom: 15px;">
+            <label>Port</label>
+            <input type="number" ng-model="$ctrl.settings.remoteVideoServerPort">
+        </md-input-container>
+    </div>
+
+    <div layout="row" style="margin-top: 10px;"  layout-align="center center">
+        <!--<md-button ng-click="$ctrl.settingsDialog = false; $ctrl.selectedTab = -1;" class="md-dark-outline btn-md" style="margin-right: 36px; width: 164px; height: 38px; color: #c4ccd5">
+            <label style="cursor: pointer;">Cancel</label>
+        </md-button>-->
+        <md-button ng-click="$ctrl.settingsDialog = false; $ctrl.selectedTab = -1;" class="md-light btn-md" style="width: 164px;">
+            <label style="cursor: pointer;" >Close</label>
+        </md-button>
+    </div>
+
+</md-content>
 
 <ds-battery-status-indicator ng-show="true" time-remaining="$ctrl.timeRemaining" battery-percentage="$ctrl.batteryRemainingPercent"></ds-battery-status-indicator>
 
