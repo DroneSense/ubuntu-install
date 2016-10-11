@@ -80,3 +80,7 @@
 2. systemctl enable dswebserver  
 3. systemctl start dswebserver  
 4. systemctl status dswebserver  
+
+### OpenSSH Install
+1. sudo apt-get install openssh-server
+then connect by using ssh dronesense@ip
