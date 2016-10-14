@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 20.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 66.4 14.2" style="enable-background:new 0 0 66.4 14.2;" xml:space="preserve">
-<g>
-	<polygon style="fill:#FFFFFF;" points="13.1,7.1 19.4,1.2 19.4,13.1 	"/>
-	<path style="fill:#FFFFFF;" d="M13.4,14.2H0.8c-0.5,0-0.8-0.4-0.8-0.8L0,0.8C0,0.4,0.4,0,0.8,0l12.6,0c0.5,0,0.8,0.4,0.8,0.8v12.6
-		C14.2,13.9,13.9,14.2,13.4,14.2z"/>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 66.8 60" style="enable-background:new 0 0 66.8 60;" xml:space="preserve">
+<g id="arc">
+	<path style="fill:none;stroke:#808080;stroke-width:1.1758;stroke-miterlimit:10;" d="M7,25.6v33.9c28.9,0,52.3-23.4,52.3-52.3
+		H25.6"/>
 </g>
-<line style="fill:none;stroke:#00C121;stroke-width:2;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:10;stroke-dasharray:2,5;" x1="23.8" y1="7.1" x2="56.8" y2="7.1"/>
-<polygon style="fill:#00C121;" points="66.4,7.1 59.5,11.1 59.5,3.1 "/>
+<g id="cam_and_arrow">
+	<g>
+		<polygon style="fill:#FFFFFF;" points="13.1,7.2 19.4,1.2 19.4,13.1 		"/>
+		<path style="fill:#FFFFFF;" d="M13.4,14.3H0.8c-0.5,0-0.8-0.4-0.8-0.8L0,0.9C0,0.4,0.4,0,0.8,0l12.6,0c0.5,0,0.8,0.4,0.8,0.8v12.6
+			C14.2,13.9,13.9,14.3,13.4,14.3z"/>
+	</g>
+	
+		<line style="fill:none;stroke:#00C121;stroke-width:2;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:10;stroke-dasharray:2,5;" x1="24.8" y1="7.2" x2="57.8" y2="7.2"/>
+	<polygon style="fill:#00C121;" points="66.8,7.2 59.9,11.1 59.9,3.2 	"/>
+</g>
 </svg>

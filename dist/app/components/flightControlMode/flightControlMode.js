@@ -1,10 +1,13 @@
-System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/core/lib/common/enums/FlightMode'], function(exports_1, context_1) {
+System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/core/lib/common/enums/FlightMode'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var SystemStatus_1, FlightMode_1;
-    var FlightControlMode, ButtonActions, GuidedMode, RTLMode, ManualMode;
+    var Utility_1, SystemStatus_1, FlightMode_1;
+    var FlightControlMode, ButtonActions, OrbitMode, GuidedMode, RTLMode, ManualMode;
     return {
         setters:[
+            function (Utility_1_1) {
+                Utility_1 = Utility_1_1;
+            },
             function (SystemStatus_1_1) {
                 SystemStatus_1 = SystemStatus_1_1;
             },
@@ -21,6 +24,10 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                     this.rtlIndicatorVisible = false;
                     // Flag to show guided mode button
                     this.guidedModeButtonVisible = false;
+                    this.changeToOrbitModeButtonVisible = false;
+                    this.orbitModeButtonVisible = false;
+                    this.targetAddActive = false;
+                    this.addTargetButtonVisible = false;
                     this.changeToGuidedModeButtonVisible = false;
                     // Flag to show manual mode button
                     this.manualModeButtonVisible = false;
@@ -52,12 +59,25 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                     this.guidedMode = new GuidedMode(this.bindings.$ctrl);
                     // RTL Mode
                     this.rtlMode = new RTLMode(this.bindings.$ctrl);
+                    // Orbit Mode
+                    this.orbitMode = new OrbitMode(this.bindings.$ctrl);
                     this.waypointAddActive = false;
                     this.showWaypointDialog = false;
                     this.waypointAltitudeValue = 50;
                     this.waypointSpeedValue = 5;
                     this.waypointFlyToNow = false;
+                    this.showTargetDialog = false;
+                    this.manualModeChangeIndicatorVisible = false;
+                    this.guidedModeChangeIndicatorVisible = false;
+                    this.rtlModeChangeIndicatorVisible = false;
+                    this.orbitModeChangeIndicatorVisible = false;
+                    this.targetLatLngAcquired = false;
                     this.takeoffAltitude = 50;
+                    this.sendingTargetToDrone = false;
+                    this.targetAltitude = 50;
+                    this.targetRadius = 10;
+                    this.targetDirection = true;
+                    this.targetVelocity = 20;
                     this.wayPointNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ',];
                     this.nextNameIndex = 0;
                     this.sessionController.eventing.on('session-added', function (ownerSession) {
@@ -93,12 +113,26 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                     });
                 }
                 FlightControlMode.prototype.setManualMode = function () {
+                    this.guidedModeChangeIndicatorVisible = true;
+                    this.rtlModeChangeIndicatorVisible = true;
+                    this.orbitModeChangeIndicatorVisible = true;
                     this.drone.FlightController.setFlightMode(FlightMode_1.FlightMode.Loiter).then(function () {
                     }).catch(function (error) {
                     });
                 };
                 FlightControlMode.prototype.setGuidedMode = function () {
+                    this.manualModeChangeIndicatorVisible = true;
+                    this.rtlModeChangeIndicatorVisible = true;
+                    this.orbitModeChangeIndicatorVisible = true;
                     this.drone.FlightController.setFlightMode(FlightMode_1.FlightMode.Guided).then(function () {
+                    }).catch(function (error) {
+                    });
+                };
+                FlightControlMode.prototype.setOrbitMode = function () {
+                    this.manualModeChangeIndicatorVisible = true;
+                    this.rtlModeChangeIndicatorVisible = true;
+                    this.guidedModeChangeIndicatorVisible = true;
+                    this.drone.FlightController.setFlightMode(FlightMode_1.FlightMode.Orbit).then(function () {
                     }).catch(function (error) {
                     });
                 };
@@ -122,6 +156,9 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                             break;
                         case FlightMode_1.FlightMode.RTL:
                             this.currentMode = this.rtlMode;
+                            break;
+                        case FlightMode_1.FlightMode.Orbit:
+                            this.currentMode = this.orbitMode;
                             break;
                         default:
                             this.currentMode = null;
@@ -166,8 +203,22 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                         this.showWaypointDialog = true;
                     }
                 };
+                FlightControlMode.prototype.addOrbitTarget = function () {
+                    if (!this.mouseHandler) {
+                        console.log('initialize mouse handler');
+                        this.initializeMapMouseHandler();
+                    }
+                    if (this.targetAddActive) {
+                        this.targetAddActive = false;
+                        this.targetLatLngAcquired = false;
+                    }
+                    else {
+                        this.targetAddActive = true;
+                    }
+                };
                 FlightControlMode.prototype.takeoffToAltitude = function () {
                     this.drone.FlightController.takeoff(this.takeoffAltitude).then(function () {
+                        console.log('takeoff callback');
                     }).catch(function (error) {
                         console.log(error);
                     });
@@ -177,18 +228,30 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                     this.getTakeoffAltitudeVisible = false;
                 };
                 FlightControlMode.prototype.changeAltitudeTo = function () {
-                    this.drone.FlightController.Guided.setAcceptanceRadius(1);
-                    this.drone.FlightController.Guided.addWaypoint({
-                        lattitude: this.drone.FlightController.Telemetry.Position.lattitude,
-                        longitude: this.drone.FlightController.Telemetry.Position.longitude,
-                        altitude: this.changeAltitudeValue,
-                        speed: 5,
-                        name: this.getNextName()
-                    }, true).then(function () {
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                    this.getChangeAltitudeVisible = false;
+                    var _this = this;
+                    if (this.currentMode.flightMode === FlightMode_1.FlightMode.Guided) {
+                        this.drone.FlightController.Guided.setAcceptanceRadius(1);
+                        this.drone.FlightController.Guided.addWaypoint({
+                            lattitude: this.drone.FlightController.Telemetry.Position.lattitude,
+                            longitude: this.drone.FlightController.Telemetry.Position.longitude,
+                            altitude: this.changeAltitudeValue,
+                            speed: 5,
+                            name: this.getNextName()
+                        }, true).then(function () {
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                        this.getChangeAltitudeVisible = false;
+                    }
+                    if (this.currentMode.flightMode === FlightMode_1.FlightMode.Orbit) {
+                        this.drone.FlightController.Orbit.orbit(this.targetLat, this.targetLng, this.changeAltitudeValue, this.targetRadius, this.targetDirection, this.targetVelocity).then(function () {
+                            _this.getChangeAltitudeVisible = false;
+                        }).catch(function (error) {
+                            // Keep dialog open and show error
+                            _this.getChangeAltitudeVisible = false;
+                            console.log(error);
+                        });
+                    }
                 };
                 FlightControlMode.prototype.cancelChangeAltitude = function () {
                     this.getChangeAltitudeVisible = false;
@@ -196,9 +259,26 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                 FlightControlMode.prototype.closeWaypointDialog = function () {
                     this.showWaypointDialog = false;
                 };
+                FlightControlMode.prototype.closeActiveDialog = function () {
+                    this.showTargetDialog = false;
+                    this.targetAddActive = false;
+                    this.targetLatLngAcquired = false;
+                };
                 FlightControlMode.prototype.setWaypointsActive = function () {
                     this.closeWaypointDialog();
                     this.waypointAddActive = true;
+                };
+                FlightControlMode.prototype.setTargetActive = function () {
+                    var _this = this;
+                    this.sendingTargetToDrone = true;
+                    this.drone.FlightController.Orbit.orbit(this.targetLat, this.targetLng, this.targetAltitude, this.targetRadius, this.targetDirection, this.targetVelocity).then(function () {
+                        _this.closeActiveDialog();
+                        _this.sendingTargetToDrone = false;
+                    }).catch(function (error) {
+                        // Keep dialog open and show error
+                        _this.sendingTargetToDrone = false;
+                        console.log(error);
+                    });
                 };
                 FlightControlMode.prototype.initializeMapMouseHandler = function () {
                     var _this = this;
@@ -209,10 +289,10 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
                 };
                 FlightControlMode.prototype.handleMouseClick = function (click) {
-                    if (!this.waypointAddActive) {
+                    if (!this.waypointAddActive && !this.targetAddActive) {
                         return;
                     }
-                    var start = new Date().getTime();
+                    //let start: any = new Date().getTime();
                     var ray = this.sessionController.map.camera.getPickRay(click.position);
                     var position = this.sessionController.map.scene.globe.pick(ray, this.sessionController.map.scene);
                     //console.log(position);
@@ -224,18 +304,44 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                         //var cartographic: Cesium.Cartographic = Cesium.Cartographic.fromCartesian(position);
                         var longitudeString = Cesium.Math.toDegrees(positionCartographic.longitude);
                         var latitudeString = Cesium.Math.toDegrees(positionCartographic.latitude);
-                        this.drone.FlightController.Guided.addWaypoint({
-                            lattitude: latitudeString,
-                            longitude: longitudeString,
-                            altitude: this.waypointAltitudeValue,
-                            speed: this.waypointSpeedValue,
-                            name: this.getNextName()
-                        }, this.waypointFlyToNow).then(function () {
-                            // console.log('waypoing added callback');
-                            var end = new Date().getTime();
-                            var time = end - start;
-                            console.log('Execution time: ' + time);
-                        });
+                        if (this.waypointAddActive) {
+                            this.drone.FlightController.Guided.addWaypoint({
+                                lattitude: latitudeString,
+                                longitude: longitudeString,
+                                altitude: this.waypointAltitudeValue,
+                                speed: this.waypointSpeedValue,
+                                name: this.getNextName()
+                            }, this.waypointFlyToNow).then(function () {
+                                // console.log('waypoing added callback');
+                                // let end: any = new Date().getTime();
+                                // let time: any = end - start;
+                                // console.log('Execution time: ' + time);
+                            });
+                        }
+                        if (this.targetAddActive) {
+                            // If we have a target orbit point then calculate the radius distance and show dialog
+                            if (this.targetLatLngAcquired) {
+                                var distance = Utility_1.Conversions.distance2(this.targetLat, this.targetLng, latitudeString, longitudeString);
+                                this.targetRadius = Utility_1.Conversions.roundToTwo(distance);
+                                this.showTargetDialog = true;
+                            }
+                            else {
+                                this.targetLat = latitudeString;
+                                this.targetLng = longitudeString;
+                                this.targetLatLngAcquired = true;
+                                this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitTarget);
+                                this.currentOrbitTarget = this.sessionController.activeSession.mapEntityCollection.entities.add({
+                                    position: Cesium.Cartesian3.fromDegrees(longitudeString, latitudeString, 1),
+                                    point: {
+                                        color: Cesium.Color.fromCssColorString('#0a92ea'),
+                                        pixelSize: 10,
+                                        outlineColor: Cesium.Color.WHITE,
+                                        outlineWidth: 3,
+                                        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
+                                    }
+                                });
+                            }
+                        }
                     }
                 };
                 FlightControlMode.prototype.getNextName = function () {
@@ -258,6 +364,126 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                 ButtonActions[ButtonActions["ChangeAltitude"] = 5] = "ChangeAltitude";
                 ButtonActions[ButtonActions["AddWaypoint"] = 6] = "AddWaypoint";
             })(ButtonActions || (ButtonActions = {}));
+            OrbitMode = (function () {
+                function OrbitMode(flightControlMode) {
+                    this.flightControlMode = flightControlMode;
+                }
+                OrbitMode.prototype.initialize = function (systemStatus, flightMode, drone) {
+                    var _this = this;
+                    this.systemStatus = systemStatus;
+                    this.flightMode = flightMode;
+                    this.drone = drone;
+                    this.drone.FlightController.Telemetry.on('System', function (value) {
+                        _this.flightControlMode.pauseButtonVisible = !value.paused;
+                        _this.flightControlMode.resumeButtonVisible = value.paused;
+                        _this.flightControlMode.pauseIndicatorVisible = false;
+                        _this.flightControlMode.resumeIndicatorVisible = false;
+                    });
+                };
+                OrbitMode.prototype.setupUI = function () {
+                    // Turn on primary mode on/off buttons
+                    this.flightControlMode.orbitModeButtonVisible = true;
+                    this.flightControlMode.changeToManualModeButtonVisible = true;
+                    this.flightControlMode.changeToGuidedModeButtonVisible = true;
+                    this.flightControlMode.setNewHomePointButtonVisible = true;
+                    // Turn off indicators from mode change
+                    this.flightControlMode.manualModeChangeIndicatorVisible = false;
+                    this.flightControlMode.guidedModeChangeIndicatorVisible = false;
+                    this.flightControlMode.rtlModeChangeIndicatorVisible = false;
+                    this.flightControlMode.orbitModeChangeIndicatorVisible = false;
+                    // Let status change handle status specific buttons
+                    this.handleStatusChange(this.systemStatus);
+                };
+                OrbitMode.prototype.teardownUI = function () {
+                    this.flightControlMode.orbitModeButtonVisible = false;
+                    this.flightControlMode.guidedModeButtonVisible = false;
+                    this.flightControlMode.setNewHomePointButtonVisible = false;
+                    this.flightControlMode.rtlButtonVisible = false;
+                    this.flightControlMode.changeAltitudeButtonVisible = false;
+                    this.flightControlMode.pauseButtonVisible = false;
+                    this.flightControlMode.resumeButtonVisible = false;
+                    this.flightControlMode.takeoffButtonVisible = false;
+                    this.flightControlMode.changeToManualModeButtonVisible = false;
+                    this.flightControlMode.changeToGuidedModeButtonVisible = false;
+                    this.flightControlMode.addTargetButtonVisible = false;
+                    this.flightControlMode.targetAddActive = false;
+                    this.flightControlMode.targetLatLngAcquired = false;
+                };
+                OrbitMode.prototype.handleButtonClick = function (button) {
+                    switch (button) {
+                        case ButtonActions.RTL:
+                            this.drone.FlightController.setFlightMode(FlightMode_1.FlightMode.RTL).then(function () {
+                            }).catch(function (error) {
+                                // TODO: handle error changing modes
+                            });
+                            break;
+                        case ButtonActions.SetHomePoint:
+                            //this.drone.FlightController.setHomePoint(lat/lng);
+                            break;
+                        case ButtonActions.ChangeAltitude:
+                            this.flightControlMode.changeAltitudeValue = this.drone.FlightController.Telemetry.Position.altitudeAGL;
+                            this.flightControlMode.getChangeAltitudeVisible = true;
+                            break;
+                        case ButtonActions.Pause:
+                            this.drone.FlightController.pause(true).then(function () {
+                            }).catch(function (error) {
+                                console.log(error);
+                            });
+                            break;
+                        case ButtonActions.Resume:
+                            this.drone.FlightController.pause(false).then(function () {
+                            }).catch(function (error) {
+                                console.log(error);
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+                };
+                OrbitMode.prototype.handleStatusChange = function (systemStatus) {
+                    switch (systemStatus) {
+                        // System is active and might be already airborne. Motors are engaged.
+                        case SystemStatus_1.SystemStatus.Active:
+                            this.flightControlMode.rtlButtonVisible = true;
+                            this.flightControlMode.changeAltitudeButtonVisible = true;
+                            this.flightControlMode.pauseButtonVisible = true;
+                            this.flightControlMode.setNewHomePointButtonVisible = true;
+                            this.flightControlMode.addTargetButtonVisible = true;
+                            break;
+                        // System is booting up.
+                        case SystemStatus_1.SystemStatus.Booting:
+                            this.flightControlMode.rtlButtonVisible = false;
+                            break;
+                        // System is calibrating and not flight-ready.
+                        case SystemStatus_1.SystemStatus.Calibrating:
+                            this.flightControlMode.rtlButtonVisible = false;
+                            break;
+                        // System is in a non-normal flight mode. It can however still navigate.
+                        case SystemStatus_1.SystemStatus.Critical:
+                            this.flightControlMode.rtlButtonVisible = true;
+                            break;
+                        // System is in a non-normal flight mode. It lost control over parts or over the whole airframe. It is in mayday and going down.
+                        case SystemStatus_1.SystemStatus.Emergency:
+                            this.flightControlMode.rtlButtonVisible = true;
+                            break;
+                        // System just initialized its power-down sequence, will shut down now.
+                        case SystemStatus_1.SystemStatus.PowerOff:
+                            this.flightControlMode.rtlButtonVisible = false;
+                            break;
+                        // System is grounded and on standby. It can be launched any time.
+                        case SystemStatus_1.SystemStatus.Standby:
+                            this.flightControlMode.rtlButtonVisible = false;
+                            break;
+                        // Uninitialized system, state is unknown.
+                        case SystemStatus_1.SystemStatus.Unknown:
+                            this.flightControlMode.rtlButtonVisible = false;
+                            break;
+                        default:
+                            break;
+                    }
+                };
+                return OrbitMode;
+            }());
             GuidedMode = (function () {
                 function GuidedMode(flightControlMode) {
                     this.flightControlMode = flightControlMode;
@@ -304,8 +530,14 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                     // Turn on primary mode on/off buttons
                     this.flightControlMode.guidedModeButtonVisible = true;
                     this.flightControlMode.changeToManualModeButtonVisible = true;
+                    this.flightControlMode.changeToOrbitModeButtonVisible = true;
                     this.flightControlMode.addWaypointButtonVisible = true;
                     this.flightControlMode.setNewHomePointButtonVisible = true;
+                    // Turn off indicators from mode change
+                    this.flightControlMode.manualModeChangeIndicatorVisible = false;
+                    this.flightControlMode.guidedModeChangeIndicatorVisible = false;
+                    this.flightControlMode.rtlModeChangeIndicatorVisible = false;
+                    this.flightControlMode.orbitModeChangeIndicatorVisible = false;
                     // Let status change handle status specific buttons
                     this.handleStatusChange(this.systemStatus);
                 };
@@ -318,7 +550,9 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                     this.flightControlMode.resumeButtonVisible = false;
                     this.flightControlMode.takeoffButtonVisible = false;
                     this.flightControlMode.changeToManualModeButtonVisible = false;
+                    this.flightControlMode.changeToOrbitModeButtonVisible = false;
                     this.flightControlMode.addWaypointButtonVisible = false;
+                    this.flightControlMode.waypointAddActive = false;
                 };
                 GuidedMode.prototype.handleButtonClick = function (button) {
                     switch (button) {
@@ -417,6 +651,11 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                     this.flightControlMode.rtlModeButtonVisible = true;
                     this.flightControlMode.changeToManualModeButtonVisible = true;
                     this.flightControlMode.changeToGuidedModeButtonVisible = true;
+                    // Turn off indicators from mode change
+                    this.flightControlMode.manualModeChangeIndicatorVisible = false;
+                    this.flightControlMode.guidedModeChangeIndicatorVisible = false;
+                    this.flightControlMode.rtlModeChangeIndicatorVisible = false;
+                    this.flightControlMode.orbitModeChangeIndicatorVisible = false;
                     // Let status change handle status specific buttons
                     this.handleStatusChange(this.systemStatus);
                 };
@@ -486,6 +725,12 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                     this.flightControlMode.manualModeButtonVisible = true;
                     this.flightControlMode.setNewHomePointButtonVisible = true;
                     this.flightControlMode.changeToGuidedModeButtonVisible = true;
+                    this.flightControlMode.changeToOrbitModeButtonVisible = true;
+                    // Turn off indicators from mode change
+                    this.flightControlMode.manualModeChangeIndicatorVisible = false;
+                    this.flightControlMode.guidedModeChangeIndicatorVisible = false;
+                    this.flightControlMode.rtlModeChangeIndicatorVisible = false;
+                    this.flightControlMode.orbitModeChangeIndicatorVisible = false;
                     // Let status change handle status specific buttons
                     this.handleStatusChange(this.systemStatus);
                 };
@@ -494,6 +739,7 @@ System.register(['@dronesense/core/lib/common/enums/SystemStatus', '@dronesense/
                     this.flightControlMode.setNewHomePointButtonVisible = false;
                     this.flightControlMode.rtlButtonVisible = false;
                     this.flightControlMode.changeToGuidedModeButtonVisible = false;
+                    this.flightControlMode.changeToOrbitModeButtonVisible = false;
                 };
                 ManualMode.prototype.handleButtonClick = function (button) {
                     switch (button) {

@@ -76,42 +76,67 @@ System.register(['./mapDrone', 'backbone-events-standalone', './mapMode', '@dron
                     this.calculateTimeAndDistance();
                     this.drone.drone.FlightController.Guided.on('waypoint-added', function (wayPoint, index) {
                         console.log('waypoint-added: ' + index + ':' + wayPoint);
-                        _this.getHAE(wayPoint.lattitude, wayPoint.longitude).then(function (height) {
-                            _this.waypoints.splice(index, 0, new MapWaypoint(wayPoint, index, height));
-                            _this.addWaypointToMap(_this.waypoints[index]);
-                            // Fix the animation clock
-                            _this.map.clock.currentTime = Cesium.JulianDate.now();
-                            _this.updateIndexes();
-                        });
+                        try {
+                            _this.getHAE(wayPoint.lattitude, wayPoint.longitude).then(function (height) {
+                                _this.waypoints.splice(index, 0, new MapWaypoint(wayPoint, index, height));
+                                _this.addWaypointToMap(_this.waypoints[index]);
+                                // Fix the animation clock
+                                _this.map.clock.currentTime = Cesium.JulianDate.now();
+                                _this.updateIndexes();
+                            });
+                        }
+                        catch (error) {
+                            console.log(error);
+                        }
                     });
                     this.drone.drone.FlightController.Guided.on('waypoint-removed', function (index) {
                         console.log('waypoint-removed: ' + index);
-                        _this.removeWaypointFromMap(_this.waypoints[index].name);
-                        _this.waypoints.splice(index, 1);
-                        _this.updateIndexes();
+                        try {
+                            _this.removeWaypointFromMap(_this.waypoints[index].name);
+                            _this.waypoints.splice(index, 1);
+                            _this.updateIndexes();
+                        }
+                        catch (error) {
+                            console.log(error);
+                        }
                     });
                     this.drone.drone.FlightController.Guided.on('waypoints-changed', function () {
                         console.log('waypoints-changed');
                     });
                     this.drone.drone.FlightController.Guided.on('waypoint-error', function (index, error) {
                         console.log('waypoint-error: ' + index);
-                        if (_this.waypoints[index]) {
-                            _this.eventing.trigger('waypoint-error', _this.waypoints[index].name);
+                        try {
+                            if (_this.waypoints[index]) {
+                                _this.eventing.trigger('waypoint-error', _this.waypoints[index].name);
+                            }
+                        }
+                        catch (error) {
+                            console.log(error);
                         }
                     });
                     this.drone.drone.FlightController.Guided.on('waypoint-started', function (index) {
                         console.log('waypoint-started: ' + index);
-                        if (_this.currentWaypoint) {
-                            _this.currentWaypoint.isActive = false;
+                        try {
+                            if (_this.currentWaypoint) {
+                                _this.currentWaypoint.isActive = false;
+                            }
+                            _this.currentWaypoint = _this.waypoints[index];
+                            _this.currentIndex = index;
+                            _this.waypoints[index].isActive = true;
                         }
-                        _this.currentWaypoint = _this.waypoints[index];
-                        _this.currentIndex = index;
-                        _this.waypoints[index].isActive = true;
+                        catch (error) {
+                            console.log(error);
+                        }
                     });
                     this.drone.drone.FlightController.Guided.on('waypoint-reached', function (index) {
                         console.log('waypoint-reached: ' + index);
-                        _this.waypoints[index].reached = true;
-                        _this.waypoints[index].isActive = false;
+                        try {
+                            _this.waypoints[index].reached = true;
+                            _this.waypoints[index].isActive = false;
+                        }
+                        catch (error) {
+                            console.log(error);
+                        }
                     });
                 }
                 MapWaypoints.prototype.removeWaypointFromMap = function (name) {

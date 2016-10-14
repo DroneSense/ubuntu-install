@@ -23,6 +23,9 @@ System.register([], function(exports_1, context_1) {
                     this.brown = '#6c5735';
                     this.heading = 0;
                     this.waypoints = [];
+                    // Gimbal Properties 
+                    this.gimbalPitch = 0;
+                    this.gimbalHeading = 0;
                     this.sessionController.eventing.on('session-added', function (ownerSession) {
                         _this.drone = ownerSession.mapDrone.drone;
                         _this.bindings.$applyAsync();
@@ -72,6 +75,7 @@ System.register([], function(exports_1, context_1) {
                 ControlTelemetry.prototype.unwireChanges = function () {
                     if (this.drone) {
                         this.drone.FlightController.Telemetry.off('propertyChanged');
+                        this.drone.Gimbal.off('state-updated');
                     }
                     this.hSpeed = 0;
                     this.vSpeed = 0;
@@ -85,6 +89,8 @@ System.register([], function(exports_1, context_1) {
                     this.heading = 0;
                     this.horizontalSpeedValue = '-180deg';
                     this.verticalSpeedValue = '-180deg';
+                    this.gimbalHeading = 0;
+                    this.gimbalPitch = 0;
                 };
                 ControlTelemetry.prototype.wireUpChanges = function () {
                     var _this = this;
@@ -103,6 +109,12 @@ System.register([], function(exports_1, context_1) {
                             _this.headingCSS = (_this.drone.FlightController.Telemetry.Position.heading).toString();
                             _this.heading = Math.round(_this.drone.FlightController.Telemetry.Position.heading);
                         }
+                        _this.drone.Gimbal.on('state-updated', function (gimbal) {
+                            if (gimbal) {
+                                _this.gimbalHeading = Math.round(gimbal.yaw);
+                                _this.gimbalPitch = Math.round(gimbal.pitch) * -1;
+                            }
+                        });
                         _this.bindings.$applyAsync();
                     });
                 };

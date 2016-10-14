@@ -1,0 +1,21 @@
+<!--<div ng-if="$ctrl.firstSessionLoaded" style="position: absolute; right: 20px; top: 115px;">-->
+<div ng-if="true" style="position: absolute; right: 20px; top: 115px;">
+    <div layout="column" ng-click="$ctrl.showVideoPreview();" layout-align="center center" class="flightControlButton">
+        <md-icon style="width: 20px; height: 30px; color: white;" md-svg-icon="./app/components/flightControlViewer/images/videoPlayButton.svg"></md-icon>
+    </div>
+</div>
+
+<!--Video click handler div-->
+<!-- /* !web-start */ -->
+<div ng-show="$ctrl.showingVideo" ng-click="$ctrl.showFullScreen()" style="position: absolute; right: {{ $ctrl.right }}; top: {{ $ctrl.top }}; width: {{ $ctrl.playerWidth }}; height: {{ $ctrl.playerHeight }}; background-color: transparent; outline: none; z-index: {{ $ctrl.zindex }}">
+    <video id="red5pro-video"
+        class="" style="height: 100%; width: 100%;"
+        autoplay data-setup="{}">
+    </video>
+</div>
+<!-- /* !web-stop */ -->
+
+<!-- /* !cordova-start */ -->
+<div ng-if="$ctrl.showingVideo" ng-click="$ctrl.showFullScreen()" style="position: absolute; right: 64px; top: 115px; width: 300px; height: 168px; background-color: transparent; outline: none;">
+<div>
+<!-- /* !cordova-stop */ -->

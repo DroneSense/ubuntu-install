@@ -106,25 +106,34 @@ export class MapWaypoints {
         this.drone.drone.FlightController.Guided.on('waypoint-added', (wayPoint: IGuidedWaypoint, index: number) => {
             console.log('waypoint-added: ' + index + ':' + wayPoint);
 
-            this.getHAE(wayPoint.lattitude, wayPoint.longitude).then((height: number) => {
+            try {
+                this.getHAE(wayPoint.lattitude, wayPoint.longitude).then((height: number) => {
 
-                this.waypoints.splice(index, 0, new MapWaypoint(wayPoint, index, height));
+                    this.waypoints.splice(index, 0, new MapWaypoint(wayPoint, index, height));
 
-                this.addWaypointToMap(this.waypoints[index]);
+                    this.addWaypointToMap(this.waypoints[index]);
 
-                // Fix the animation clock
-                this.map.clock.currentTime = Cesium.JulianDate.now();
+                    // Fix the animation clock
+                    this.map.clock.currentTime = Cesium.JulianDate.now();
 
-                this.updateIndexes();
+                    this.updateIndexes();
 
-            });
+                });
+            } catch (error) {
+                console.log(error);
+            }
         });
 
         this.drone.drone.FlightController.Guided.on('waypoint-removed', (index: number) => {
             console.log('waypoint-removed: ' + index);
-            this.removeWaypointFromMap(this.waypoints[index].name);
-            this.waypoints.splice(index, 1);
-            this.updateIndexes();
+
+            try {
+                this.removeWaypointFromMap(this.waypoints[index].name);
+                this.waypoints.splice(index, 1);
+                this.updateIndexes();
+            } catch (error) {
+                console.log(error);
+            }
         });
         
         this.drone.drone.FlightController.Guided.on('waypoints-changed', () => {
@@ -133,26 +142,41 @@ export class MapWaypoints {
 
         this.drone.drone.FlightController.Guided.on('waypoint-error', (index: number, error: any) => {
             console.log('waypoint-error: ' + index);
-            if (this.waypoints[index]) {
-                this.eventing.trigger('waypoint-error', this.waypoints[index].name);
+
+            try {
+                if (this.waypoints[index]) {
+                    this.eventing.trigger('waypoint-error', this.waypoints[index].name);
+                }
+            } catch (error) {
+                console.log(error);
             }
         });
 
         this.drone.drone.FlightController.Guided.on('waypoint-started', (index: number) => {
             console.log('waypoint-started: ' + index);
-            if (this.currentWaypoint) {
-                this.currentWaypoint.isActive = false;
-            }
 
-            this.currentWaypoint = this.waypoints[index];
-            this.currentIndex = index;
-            this.waypoints[index].isActive = true;
+            try {
+                if (this.currentWaypoint) {
+                    this.currentWaypoint.isActive = false;
+                }
+
+                this.currentWaypoint = this.waypoints[index];
+                this.currentIndex = index;
+                this.waypoints[index].isActive = true;
+            } catch (error) {
+                console.log(error);
+            }
         });
 
         this.drone.drone.FlightController.Guided.on('waypoint-reached', (index: number) => {
             console.log('waypoint-reached: ' + index);
-            this.waypoints[index].reached = true;
-            this.waypoints[index].isActive = false;
+
+            try {
+                this.waypoints[index].reached = true;
+                this.waypoints[index].isActive = false;
+            } catch (error) {
+                console.log(error);
+            }
         });
     }
 

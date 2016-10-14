@@ -82,15 +82,19 @@ System.register(['../gpsStatusIcon/gpsStatusIcon', '../batteryStatusIcon/battery
                     var _this = this;
                     this.drone.FlightController.Telemetry.on('propertyChanged', function (name, value) {
                         if (_this.isDJIDrone) {
-                            _this.videoSignalPercentage = _this.drone.FlightController.Telemetry.DJIRadio.videoSignalPercent;
-                            _this.rcSignalPercentage = _this.drone.FlightController.Telemetry.DJIRadio.remoteSignalPercent;
-                            _this.batteryVoltage = +(_this.drone.FlightController.Telemetry.DJIBattery.currentVoltage * .001).toFixed(2);
-                            _this.batteryCurrent = _this.drone.FlightController.Telemetry.DJIBattery.currentCurrent;
-                            _this.batteryRemainingPercent = _this.drone.FlightController.Telemetry.DJIBattery.batteryEnergyRemainingPercent;
-                            _this.batteryTemp = _this.drone.FlightController.Telemetry.DJIBattery.batteryTemperature;
-                            _this.remainingMah = _this.drone.FlightController.Telemetry.DJIBattery.currentEnergy;
-                            _this.timeRemaining = (((_this.remainingMah / Math.abs(_this.batteryCurrent)) * 60) * 60) * 1000;
-                            _this.lifetimeRemaining = _this.drone.FlightController.Telemetry.DJIBattery.lifetimeRemainingPercent;
+                            if (_this.drone.FlightController.Telemetry.DJIRadio) {
+                                _this.videoSignalPercentage = _this.drone.FlightController.Telemetry.DJIRadio.videoSignalPercent;
+                                _this.rcSignalPercentage = _this.drone.FlightController.Telemetry.DJIRadio.remoteSignalPercent;
+                            }
+                            if (_this.drone.FlightController.Telemetry.DJIBattery) {
+                                _this.batteryVoltage = +(_this.drone.FlightController.Telemetry.DJIBattery.currentVoltage * .001).toFixed(2);
+                                _this.batteryCurrent = _this.drone.FlightController.Telemetry.DJIBattery.currentCurrent;
+                                _this.batteryRemainingPercent = _this.drone.FlightController.Telemetry.DJIBattery.batteryEnergyRemainingPercent;
+                                _this.batteryTemp = _this.drone.FlightController.Telemetry.DJIBattery.batteryTemperature;
+                                _this.remainingMah = _this.drone.FlightController.Telemetry.DJIBattery.currentEnergy;
+                                _this.timeRemaining = (((_this.remainingMah / Math.abs(_this.batteryCurrent)) * 60) * 60) * 1000;
+                                _this.lifetimeRemaining = _this.drone.FlightController.Telemetry.DJIBattery.lifetimeRemainingPercent;
+                            }
                         }
                         else {
                             _this.batteryVoltage = +(_this.drone.FlightController.Telemetry.Battery.voltage * .001).toFixed(2);

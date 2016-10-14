@@ -28,13 +28,56 @@
             <div layout="column" layout-align=" none" style="width: 150px;">
                 <div style="font-size: 11px; font-weight: 400; line-height: 1; letter-spacing: 2.2px; text-align: center; color: #ffffff; text-transform: uppercase;">GIMBAL ANGLES</div>
                 <div layout="row" style="margin-top: 15px;">
-                    <div style="margin-left: 34px; font-size: 11px; font-weight: 400; line-height: 1; letter-spacing: 2.2px; text-align: center; color: #ffffff; text-transform: uppercase;">0&deg;</div>
-                    <div style="margin-left: 57px; font-size: 11px; font-weight: 400; line-height: 1; letter-spacing: 2.2px; text-align: center; color: #ffffff; text-transform: uppercase;">45&deg;</div>
-                </div>
-                <div layout="row" style="margin-top: 5px;">
-                    <md-icon style="width: 54px; height: 66px;" md-svg-icon="./app/components/controlTelemetry/images/gimbalTopView.svg"></md-icon>
-                    <!--<md-icon style="width: 66px; height: 14px;" md-svg-icon="./app/components/controlTelemetry/images/cameraArrowProfileView.svg"></md-icon>-->
-                    <md-icon style="width: 50px; height: 62px;" md-svg-icon="./app/components/controlTelemetry/images/gimbalSideView.svg"></md-icon>
+                    <div layout="column">
+                        <div style="margin-left: 16px; font-size: 11px; font-weight: 400; line-height: 1; letter-spacing: 2.2px; text-align: center; color: #ffffff; text-transform: uppercase;">{{ $ctrl.gimbalHeading }}&deg;</div>
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            viewBox="0 0 62.4 65.7" style="width: 54px; height: 66px; margin-left: 10px; padding-right: 3px;" xml:space="preserve">
+                            <line style="fill:none;stroke:#808080;stroke-width:1.2169;stroke-miterlimit:10;" x1="31.2" y1="3.3" x2="31.2" y2="7.7"/>
+                            <circle style="fill:none;stroke:#808080;stroke-width:1.2169;stroke-miterlimit:10;" cx="31.2" cy="34.4" r="26.9"/>
+                            <line style="fill:none;stroke:#808080;stroke-width:1.2169;stroke-miterlimit:10;" x1="31.2" y1="61.3" x2="31.2" y2="65.7"/>
+                            <line style="fill:none;stroke:#808080;stroke-width:1.2169;stroke-miterlimit:10;" x1="0" y1="34.5" x2="4.4" y2="34.5"/>
+                            <line style="fill:none;stroke:#808080;stroke-width:1.2169;stroke-miterlimit:10;" x1="58" y1="34.5" x2="62.4" y2="34.5"/>
+                            <g style="transition: .2s all; transform-origin: 31px 34px; transform: rotate({{ $ctrl.gimbalHeading }}deg);">
+                                <g>
+                                    <g>
+                                        <line style="fill:none;stroke:#00C121;stroke-width:2;stroke-linecap:round;stroke-linejoin:bevel;" x1="31.6" y1="18.7" x2="31.6" y2="18.2"/>
+                                        <line style="fill:none;stroke:#00C121;stroke-width:2;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:1.0909,5.4545;" x1="31.6" y1="12.8" x2="31.6" y2="9"/>
+                                        <line style="fill:none;stroke:#00C121;stroke-width:2;stroke-linecap:round;stroke-linejoin:bevel;" x1="31.5" y1="6.2" x2="31.5" y2="5.7"/>
+                                        <g>
+                                            <polygon style="fill:#00C121;" points="35.5,6.9 31.5,0 27.6,6.9"/>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g>
+                                    <polygon style="fill:#FFFFFF;" points="31.6,28.3 25.6,22.1 37.5,22"/>
+                                    <path style="fill:#FFFFFF;" d="M38.7,28l0,12.6c0,0.5-0.4,0.8-0.8,0.8l-12.6,0c-0.5,0-0.8-0.4-0.8-0.8l0-12.6c0-0.5,0.4-0.8,0.8-0.8l12.6,0
+                                        C38.3,27.2,38.7,27.6,38.7,28z"/>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; font-weight: 400; line-height: 1; letter-spacing: 2.2px; text-align: center; color: #ffffff; text-transform: uppercase;">{{ $ctrl.gimbalPitch }}&deg;</div>
+                    <!--<md-icon style="width: 54px; height: 66px;" md-svg-icon="./app/components/controlTelemetry/images/gimbalTopView.svg"></md-icon>-->
+                    <!--<md-icon style="width: 66px; height: 44px;" md-svg-icon="./app/components/controlTelemetry/images/cameraArrowProfileView.svg"></md-icon>-->
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            viewBox="0 0 66.8 60" style="height: 44px; width: 66px; margin-top: 10px; margin-left: 10px; padding-top: 2px; padding-bottom: 3px;" xml:space="preserve">
+                            <g id="arc">
+                                <path style="fill:none;stroke:#808080;stroke-width:1.1758;stroke-miterlimit:10;" d="M7,25.6v33.9c28.9,0,52.3-23.4,52.3-52.3
+                                    H25.6"/>
+                            </g>
+                            <g id="cam_and_arrow" style="transition: .2s all; transform-origin: 7px 7px; transform: rotate({{ $ctrl.gimbalPitch }}deg);">
+                                <g>
+                                    <polygon style="fill:#FFFFFF;" points="13.1,7.2 19.4,1.2 19.4,13.1"/>
+                                    <path style="fill:#FFFFFF;" d="M13.4,14.3H0.8c-0.5,0-0.8-0.4-0.8-0.8L0,0.9C0,0.4,0.4,0,0.8,0l12.6,0c0.5,0,0.8,0.4,0.8,0.8v12.6
+                                        C14.2,13.9,13.9,14.3,13.4,14.3z"/>
+                                </g>
+                                <line style="fill:none;stroke:#00C121;stroke-width:2;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:10;stroke-dasharray:2,5;" x1="24.8" y1="7.2" x2="57.8" y2="7.2"/>
+                                <polygon style="fill:#00C121;" points="66.8,7.2 59.9,11.1 59.9,3.2 	"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <!--<md-icon style="width: 50px; height: 62px;" md-svg-icon="./app/components/controlTelemetry/images/gimbalSideView.svg"></md-icon>-->
                 </div>
             </div>
         </div>

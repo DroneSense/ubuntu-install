@@ -1,6 +1,7 @@
 import { } from '@dronesense/model';
 
 import IDrone from '@dronesense/core/lib/common/IDrone';
+import IGimbalState from '@dronesense/core/lib/common/entities/IGimbalState';
 
 import { SessionController } from '../flightControlViewer/sessionController';
 import { OwnerMapSession, MapSession } from '../flightControlViewer/mapSession';
@@ -63,6 +64,11 @@ class ControlTelemetry {
         }
     }
 
+    // Gimbal Properties 
+
+    gimbalPitch: number = 0;
+    gimbalHeading: number = 0;
+
     // speed range 0-25 m/s
 
     // Constructor
@@ -112,6 +118,7 @@ class ControlTelemetry {
     unwireChanges(): void {
         if (this.drone) {
             this.drone.FlightController.Telemetry.off('propertyChanged');
+            this.drone.Gimbal.off('state-updated');
         }
         this.hSpeed = 0;
         this.vSpeed = 0;
@@ -125,6 +132,8 @@ class ControlTelemetry {
         this.heading = 0;
         this.horizontalSpeedValue = '-180deg';
         this.verticalSpeedValue = '-180deg';
+        this.gimbalHeading = 0;
+        this.gimbalPitch = 0;
     }
 
     wireUpChanges(): void {
@@ -153,6 +162,13 @@ class ControlTelemetry {
 
                 this.heading = Math.round(this.drone.FlightController.Telemetry.Position.heading);
             }
+
+            this.drone.Gimbal.on('state-updated', (gimbal: IGimbalState) => {
+                if (gimbal) {
+                    this.gimbalHeading = Math.round(gimbal.yaw);
+                    this.gimbalPitch = Math.round(gimbal.pitch) * -1;
+                }
+            });
             
             this.bindings.$applyAsync();
 

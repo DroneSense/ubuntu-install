@@ -62,7 +62,11 @@ export class SessionController implements ISessionControllerEvents {
 
             // Start video stream if drone is connected and this is an owner session
             /* !cordova-start */
-            dronesense.bridgeManager.startVideoStream('192.168.0.115', 8554, this.ownerSession.name);
+            try {
+                dronesense.bridgeManager.startVideoStream('192.168.0.115', 8554, this.ownerSession.name);
+            } catch (error) {
+                alert(error);
+            }
             /* !cordova-stop */
 
             this.eventing.trigger('session-added', this.ownerSession);
@@ -193,13 +197,13 @@ export class SessionController implements ISessionControllerEvents {
             baseLayerPicker: false,
             fullscreenButton: false,
             homeButton: false,
-            sceneModePicker: true,
+            sceneModePicker: false,
             selectionIndicator: false,
             timeline: false,
             animation: false,
             geocoder: false,
             navigationHelpButton: false,
-            infobox: true,
+            infobox: false,
             scene3DOnly: false,
             sceneMode: sceneMode//,
             //dataSources: this.mapDataSourceCollection
@@ -262,7 +266,11 @@ export class SessionController implements ISessionControllerEvents {
         this.ownerSession.session.endSession();
 
         /* !cordova-start */
-        dronesense.bridgeManager.stopVideoStream();
+        try {
+            dronesense.bridgeManager.stopVideoStream();
+        } catch (error) {
+                alert(error);
+        }
         /* !cordova-stop */
         
     }

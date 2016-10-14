@@ -1,7 +1,7 @@
-System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/controlTelemetry', '../controlConnect/controlConnect', '../startSession/startSession', '../joinSession/joinSession', './sessionController', '../flightControlMode/flightControlMode', './mapMode', 'backbone-events-standalone', '../sessionManagementViewer/sessionManagementViewer', '../waypointListViewer/waypointListViewer', '../mapLayers/mapLayers', './flightControlSettings'], function(exports_1, context_1) {
+System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/controlTelemetry', '../controlConnect/controlConnect', '../startSession/startSession', '../joinSession/joinSession', './sessionController', '../flightControlMode/flightControlMode', './mapMode', 'backbone-events-standalone', '../sessionManagementViewer/sessionManagementViewer', '../waypointListViewer/waypointListViewer', '../mapLayers/mapLayers', './flightControlSettings', '../videoPlayer/videoPlayer'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var controlToolbar_1, controlTelemetry_1, controlConnect_1, startSession_1, joinSession_1, sessionController_1, flightControlMode_1, mapMode_1, backbone_events_standalone_1, sessionManagementViewer_1, waypointListViewer_1, mapLayers_1, flightControlSettings_1;
+    var controlToolbar_1, controlTelemetry_1, controlConnect_1, startSession_1, joinSession_1, sessionController_1, flightControlMode_1, mapMode_1, backbone_events_standalone_1, sessionManagementViewer_1, waypointListViewer_1, mapLayers_1, flightControlSettings_1, videoPlayer_1;
     var FlightControlViewerEventing, FlightControlViewer;
     return {
         setters:[
@@ -43,6 +43,9 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
             },
             function (flightControlSettings_1_1) {
                 flightControlSettings_1 = flightControlSettings_1_1;
+            },
+            function (videoPlayer_1_1) {
+                videoPlayer_1 = videoPlayer_1_1;
             }],
         execute: function() {
             FlightControlViewerEventing = (function () {
@@ -73,8 +76,11 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                     this.serverDisconnect = false;
                     this.waypointError = false;
                     this.waypointErrorName = '';
-                    this.showingVideo = false;
                     this.showMap = true;
+                    this.isRecording = false;
+                    this.cameraInit = false;
+                    this.recordIndicatorVisible = false;
+                    this.takePictureComplete = true;
                 }
                 FlightControlViewer.prototype.$onInit = function () {
                     var _this = this;
@@ -259,23 +265,45 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                     this.sessionController.map.flyTo(this.sessionController.activeSession.mapEntityCollection);
                     this.lockCamera = false;
                 };
-                FlightControlViewer.prototype.showVideoPreview = function () {
-                    // check if in full screen mode by looking at map visibility flag
-                    if (!this.showMap) {
-                        this.showMap = true;
-                        return;
+                FlightControlViewer.prototype.toggleRecording = function () {
+                    this.recordIndicatorVisible = true;
+                    if (!this.cameraInit) {
+                        this.initCamera();
                     }
-                    // Check if 
-                    if (this.showingVideo) {
-                        this.showingVideo = false;
+                    if (this.isRecording) {
+                        this.sessionController.activeSession.mapDrone.drone.Camera.stopRecording().then().catch(function (error) {
+                            console.log(error);
+                        });
                     }
                     else {
-                        this.showingVideo = true;
+                        this.sessionController.activeSession.mapDrone.drone.Camera.startRecording().then(function () {
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
                     }
                 };
-                FlightControlViewer.prototype.showFullScreen = function () {
-                    this.showMap = false;
-                    this.showingVideo = false;
+                FlightControlViewer.prototype.initCamera = function () {
+                    var _this = this;
+                    this.isRecording = this.sessionController.activeSession.mapDrone.drone.Camera.IsRecording;
+                    this.sessionController.activeSession.mapDrone.drone.Camera.on('recording-started', function () {
+                        _this.isRecording = true;
+                        _this.recordIndicatorVisible = false;
+                    });
+                    this.sessionController.activeSession.mapDrone.drone.Camera.on('recording-stopped', function () {
+                        _this.isRecording = false;
+                        _this.recordIndicatorVisible = false;
+                    });
+                    this.sessionController.activeSession.mapDrone.drone.Camera.on('take-picture-finished', function () {
+                        _this.takePictureComplete = true;
+                    });
+                    this.cameraInit = true;
+                };
+                FlightControlViewer.prototype.takePicture = function () {
+                    if (!this.cameraInit) {
+                        this.initCamera();
+                    }
+                    this.takePictureComplete = false;
+                    this.sessionController.activeSession.mapDrone.drone.Camera.takePicture();
                 };
                 // Constructor
                 FlightControlViewer.$inject = [
@@ -294,7 +322,8 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                 flightControlMode_1.default.name,
                 sessionManagementViewer_1.default.name,
                 waypointListViewer_1.default.name,
-                mapLayers_1.default.name
+                mapLayers_1.default.name,
+                videoPlayer_1.default.name
             ]).component('dsFlightControlViewer', {
                 bindings: {},
                 controller: FlightControlViewer,

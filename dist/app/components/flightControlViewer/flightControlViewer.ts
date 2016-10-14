@@ -16,6 +16,7 @@ import WaypointListViewer from '../waypointListViewer/waypointListViewer';
 import MayLayers from '../mapLayers/mapLayers';
 import { CesiumMapUtils } from '../../common/mapUtils';
 import { FlightControlSettings } from './flightControlSettings';
+import VideoPlayer from '../videoPlayer/videoPlayer';
 
 import { IEventEmitter } from '@dronesense/core/lib/common/IEventEmitter';
 
@@ -98,6 +99,8 @@ class FlightControlViewer {
     waypointError: boolean = false;
     waypointErrorName: string = '';
 
+    showMap: boolean = true;
+
     // Constructor
     static $inject: Array<string> = [
         '$scope',
@@ -144,7 +147,7 @@ class FlightControlViewer {
 
             // Show dialog
             this.guestUserRequest = true;
-
+            
             // Update user interface
             this.bindings.$applyAsync();
         });
@@ -175,7 +178,6 @@ class FlightControlViewer {
             this.waypointError = true;
             this.waypointErrorName = name;
         });
-
     }
 
     // Start new flight button clicked on main screen
@@ -345,54 +347,51 @@ class FlightControlViewer {
         this.lockCamera = false;
     }
 
-    showingVideo: boolean = false;
+    isRecording: boolean = false;
+    cameraInit: boolean = false;
+    recordIndicatorVisible: boolean = false;
+    toggleRecording(): void {
+        this.recordIndicatorVisible = true;
 
-    showMap: boolean = true;
-
-    showVideoPreview(): void {
-
-        // check if in full screen mode by looking at map visibility flag
-        if (!this.showMap) {
-            this.showMap = true;
-
-            /* !cordova-start */
-            dronesense.bridgeManager.hideVideoView();
-            /* !cordova-stop */
-
-            return;
+        if (!this.cameraInit) {
+            this.initCamera();
         }
-
-        // Check if 
-        if (this.showingVideo) {
-            this.showingVideo = false;
-
-            /* !cordova-start */
-            dronesense.bridgeManager.hideVideoView();
-            /* !cordova-stop */
-
+        if (this.isRecording) {
+            this.sessionController.activeSession.mapDrone.drone.Camera.stopRecording().then().catch((error) => {
+                console.log(error);
+            });
         } else {
-            this.showingVideo = true;
+            this.sessionController.activeSession.mapDrone.drone.Camera.startRecording().then(() => {
 
-            /* !cordova-start */
-            // Left, Top, Width, Height
-            dronesense.bridgeManager.setVideoViewSmall(660, 115, 300, 168);
-            /* !cordova-stop */
+            }).catch((error) => {
+                console.log(error);
+            });
         }
-
     }
+    initCamera(): void {
+        this.isRecording = this.sessionController.activeSession.mapDrone.drone.Camera.IsRecording;
 
-    showFullScreen(): void {
-        
-        /* !cordova-start */
-        dronesense.bridgeManager.setVideoViewFull();
-        /* !cordova-stop */
-
-        this.showMap = false;
-
-        this.showingVideo = false;
-
+        this.sessionController.activeSession.mapDrone.drone.Camera.on('recording-started', () => {
+            this.isRecording = true;
+            this.recordIndicatorVisible = false;
+        });
+        this.sessionController.activeSession.mapDrone.drone.Camera.on('recording-stopped', () => {
+            this.isRecording = false;
+            this.recordIndicatorVisible = false;
+        });
+        this.sessionController.activeSession.mapDrone.drone.Camera.on('take-picture-finished', () => {
+            this.takePictureComplete = true;
+        });
+        this.cameraInit = true;
     }
-
+    takePictureComplete: boolean = true;
+    takePicture(): void {
+        if (!this.cameraInit) {
+            this.initCamera();
+        }
+        this.takePictureComplete = false;
+        this.sessionController.activeSession.mapDrone.drone.Camera.takePicture();
+    }
 }
 
 export default angular.module('DroneSense.Web.FlightControlViewer', [
@@ -404,7 +403,8 @@ export default angular.module('DroneSense.Web.FlightControlViewer', [
     FlightControlMode.name,
     SessionManagementViewer.name,
     WaypointListViewer.name,
-    MayLayers.name
+    MayLayers.name,
+    VideoPlayer.name
 ]).component('dsFlightControlViewer', {
     bindings: {
 
