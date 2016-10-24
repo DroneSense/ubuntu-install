@@ -42,7 +42,7 @@ System.register([], function(exports_1, context_1) {
                     filterTags: '<'
                 },
                 controller: ViewerToolbar,
-                templateUrl: './app/components/viewerToolbar/ViewerToolbar.html'
+                templateUrl: './app/components/viewerToolbar/viewerToolbar.html'
             }));
         }
     }

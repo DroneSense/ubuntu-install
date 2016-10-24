@@ -57,6 +57,6 @@ export default angular.module('DroneSense.Web.ViewerToolbar', [
         filterTags: '<'
     },
     controller: ViewerToolbar,
-    templateUrl: './app/components/viewerToolbar/ViewerToolbar.html'
+    templateUrl: './app/components/viewerToolbar/viewerToolbar.html'
 });
 
