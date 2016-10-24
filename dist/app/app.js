@@ -1,7 +1,7 @@
-System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/components/login/login', '../app/components/flightControlViewer/flightControlViewer', '../app/components/test/test', '../app/components/manageViewer/manageViewer', '../app/components/sessionViewer/sessionViewer', '../app/components/flightPlansViewer/flightPlansViewer', '../app/components/hardwareViewer/hardwareViewer', '../app/components/pilotViewer/pilotViewer', '../app/components/checklistViewer/checklistViewer', '../app/components/documentViewer/documentViewer', '../app/components/modelViewer/modelViewer', '../app/components/scheduleViewer/scheduleViewer', '../app/components/accountViewer/accountViewer', '../app/components/profileViewer/profileViewer', './translations'], function(exports_1, context_1) {
+System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/components/login/login', '../app/components/flightControlViewer/flightControlViewer', '../app/components/test/test', '../app/components/manageViewer/manageViewer', '../app/components/sessionViewer/sessionViewer', '../app/components/flightPlansViewer/flightPlansViewer', '../app/components/hardwareViewer/hardwareViewer', '../app/components/pilotViewer/pilotViewer', '../app/components/checklistViewer/checklistViewer', '../app/components/documentViewer/documentViewer', '../app/components/modelViewer/modelViewer', '../app/components/scheduleViewer/scheduleViewer', '../app/components/accountViewer/accountViewer', '../app/components/profileViewer/profileViewer', '../app/components/video/video', './translations'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var flightPlanViewer_1, login_1, flightControlViewer_1, test_1, manageViewer_1, sessionViewer_1, flightPlansViewer_1, hardwareViewer_1, pilotViewer_1, checklistViewer_1, documentViewer_1, modelViewer_1, scheduleViewer_1, accountViewer_1, profileViewer_1, translations_1;
+    var flightPlanViewer_1, login_1, flightControlViewer_1, test_1, manageViewer_1, sessionViewer_1, flightPlansViewer_1, hardwareViewer_1, pilotViewer_1, checklistViewer_1, documentViewer_1, modelViewer_1, scheduleViewer_1, accountViewer_1, profileViewer_1, video_1, translations_1;
     var ConfigRoutes, ConfigTranslate, Run, dsApp;
     return {
         setters:[
@@ -49,6 +49,9 @@ System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/
             },
             function (profileViewer_1_1) {
                 profileViewer_1 = profileViewer_1_1;
+            },
+            function (video_1_1) {
+                video_1 = video_1_1;
             },
             function (translations_1_1) {
                 translations_1 = translations_1_1;
@@ -136,6 +139,10 @@ System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/
                         url: '/dashboard',
                         templateUrl: '<ds-dashboard></ds-dashboard>',
                         data: { requireLogin: true }
+                    })
+                        .state('video', {
+                        url: '/video?ip&name',
+                        template: '<ds-video></ds-video>'
                     });
                 }
                 ConfigRoutes.$inject = [
@@ -203,7 +210,8 @@ System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/
                 modelViewer_1.default.name,
                 scheduleViewer_1.default.name,
                 accountViewer_1.default.name,
-                profileViewer_1.default.name
+                profileViewer_1.default.name,
+                video_1.default.name
             ])
                 .config(ConfigRoutes)
                 .config(ConfigTranslate)

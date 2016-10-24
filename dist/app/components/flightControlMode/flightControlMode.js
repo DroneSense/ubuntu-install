@@ -16,9 +16,11 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
             }],
         execute: function() {
             FlightControlMode = (function () {
-                function FlightControlMode(bindings) {
+                function FlightControlMode(bindings, red5proService, mdToast) {
                     var _this = this;
                     this.bindings = bindings;
+                    this.red5proService = red5proService;
+                    this.mdToast = mdToast;
                     // Flag to show RTL button
                     this.rtlButtonVisible = false;
                     this.rtlIndicatorVisible = false;
@@ -73,12 +75,13 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     this.orbitModeChangeIndicatorVisible = false;
                     this.targetLatLngAcquired = false;
                     this.takeoffAltitude = 50;
+                    this.isRecordingFromTakeoff = false;
                     this.sendingTargetToDrone = false;
                     this.targetAltitude = 50;
                     this.targetRadius = 10;
                     this.targetDirection = true;
                     this.targetVelocity = 20;
-                    this.wayPointNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ',];
+                    this.wayPointNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ', 'BA', 'BB', 'BC', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ'];
                     this.nextNameIndex = 0;
                     this.sessionController.eventing.on('session-added', function (ownerSession) {
                         _this.sessionColor = ownerSession.color;
@@ -211,18 +214,61 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     if (this.targetAddActive) {
                         this.targetAddActive = false;
                         this.targetLatLngAcquired = false;
+                        this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitTarget);
+                        this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
                     }
                     else {
                         this.targetAddActive = true;
+                        this.mdToast.show(this.mdToast.simple()
+                            .content('Select orbit target on map.')
+                            .position('top left')
+                            .hideDelay(3000));
                     }
                 };
                 FlightControlMode.prototype.takeoffToAltitude = function () {
+                    var _this = this;
                     this.drone.FlightController.takeoff(this.takeoffAltitude).then(function () {
-                        console.log('takeoff callback');
+                        if (_this.sessionController.ownerSession.startRecording) {
+                            _this.drone.Camera.startRecording().then(function () {
+                                _this.isRecordingFromTakeoff = true;
+                                console.log('recording started');
+                                try {
+                                    _this.red5proService.startVODRecording(_this.sessionController.ownerSession.name).then(function (recording) {
+                                        console.log('server vod recording started');
+                                    });
+                                }
+                                catch (error) {
+                                    console.log(error);
+                                }
+                            }).catch(function (error) {
+                                console.log(error);
+                            });
+                        }
                     }).catch(function (error) {
                         console.log(error);
                     });
                     this.getTakeoffAltitudeVisible = false;
+                };
+                FlightControlMode.prototype.hasLanded = function () {
+                    var _this = this;
+                    if (this.isRecordingFromTakeoff) {
+                        if (this.sessionController.ownerSession.startRecording) {
+                            this.drone.Camera.stopRecording().then(function () {
+                                console.log('recording stopped');
+                                try {
+                                    _this.red5proService.stopVODRecording(_this.sessionController.ownerSession.name).then(function (recording) {
+                                        console.log('server vod recording stopped');
+                                        _this.isRecordingFromTakeoff = false;
+                                    });
+                                }
+                                catch (error) {
+                                    console.log(error);
+                                }
+                            }).catch(function (error) {
+                                console.log(error);
+                            });
+                        }
+                    }
                 };
                 FlightControlMode.prototype.cancelTakeoff = function () {
                     this.getTakeoffAltitudeVisible = false;
@@ -263,6 +309,8 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     this.showTargetDialog = false;
                     this.targetAddActive = false;
                     this.targetLatLngAcquired = false;
+                    this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitTarget);
+                    this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
                 };
                 FlightControlMode.prototype.setWaypointsActive = function () {
                     this.closeWaypointDialog();
@@ -270,9 +318,14 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                 };
                 FlightControlMode.prototype.setTargetActive = function () {
                     var _this = this;
+                    // Convert time into angular velocity
+                    var av = 360 / this.targetVelocity;
+                    // Check if number exceeds max velocity
                     this.sendingTargetToDrone = true;
-                    this.drone.FlightController.Orbit.orbit(this.targetLat, this.targetLng, this.targetAltitude, this.targetRadius, this.targetDirection, this.targetVelocity).then(function () {
-                        _this.closeActiveDialog();
+                    this.drone.FlightController.Orbit.orbit(this.targetLat, this.targetLng, this.targetAltitude, this.targetRadius, this.targetDirection, av).then(function () {
+                        _this.showTargetDialog = false;
+                        _this.targetAddActive = false;
+                        _this.targetLatLngAcquired = false;
                         _this.sendingTargetToDrone = false;
                     }).catch(function (error) {
                         // Keep dialog open and show error
@@ -323,6 +376,20 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                             if (this.targetLatLngAcquired) {
                                 var distance = Utility_1.Conversions.distance2(this.targetLat, this.targetLng, latitudeString, longitudeString);
                                 this.targetRadius = Utility_1.Conversions.roundToTwo(distance);
+                                this.targetAltitude = Utility_1.Conversions.roundToTwo(this.sessionController.ownerSession.mapDrone.currentAGLAlt);
+                                this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
+                                this.currentOrbitRadius = this.sessionController.activeSession.mapEntityCollection.entities.add({
+                                    position: Cesium.Cartesian3.fromDegrees(this.targetLng, this.targetLat, this.sessionController.ownerSession.mapDrone.currentAlt),
+                                    ellipse: {
+                                        semiMinorAxis: this.targetRadius,
+                                        semiMajorAxis: this.targetRadius,
+                                        height: this.sessionController.ownerSession.mapDrone.currentAlt,
+                                        material: Cesium.Color.TRANSPARENT,
+                                        outline: true,
+                                        outlineColor: Cesium.Color.fromCssColorString('#0a92ea'),
+                                        outlineWidth: 3
+                                    }
+                                });
                                 this.showTargetDialog = true;
                             }
                             else {
@@ -340,6 +407,10 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                                         heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
                                     }
                                 });
+                                this.mdToast.show(this.mdToast.simple()
+                                    .content('Select orbit radius point on map.')
+                                    .position('top left')
+                                    .hideDelay(3000));
                             }
                         }
                     }
@@ -351,7 +422,9 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                 };
                 // Constructor
                 FlightControlMode.$inject = [
-                    '$scope'
+                    '$scope',
+                    'redProService',
+                    '$mdToast'
                 ];
                 return FlightControlMode;
             }());
@@ -473,6 +546,7 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                         // System is grounded and on standby. It can be launched any time.
                         case SystemStatus_1.SystemStatus.Standby:
                             this.flightControlMode.rtlButtonVisible = false;
+                            this.flightControlMode.hasLanded();
                             break;
                         // Uninitialized system, state is unknown.
                         case SystemStatus_1.SystemStatus.Unknown:
@@ -625,6 +699,7 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                         case SystemStatus_1.SystemStatus.Standby:
                             this.flightControlMode.rtlButtonVisible = false;
                             this.flightControlMode.takeoffButtonVisible = true;
+                            this.flightControlMode.hasLanded();
                             break;
                         // Uninitialized system, state is unknown.
                         case SystemStatus_1.SystemStatus.Unknown:
@@ -701,6 +776,7 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                         // System is grounded and on standby. It can be launched any time.
                         case SystemStatus_1.SystemStatus.Standby:
                             this.flightControlMode.pauseButtonVisible = false;
+                            this.flightControlMode.hasLanded();
                             break;
                         // Uninitialized system, state is unknown.
                         case SystemStatus_1.SystemStatus.Unknown:
@@ -785,6 +861,7 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                         // System is grounded and on standby. It can be launched any time.
                         case SystemStatus_1.SystemStatus.Standby:
                             this.flightControlMode.rtlButtonVisible = false;
+                            this.flightControlMode.hasLanded();
                             break;
                         // Uninitialized system, state is unknown.
                         case SystemStatus_1.SystemStatus.Unknown:

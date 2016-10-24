@@ -55,6 +55,13 @@ class WaypointListViewer {
         }
     }
 
+    hidingHistoricalWaypoints: boolean = false;
+
+    hideHistoryWaypoint(): void {
+        this.sessionController.activeSession.mapWaypoints.hideHistoryWaypoints(!this.hidingHistoricalWaypoints);
+        this.hidingHistoricalWaypoints = !this.hidingHistoricalWaypoints;
+    }
+
 }
 
 

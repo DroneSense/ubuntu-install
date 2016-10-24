@@ -21,13 +21,13 @@ System.register(['backbone-events-standalone', './mapMode', './mapSession'], fun
                     this.guestSession = [];
                     this.eventing = eventing;
                 }
-                SessionController.prototype.addOwnerSession = function (session, serverConnection, mapMode, allowAllGuestsWithoutPrompt) {
+                SessionController.prototype.addOwnerSession = function (session, serverConnection, mapMode, allowAllGuestsWithoutPrompt, startRecording) {
                     var _this = this;
                     this.initializeMap(mapMode);
                     this.ownerSession = new mapSession_1.OwnerMapSession();
                     this.map.dataSources.add(this.ownerSession.mapEntityCollection);
                     // TODO: make static call
-                    this.ownerSession.initializeOwnerSession(this.eventing, session, serverConnection, this.map, mapMode, allowAllGuestsWithoutPrompt).then(function (ownerSession) {
+                    this.ownerSession.initializeOwnerSession(this.eventing, session, serverConnection, this.map, mapMode, allowAllGuestsWithoutPrompt, startRecording).then(function (ownerSession) {
                         // Set returned owner session
                         _this.ownerSession = ownerSession;
                         // Set as tracked entity
@@ -59,6 +59,7 @@ System.register(['backbone-events-standalone', './mapMode', './mapSession'], fun
                             _this.activeSession = mapSession;
                             _this.eventing.trigger('session-added', mapSession);
                         }
+                        // Start video stream if drone is connected and this is an owner session
                     });
                 };
                 SessionController.prototype.changeActiveSession = function (session) {
@@ -67,6 +68,7 @@ System.register(['backbone-events-standalone', './mapMode', './mapSession'], fun
                     }
                     this.activeSession = session;
                     this.map.trackedEntity = session.mapDrone.droneEntity;
+                    // Start video stream if drone is connected and this is an owner session
                     this.eventing.trigger('session-changed', session);
                 };
                 SessionController.prototype.removeGuestSession = function (session) {

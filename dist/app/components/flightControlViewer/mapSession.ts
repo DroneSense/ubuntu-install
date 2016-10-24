@@ -174,8 +174,20 @@ export class MapWaypoints {
             try {
                 this.waypoints[index].reached = true;
                 this.waypoints[index].isActive = false;
+                this.waypoints[index].entity.show = this.showHistoricalWaypoints;
             } catch (error) {
                 console.log(error);
+            }
+        });
+    }
+
+    showHistoricalWaypoints: boolean = true;
+
+    hideHistoryWaypoints(show: boolean): void {
+        this.showHistoricalWaypoints = show;
+        this.waypoints.forEach((waypoint: MapWaypoint) => {
+            if (waypoint.reached) {
+                waypoint.entity.show = show;
             }
         });
     }
@@ -521,6 +533,9 @@ export class OwnerMapSession extends MapSession implements IMapSessionEvents {
     // prompting for permission
     allowAllGuestsWithoutPrompt: boolean = false;
 
+    // Auto start recording on takeoff
+    startRecording: boolean;
+
     // List of guests that are connected
     connectedGuests: Array<string> = [];
 
@@ -528,7 +543,7 @@ export class OwnerMapSession extends MapSession implements IMapSessionEvents {
         super();
     }
 
-    initializeOwnerSession(eventing: FlightControlViewerEventing, session: ISession, serverConnection: ServerConnection, map: Cesium.Viewer, mapMode: MapMode, allowAllGuestsWithoutPrompt: boolean): Promise<OwnerMapSession> {
+    initializeOwnerSession(eventing: FlightControlViewerEventing, session: ISession, serverConnection: ServerConnection, map: Cesium.Viewer, mapMode: MapMode, allowAllGuestsWithoutPrompt: boolean, startRecording: boolean): Promise<OwnerMapSession> {
 
         return new Promise<OwnerMapSession>((resolve) => {
 
@@ -541,6 +556,7 @@ export class OwnerMapSession extends MapSession implements IMapSessionEvents {
             this.allowAllGuestsWithoutPrompt = allowAllGuestsWithoutPrompt;
             this.color = this.session.Color;
             this.id = this.session.Id;
+            this.startRecording = startRecording;
             
             // WARNING BAD CODE (Robert made me do this!) - drone index 0 is hardcoded here
             this.session.getDrones().then((drones: Array<IDrone>) => {

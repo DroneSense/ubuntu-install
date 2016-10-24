@@ -33,7 +33,7 @@
     <ds-video-player ng-if="$ctrl.firstSessionLoaded" session-name="$ctrl.sessionController.activeSession.name" settings="$ctrl.flightControlSettings" on-full-screen="$ctrl.showMap = false;" on-exit-full-screen="$ctrl.showMap = true"></ds-video-player>
 
     <!--Record Start/Stop-->
-    <div ng-if="$ctrl.sessionController.activeSession" ng-show="$ctrl.takePictureComplete" style="position: absolute; right: 20px; top: 166px;">
+    <div ng-if="$ctrl.sessionController.ownerSession && $ctrl.firstSessionLoaded" ng-show="$ctrl.takePictureComplete" style="position: absolute; right: 20px; top: 166px;">
         <div layout="column" ng-click="$ctrl.toggleRecording();" layout-align="center center" class="flightControlButton">
             <md-icon ng-show="$ctrl.recordIndicatorVisible ? false : $ctrl.isRecording" style="width: 22px; height: 22px;" md-svg-icon="./app/components/flightControlViewer/images/recordOn.svg"></md-icon>
             <md-icon ng-hide="$ctrl.recordIndicatorVisible ? true : $ctrl.isRecording" style="width: 22px; height: 22px;" md-svg-icon="./app/components/flightControlViewer/images/recordOff.svg"></md-icon>
@@ -42,7 +42,7 @@
     </div>
 
     <!--Take Picture-->
-    <div ng-if="$ctrl.sessionController.activeSession" ng-hide="$ctrl.isRecording" style="position: absolute; right: 20px; top: 220px;">
+    <div ng-if="$ctrl.sessionController.ownerSession && $ctrl.firstSessionLoaded" ng-hide="$ctrl.isRecording" style="position: absolute; right: 20px; top: 220px;">
         <div layout="column" ng-click="$ctrl.takePicture();" layout-align="center center" class="flightControlButton">
             <md-icon ng-show="$ctrl.takePictureComplete" style="width: 22px; height: 22px; color: white;" md-svg-icon="./app/components/flightControlViewer/images/takePicture.svg"></md-icon>
             <md-icon ng-hide="$ctrl.takePictureComplete" style="width: 20px; height: 20px;" md-svg-icon="./app/components/flightControlMode/images/loader.svg"></md-icon>

@@ -2,6 +2,8 @@
 export interface IRedProService {
     getLiveStreams(): Promise<Array<RedProStream>>;
     getLiveStreamStatistics(red5ProStream: RedProStream): Promise<void>;
+    startVODRecording(sessionName: string): Promise<boolean>;
+    stopVODRecording(sessionName: string): Promise<boolean>;
 }
 
 export class RedProStream {
@@ -29,7 +31,7 @@ class RedProService {
 
     appName: string = 'live';
     accessToken: string = 'dronesense';
-    red5proServerIp: string = '10.0.1.105';
+    red5proServerIp: string = '192.168.0.115';
     red5proServerPort: string = '5080';
 
     static $inject: Array<string> = [
@@ -38,6 +40,38 @@ class RedProService {
 
     constructor($http: ng.IHttpService) {
         this.$http = $http;
+    }
+
+    startVODRecording(sessionName: string): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject ) => {
+            this.$http.get('http://' + this.red5proServerIp + ':' + this.red5proServerPort + '/api/v1/applications/' + this.appName + '/streams/' + sessionName + '/action/startrecord?accessToken=' + this.accessToken).success((data: any): void => {
+                
+                if (data.data.is_recording) {
+                    resolve(true);
+                } else {
+                    reject(false);
+                }
+            }).error((error) => {
+                console.log(error);
+                reject(error);
+            });
+        });
+    }
+
+    stopVODRecording(sessionName: string): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject ) => {
+            this.$http.get('http://' + this.red5proServerIp + ':' + this.red5proServerPort + '/api/v1/applications/' + this.appName + '/streams/' + sessionName + '/action/stoprecord?accessToken=' + this.accessToken).success((data: any): void => {
+                
+                if (data.data.is_recording) {
+                    resolve(true);
+                } else {
+                    reject(false);
+                }
+            }).error((error) => {
+                console.log(error);
+                reject(error);
+            });
+        });
     }
 
     getLiveStreams(): Promise<Array<RedProStream>> {
@@ -52,8 +86,9 @@ class RedProService {
                 });
 
                 resolve(streams);
-            }).error(() => {
-                reject();
+            }).error((error) => {
+                console.log(error);
+                reject(error);
             });
 
         }); 
@@ -61,7 +96,7 @@ class RedProService {
 
     getLiveStreamStatistics(red5ProStream: RedProStream): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.$http.get('http://' + this.red5proServerIp + ':' + this.red5proServerPort + '/api/v1/applications/' + this.appName + '/streams/' + red5ProStream.name + '?accessToken=' + this.accessToken).success((data: any): void => {
+            this.$http.get('http://' + this.red5proServerIp + ':' + this.red5proServerPort + '/api/v1/applications/' + this.appName + '/streams/' + red5ProStream.publish_name + '?accessToken=' + this.accessToken).success((data: any): void => {
                 
                 red5ProStream.active_subscribers = data.data.active_subscribers;
                 red5ProStream.total_subscribers = data.data.total_subscribers;
@@ -72,6 +107,7 @@ class RedProService {
                 red5ProStream.scope_path = data.data.scope_path;
                 red5ProStream.is_recording = data.data.is_recording;
                 red5ProStream.state = data.data.state;
+                red5ProStream.name = data.data.name;
 
                 resolve();
             }).error(() => {

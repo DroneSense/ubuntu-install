@@ -17,15 +17,25 @@ System.register([], function(exports_1, context_1) {
                     this.creating = false;
                     // Flag to show on error
                     this.showError = false;
+                    // Session no name error
+                    this.sessionNoNameError = false;
+                    // Session no drone error
+                    this.sessionNoDroneError = false;
+                    // Session name already exists error
+                    this.sessionNameExistsError = false;
+                    // Session color already exists error
+                    this.sessionColorExistsError = false;
                     // Text to show on connect button while connecting
                     this.connectButtonText = 'Start';
                     // List to hold returned drones
                     this.drones = [];
                     // Flag whether guests can connect without need a prompt for explicit permission
                     this.guestCanConnect = true;
+                    // Flag to start recording on takeoff automatically
+                    this.autoRecordOnTakeoff = true;
                     this.teamColors = ['#0A92EA', '#ea0707', '#00c121', '#dcd300', '#673ab7'];
                     this.teamNames = ['Blue Team', 'Red Team', 'Green Team', 'Yellow Team', 'Purple Team'];
-                    this.selectedColor = '#0A92EA';
+                    this.selectedColor = this.teamColors[0];
                 }
                 // Load available drones on init.
                 StartSession.prototype.$onInit = function () {
@@ -40,38 +50,55 @@ System.register([], function(exports_1, context_1) {
                     this.showError = false;
                     // Turn on progress bar
                     this.creating = true;
-                    // Get drones available for connection
-                    this.serverConnection.droneService.DroneManager.getDrones().then(function (droneMetaData) {
-                        // Check if we have drones returne if not show error.
-                        if (droneMetaData.length > 0) {
-                            // bind to userinterface for selection;
-                            _this.drones = droneMetaData;
-                            _this.bindings.$applyAsync();
-                            // Turn off the progress indicator
-                            _this.creating = false;
-                            // Change button text back to normal
-                            _this.connectButtonText = 'Start';
+                    // Get existing sessions so we can check for name and color conflicts.
+                    this.serverConnection.droneService.SessionManager.getSessions().then(function (sessions) {
+                        // Set sessions
+                        _this.existingSessions = sessions;
+                        // Remove used colors from option array
+                        if (_this.existingSessions.length > 0) {
+                            _this.existingSessions.forEach(function (value) {
+                                var index = _this.teamColors.indexOf(value.color);
+                                _this.teamColors.splice(index, 1);
+                                _this.teamNames.splice(index, 1);
+                            });
+                            _this.selectedColor = _this.teamColors[0];
+                            _this.name = _this.teamNames[0];
                         }
-                        else {
+                        // Get drones available for connection
+                        _this.serverConnection.droneService.DroneManager.getDrones().then(function (droneMetaData) {
+                            // Check if we have drones returne if not show error.
+                            if (droneMetaData.length > 0) {
+                                // bind to userinterface for selection;
+                                _this.drones = droneMetaData;
+                                _this.bindings.$applyAsync();
+                                // Turn off the progress indicator
+                                _this.creating = false;
+                                // Change button text back to normal
+                                _this.connectButtonText = 'Start';
+                            }
+                            else {
+                                // Turn off the progress indicator
+                                _this.creating = false;
+                                // show error message
+                                _this.showError = true;
+                                // Change button text back to normal
+                                _this.connectButtonText = 'Retry';
+                                // force UI update
+                                _this.bindings.$applyAsync();
+                            }
+                        }).catch(function (error) {
+                            // connect error
                             // Turn off the progress indicator
                             _this.creating = false;
                             // show error message
                             _this.showError = true;
                             // Change button text back to normal
-                            _this.connectButtonText = 'Retry';
+                            _this.connectButtonText = 'Start';
                             // force UI update
                             _this.bindings.$applyAsync();
-                        }
+                            console.log(error);
+                        });
                     }).catch(function (error) {
-                        // connect error
-                        // Turn off the progress indicator
-                        _this.creating = false;
-                        // show error message
-                        _this.showError = true;
-                        // Change button text back to normal
-                        _this.connectButtonText = 'Start';
-                        // force UI update
-                        _this.bindings.$applyAsync();
                         console.log(error);
                     });
                 };
@@ -91,10 +118,47 @@ System.register([], function(exports_1, context_1) {
                     var _this = this;
                     // check that drone has been selected and we have a valid name
                     if (!this.selectedDrone) {
-                        // need to select a drone message
+                        this.sessionNoDroneError = true;
                         return;
                     }
+                    else {
+                        this.sessionNoDroneError = false;
+                    }
                     if (this.name === '') {
+                        // message to tell user they need a session name
+                        this.sessionNoNameError = true;
+                        return;
+                    }
+                    else {
+                        this.sessionNoNameError = false;
+                    }
+                    // check if session name is already in use
+                    var nameMatch = false;
+                    var colorMatch = false;
+                    // check for existing color and name
+                    this.existingSessions.forEach(function (session) {
+                        if (_this.name.toLowerCase() === session.name.toLocaleLowerCase()) {
+                            nameMatch = true;
+                        }
+                        if (_this.selectedColor === session.color) {
+                            colorMatch = true;
+                        }
+                    });
+                    // show existing name match error
+                    if (nameMatch) {
+                        this.sessionNameExistsError = true;
+                        return;
+                    }
+                    else {
+                        this.sessionNameExistsError = false;
+                    }
+                    // show existing color match error
+                    if (colorMatch) {
+                        this.sessionColorExistsError = true;
+                        return;
+                    }
+                    else {
+                        this.sessionColorExistsError = false;
                     }
                     // exit if connection is already in progress
                     if (this.creating) {
@@ -122,11 +186,7 @@ System.register([], function(exports_1, context_1) {
                                     console.log('drone connected');
                                     // // set current drone
                                     // this.currentDrone = drones[0];
-                                    _this.onStart({ session: session, allowAllGuests: _this.guestCanConnect });
-                                    // this.currentDrone.FlightController.Telemetry.on('propertyChanged', (name, value) => {
-                                    //     //this.bindings.$applyAsync(); 
-                                    //     //console.log(name);
-                                    // });
+                                    _this.onStart({ session: session, allowAllGuests: _this.guestCanConnect, startRecording: _this.autoRecordOnTakeoff });
                                 }).catch(function (error) {
                                     // error connection to selected drone
                                     // Turn off the progress indicator

@@ -6,6 +6,7 @@ import { SystemStatus } from '@dronesense/core/lib/common/enums/SystemStatus';
 import { FlightMode } from '@dronesense/core/lib/common/enums/FlightMode';
 import { ISystem } from '@dronesense/core/lib/common/entities/ISystem';
 import { IGuidedWaypoint } from '@dronesense/core/lib/common/entities/IGuidedWaypoint';
+import { IRedProService } from '../../services/redProService';
 
 export interface IFlightControlMode extends ng.IScope {
     $ctrl: any;
@@ -67,6 +68,8 @@ export interface IFlightControlMode extends ng.IScope {
     guidedModeChangeIndicatorVisible: boolean;
     rtlModeChangeIndicatorVisible: boolean;
     orbitModeChangeIndicatorVisible: boolean;
+
+    hasLanded(): void;
 
 }
 
@@ -166,9 +169,11 @@ class FlightControlMode {
 
     // Constructor
     static $inject: Array<string> = [
-        '$scope'
+        '$scope',
+        'redProService',
+        '$mdToast'
     ];
-    constructor(public bindings: IFlightControlMode) {
+    constructor(public bindings: IFlightControlMode, public red5proService: IRedProService, public mdToast: angular.material.MDToastService) {
 
         this.sessionController.eventing.on('session-added', (ownerSession: OwnerMapSession) => {
             
@@ -352,22 +357,66 @@ class FlightControlMode {
         if (this.targetAddActive) {
             this.targetAddActive = false;
             this.targetLatLngAcquired = false;
+            this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitTarget);
+            this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
         } else {
             this.targetAddActive = true;
+            this.mdToast.show(
+            this.mdToast.simple()
+                .content('Select orbit target on map.')
+                .position('top left')
+                .hideDelay(3000)
+            );
             //this.showTargetDialog = true;
         }
     }
 
     takeoffAltitude: number = 50;
+    isRecordingFromTakeoff: boolean = false;
+
     takeoffToAltitude(): void {
 
         this.drone.FlightController.takeoff(this.takeoffAltitude).then(() => {
-            console.log('takeoff callback');
+            if (this.sessionController.ownerSession.startRecording) {
+                this.drone.Camera.startRecording().then(() => {
+                    this.isRecordingFromTakeoff = true;
+                    console.log('recording started');
+                    try {
+                        this.red5proService.startVODRecording(this.sessionController.ownerSession.name).then((recording: boolean) => {
+                            console.log('server vod recording started');
+                        });
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                });
+            }
         }).catch((error) => {
             console.log(error);
         });
 
         this.getTakeoffAltitudeVisible = false;
+    }
+
+    hasLanded(): void {
+        if (this.isRecordingFromTakeoff) {
+            if (this.sessionController.ownerSession.startRecording) {
+                this.drone.Camera.stopRecording().then(() => {
+                    console.log('recording stopped');
+                    try {
+                        this.red5proService.stopVODRecording(this.sessionController.ownerSession.name).then((recording: boolean) => {
+                            console.log('server vod recording stopped');
+                            this.isRecordingFromTakeoff = false;
+                        });
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                });
+            }
+        }
     }
 
     cancelTakeoff(): void {
@@ -422,6 +471,8 @@ class FlightControlMode {
         this.showTargetDialog = false;
         this.targetAddActive = false;
         this.targetLatLngAcquired = false;
+        this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitTarget);
+        this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
     }
 
     setWaypointsActive(): void {
@@ -431,10 +482,18 @@ class FlightControlMode {
     
     sendingTargetToDrone: boolean = false;
     setTargetActive(): void {
+        // Convert time into angular velocity
+        let av: number = 360 / this.targetVelocity;
+
+        // Check if number exceeds max velocity
+        
+        
         this.sendingTargetToDrone = true;
         this.drone.FlightController.Orbit.orbit(this.targetLat, this.targetLng, this.targetAltitude, this.targetRadius,
-        this.targetDirection, this.targetVelocity).then(() => {
-            this.closeActiveDialog();
+        this.targetDirection, av).then(() => {
+            this.showTargetDialog = false;
+            this.targetAddActive = false;
+            this.targetLatLngAcquired = false;
             this.sendingTargetToDrone = false;
         }).catch((error) => {
             // Keep dialog open and show error
@@ -499,6 +558,22 @@ class FlightControlMode {
                 if (this.targetLatLngAcquired) {
                     let distance: number = Conversions.distance2(this.targetLat, this.targetLng, latitudeString, longitudeString);
                     this.targetRadius = Conversions.roundToTwo(distance);
+                    this.targetAltitude = Conversions.roundToTwo(this.sessionController.ownerSession.mapDrone.currentAGLAlt);
+
+                    this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
+                    this.currentOrbitRadius = this.sessionController.activeSession.mapEntityCollection.entities.add({
+                        position : Cesium.Cartesian3.fromDegrees(this.targetLng, this.targetLat, this.sessionController.ownerSession.mapDrone.currentAlt),
+                        ellipse : {
+                            semiMinorAxis : this.targetRadius,
+                            semiMajorAxis : this.targetRadius,
+                            height: this.sessionController.ownerSession.mapDrone.currentAlt,
+                            material : Cesium.Color.TRANSPARENT,
+                            outline : true,
+                            outlineColor : Cesium.Color.fromCssColorString('#0a92ea'),
+                            outlineWidth: 3
+                        }
+                    });
+
                     this.showTargetDialog = true;
                 } else {
                     this.targetLat = latitudeString;
@@ -516,19 +591,27 @@ class FlightControlMode {
                             heightReference : Cesium.HeightReference.RELATIVE_TO_GROUND
                         }
                     });
+
+                    this.mdToast.show(
+                    this.mdToast.simple()
+                        .content('Select orbit radius point on map.')
+                        .position('top left')
+                        .hideDelay(3000)
+                    );
                 }
             }
         }
     }
 
     currentOrbitTarget: any;
+    currentOrbitRadius: any;
 
     targetAltitude: number = 50;
     targetRadius: number = 10;
     targetDirection: boolean = true;
     targetVelocity: number = 20;
 
-    wayPointNames: Array<string> = ['A', 'B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ',];
+    wayPointNames: Array<string> = ['A', 'B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ', 'BA', 'BB', 'BC', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ'];
     nextNameIndex: number = 0;
 
     getNextName(): string {
@@ -686,6 +769,7 @@ class OrbitMode implements IMode {
             // System is grounded and on standby. It can be launched any time.
             case SystemStatus.Standby:
                 this.flightControlMode.rtlButtonVisible = false;
+                this.flightControlMode.hasLanded();
                 break;
             // Uninitialized system, state is unknown.
             case SystemStatus.Unknown:
@@ -869,6 +953,7 @@ class GuidedMode implements IMode {
             case SystemStatus.Standby:
                 this.flightControlMode.rtlButtonVisible = false;
                 this.flightControlMode.takeoffButtonVisible = true;
+                this.flightControlMode.hasLanded();
                 break;
             // Uninitialized system, state is unknown.
             case SystemStatus.Unknown:
@@ -965,6 +1050,7 @@ class RTLMode implements IMode {
             // System is grounded and on standby. It can be launched any time.
             case SystemStatus.Standby:
                 this.flightControlMode.pauseButtonVisible = false;
+                this.flightControlMode.hasLanded();
                 break;
             // Uninitialized system, state is unknown.
             case SystemStatus.Unknown:
@@ -1065,6 +1151,7 @@ class ManualMode implements IMode {
             // System is grounded and on standby. It can be launched any time.
             case SystemStatus.Standby:
                 this.flightControlMode.rtlButtonVisible = false;
+                this.flightControlMode.hasLanded();
                 break;
             // Uninitialized system, state is unknown.
             case SystemStatus.Unknown:

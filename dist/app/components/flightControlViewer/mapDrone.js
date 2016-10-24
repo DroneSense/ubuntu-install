@@ -22,7 +22,9 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                     // off: (eventName?: string, callback?: Function, context?: any) => any;
                     // protected trigger: (eventName: string, ...args: any[]) => any;
                     // Default distance for flyto
-                    this.defaultZoomDistance = 20;
+                    this.defaultZoomDistance = 10;
+                    // Home location height above terrain
+                    this.homeHAE = 0;
                     // Height correction factor applied to the model so that it appears to be on the ground.
                     this.modelHeightCorrection = .4;
                     this.terrainProvider = new Cesium.CesiumTerrainProvider({
@@ -66,6 +68,7 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                             _this.currentLng = value.longitude;
                             _this.currentLat = value.lattitude;
                             _this.currentAlt = value.altitudeMSL + _this.modelHeightCorrection;
+                            _this.currentAGLAlt = value.altitudeAGL;
                             _this.currentHeading = Cesium.Math.toRadians(value.heading);
                             if (_this.drone.FlightController.Telemetry.Attitude) {
                                 _this.currentPitch = _this.drone.FlightController.Telemetry.Attitude.pitch;
@@ -75,7 +78,9 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                             // Check if owner session and get hae and set, if not just resolve
                             if (_this.isOwnerSession) {
                                 _this.getDroneHAE(_this.currentLat, _this.currentLng).then(function (height) {
-                                    _this.homeHAE = height;
+                                    if (height) {
+                                        _this.homeHAE = height;
+                                    }
                                     _this.drone.FlightController.enableAltitudeMSLOffset(true, height).then(function () {
                                         resolve();
                                     }).catch(function (error) {
@@ -96,6 +101,7 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                         _this.currentLng = value.longitude;
                         _this.currentLat = value.lattitude;
                         _this.currentAlt = value.altitudeMSL + _this.modelHeightCorrection;
+                        _this.currentAGLAlt = value.altitudeAGL;
                         _this.currentHeading = Cesium.Math.toRadians(value.heading);
                         _this.currentPitch = _this.drone.FlightController.Telemetry.Attitude.pitch;
                         _this.currentRoll = _this.drone.FlightController.Telemetry.Attitude.roll;
@@ -116,10 +122,15 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                                 Cesium.Cartographic.fromDegrees(_this.currentLng, _this.currentLat)
                             ];
                         }
-                        // Get terrain height at click location before adding takeoff point
-                        Cesium.sampleTerrain(_this.terrainProvider, 15, positions).then(function (updatedPositions) {
-                            resolve(updatedPositions[0].height);
-                        });
+                        try {
+                            // Get terrain height at click location before adding takeoff point
+                            Cesium.sampleTerrain(_this.terrainProvider, 15, positions).then(function (updatedPositions) {
+                                resolve(updatedPositions[0].height);
+                            });
+                        }
+                        catch (error) {
+                            console.log(error);
+                        }
                     });
                 };
                 MapDrone.prototype.createDrone = function () {
@@ -160,7 +171,7 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                             // minimumPixelSize : 128,
                             maximumScale: 100,
                             shadows: Cesium.ShadowMode.CAST_ONLY
-                        },
+                        }
                     });
                 };
                 MapDrone.prototype.startInterval = function () {
@@ -184,15 +195,20 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                     }, 1000);
                 };
                 MapDrone.prototype.flyToDroneOn3DMap = function () {
-                    // Fly to drone location and rotate down
-                    this.map.camera.flyTo({
-                        destination: Cesium.Cartesian3.fromDegrees(this.currentLng, this.currentLat, this.currentAlt + this.defaultZoomDistance),
-                        duration: 10,
-                        complete: function () {
-                            //this.map.camera.rotateDown(Cesium.Math.toRadians(-80));
-                            //this.map.camera.rotateRight(Cesium.Math.toRadians(-70));
-                        }
-                    });
+                    var _this = this;
+                    try {
+                        // Fly to drone location and rotate down
+                        this.map.camera.flyTo({
+                            destination: Cesium.Cartesian3.fromDegrees(this.currentLng, this.currentLat, this.currentAGLAlt + this.homeHAE + this.defaultZoomDistance),
+                            duration: 10,
+                            complete: function () {
+                                _this.map.camera.rotateDown(Cesium.Math.toRadians(-80));
+                            }
+                        });
+                    }
+                    catch (error) {
+                        console.log(error);
+                    }
                 };
                 MapDrone.prototype.remove = function () {
                     // Turn off telemetry

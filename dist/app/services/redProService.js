@@ -16,10 +16,42 @@ System.register([], function(exports_1, context_1) {
                 function RedProService($http) {
                     this.appName = 'live';
                     this.accessToken = 'dronesense';
-                    this.red5proServerIp = '10.0.1.105';
+                    this.red5proServerIp = '192.168.0.115';
                     this.red5proServerPort = '5080';
                     this.$http = $http;
                 }
+                RedProService.prototype.startVODRecording = function (sessionName) {
+                    var _this = this;
+                    return new Promise(function (resolve, reject) {
+                        _this.$http.get('http://' + _this.red5proServerIp + ':' + _this.red5proServerPort + '/api/v1/applications/' + _this.appName + '/streams/' + sessionName + '/action/startrecord?accessToken=' + _this.accessToken).success(function (data) {
+                            if (data.data.is_recording) {
+                                resolve(true);
+                            }
+                            else {
+                                reject(false);
+                            }
+                        }).error(function (error) {
+                            console.log(error);
+                            reject(error);
+                        });
+                    });
+                };
+                RedProService.prototype.stopVODRecording = function (sessionName) {
+                    var _this = this;
+                    return new Promise(function (resolve, reject) {
+                        _this.$http.get('http://' + _this.red5proServerIp + ':' + _this.red5proServerPort + '/api/v1/applications/' + _this.appName + '/streams/' + sessionName + '/action/stoprecord?accessToken=' + _this.accessToken).success(function (data) {
+                            if (data.data.is_recording) {
+                                resolve(true);
+                            }
+                            else {
+                                reject(false);
+                            }
+                        }).error(function (error) {
+                            console.log(error);
+                            reject(error);
+                        });
+                    });
+                };
                 RedProService.prototype.getLiveStreams = function () {
                     var _this = this;
                     return new Promise(function (resolve, reject) {
@@ -29,15 +61,16 @@ System.register([], function(exports_1, context_1) {
                                 streams.push(new RedProStream(stream));
                             });
                             resolve(streams);
-                        }).error(function () {
-                            reject();
+                        }).error(function (error) {
+                            console.log(error);
+                            reject(error);
                         });
                     });
                 };
                 RedProService.prototype.getLiveStreamStatistics = function (red5ProStream) {
                     var _this = this;
                     return new Promise(function (resolve, reject) {
-                        _this.$http.get('http://' + _this.red5proServerIp + ':' + _this.red5proServerPort + '/api/v1/applications/' + _this.appName + '/streams/' + red5ProStream.name + '?accessToken=' + _this.accessToken).success(function (data) {
+                        _this.$http.get('http://' + _this.red5proServerIp + ':' + _this.red5proServerPort + '/api/v1/applications/' + _this.appName + '/streams/' + red5ProStream.publish_name + '?accessToken=' + _this.accessToken).success(function (data) {
                             red5ProStream.active_subscribers = data.data.active_subscribers;
                             red5ProStream.total_subscribers = data.data.total_subscribers;
                             red5ProStream.max_subscribers = data.data.max_subscribers;
@@ -47,6 +80,7 @@ System.register([], function(exports_1, context_1) {
                             red5ProStream.scope_path = data.data.scope_path;
                             red5ProStream.is_recording = data.data.is_recording;
                             red5ProStream.state = data.data.state;
+                            red5ProStream.name = data.data.name;
                             resolve();
                         }).error(function () {
                             reject();

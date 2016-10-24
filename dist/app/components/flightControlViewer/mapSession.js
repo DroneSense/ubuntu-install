@@ -46,6 +46,7 @@ System.register(['./mapDrone', 'backbone-events-standalone', './mapMode', '@dron
                     var _this = this;
                     this.eventing = eventing;
                     this.waypoints = [];
+                    this.showHistoricalWaypoints = true;
                     this.terrainProvider = new Cesium.CesiumTerrainProvider({
                         url: 'https://www.cesiumcontent.com/api/terrain/world?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkMTM4ZDE2OS05NWYwLTQ0YmItOWY3YS0yNjEwOGE5Y2Y3NjYiLCJpZCI6NywiaWF0IjoxNDU1MjkyNzg5fQ.NDKlrwQZE_04ntDuL89hvatEmuycQo5llhtz3Mi6Wo0'
                     });
@@ -133,12 +134,21 @@ System.register(['./mapDrone', 'backbone-events-standalone', './mapMode', '@dron
                         try {
                             _this.waypoints[index].reached = true;
                             _this.waypoints[index].isActive = false;
+                            _this.waypoints[index].entity.show = _this.showHistoricalWaypoints;
                         }
                         catch (error) {
                             console.log(error);
                         }
                     });
                 }
+                MapWaypoints.prototype.hideHistoryWaypoints = function (show) {
+                    this.showHistoricalWaypoints = show;
+                    this.waypoints.forEach(function (waypoint) {
+                        if (waypoint.reached) {
+                            waypoint.entity.show = show;
+                        }
+                    });
+                };
                 MapWaypoints.prototype.removeWaypointFromMap = function (name) {
                     this.mapEntityCollection.entities.removeById(this.sessionId + name);
                 };
@@ -360,7 +370,7 @@ System.register(['./mapDrone', 'backbone-events-standalone', './mapMode', '@dron
                     // List of guests that are connected
                     this.connectedGuests = [];
                 }
-                OwnerMapSession.prototype.initializeOwnerSession = function (eventing, session, serverConnection, map, mapMode, allowAllGuestsWithoutPrompt) {
+                OwnerMapSession.prototype.initializeOwnerSession = function (eventing, session, serverConnection, map, mapMode, allowAllGuestsWithoutPrompt, startRecording) {
                     var _this = this;
                     return new Promise(function (resolve) {
                         _this.map = map;
@@ -372,6 +382,7 @@ System.register(['./mapDrone', 'backbone-events-standalone', './mapMode', '@dron
                         _this.allowAllGuestsWithoutPrompt = allowAllGuestsWithoutPrompt;
                         _this.color = _this.session.Color;
                         _this.id = _this.session.Id;
+                        _this.startRecording = startRecording;
                         // WARNING BAD CODE (Robert made me do this!) - drone index 0 is hardcoded here
                         _this.session.getDrones().then(function (drones) {
                             _this.mapDrone = new mapDrone_1.MapDrone(_this.mapEntityCollection);

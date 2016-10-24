@@ -9,7 +9,10 @@
             <div layout="column" layout-align="start center" style="min-width: 273px;">
 
                 <div layout="row">
-                    <div style="margin-top: 14px; font-size: 16px; line-height: 1; text-align: center; color: #dcdcdc; margin-left: 43px; margin-right: 5px;">Waypoint List</div>
+                    <div layout="column" layout-align="center center" ng-click="$ctrl.hideHistoryWaypoint()" style="width: 44px; height: 44px; cursor: pointer; outline: none;">
+                        <md-icon style="width: 19px; height: 19px;" md-svg-icon="./app/components/waypointListViewer/images/eyeballSession.svg"></md-icon>
+                    </div>
+                    <div style="margin-top: 14px; font-size: 16px; line-height: 1; text-align: center; color: #dcdcdc;">Waypoint List</div>
                     <div layout="column" layout-align="center center" ng-click="$ctrl.showHistory = !$ctrl.showHistory" style="width: 44px; height: 44px; cursor: pointer; outline: none;">
                         <md-icon style="width: 19px; height: 19px;" md-svg-icon="./app/components/waypointListViewer/images/history.svg"></md-icon>
                     </div>

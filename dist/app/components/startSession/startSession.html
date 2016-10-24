@@ -23,6 +23,12 @@
         </md-checkbox>
     </div>
 
+    <div style="margin-top: 10px;">
+        <md-checkbox ng-model="$ctrl.autoRecordOnTakeoff" aria-label="Guest Connections">
+            Auto start video recording on takeoff.
+        </md-checkbox>
+    </div>
+
     <div style="margin-top: 20px;" layout="row" layout-align="start center">
         <div ng-repeat="color in $ctrl.teamColors" ng-click="$ctrl.selectedColor = color; $ctrl.setTeamName($index);" 
         style="outline: none; cursor: pointer; margin-right: 15px; height: 15px; width: 15px; background-color: {{ color }}; border: white solid {{ $ctrl.selectedColor === color ? '1px' : '0px' }};"></div>
@@ -44,7 +50,7 @@
                 <md-checkbox aria-label="drone" ng-disabled="drone.checkoutState.isCheckedOut" ng-click="$ctrl.clearDroneSelection(drone);" ng-model="drone.isSelected"></md-checkbox>
                 <div class="md-list-item-text">
                     <label class="md-block body-14">{{ drone.configuration.name }} {{ drone.checkoutState.isCheckedOut ? '(Checked out)' : '' }}</label> </br>
-                    <label class="md-block label-12">{{ drone.configuration.autopilot.type }}</label>
+                    <!--<label class="md-block label-12">{{ drone.configuration.autopilot.type }}</label>-->
                 </div>
             </md-list-item>
         </md-list>
@@ -52,6 +58,22 @@
 
     <div style="margin-bottom: 5px;" ng-show="$ctrl.showError" class="body-14">
         <label style="display: block; line-height: 20px;">We could not find any drones. Ensure your drone is connected to the server and turned on.</label>
+    </div>
+
+    <div style="margin-bottom: 5px;" ng-show="$ctrl.sessionNoNameError" class="body-14">
+        <label style="display: block; line-height: 20px;">Please create a session name.</label>
+    </div>
+
+    <div style="margin-bottom: 5px;" ng-show="$ctrl.sessionNoDroneError" class="body-14">
+        <label style="display: block; line-height: 20px;">Please select a drone.</label>
+    </div>
+
+    <div style="margin-bottom: 5px;" ng-show="$ctrl.sessionNameExistsError" class="body-14">
+        <label style="display: block; line-height: 20px;">A session already exists with this name, please select a new name.</label>
+    </div>
+    
+    <div style="margin-bottom: 5px;" ng-show="$ctrl.sessionColorExistsError" class="body-14">
+        <label style="display: block; line-height: 20px;">A session already exists with this color, please select a new color.</label>
     </div>
 
     <div ng-show="$ctrl.creating">

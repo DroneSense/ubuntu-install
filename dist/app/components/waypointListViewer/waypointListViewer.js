@@ -11,6 +11,7 @@ System.register([], function(exports_1, context_1) {
                     this.bindings = bindings;
                     this.showHistory = false;
                     this.waypoints = [];
+                    this.hidingHistoricalWaypoints = false;
                     this.sessionController.eventing.on('session-added', function (ownerSession) {
                         _this.setupWaypoints();
                         _this.bindings.$applyAsync();
@@ -39,6 +40,10 @@ System.register([], function(exports_1, context_1) {
                     else {
                         return false;
                     }
+                };
+                WaypointListViewer.prototype.hideHistoryWaypoint = function () {
+                    this.sessionController.activeSession.mapWaypoints.hideHistoryWaypoints(!this.hidingHistoricalWaypoints);
+                    this.hidingHistoricalWaypoints = !this.hidingHistoricalWaypoints;
                 };
                 // Constructor
                 WaypointListViewer.$inject = [

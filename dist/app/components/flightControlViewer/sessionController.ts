@@ -38,7 +38,7 @@ export class SessionController implements ISessionControllerEvents {
         this.eventing = eventing;
     }
    
-    addOwnerSession(session: ISession, serverConnection: ServerConnection, mapMode: MapMode, allowAllGuestsWithoutPrompt: boolean): void {
+    addOwnerSession(session: ISession, serverConnection: ServerConnection, mapMode: MapMode, allowAllGuestsWithoutPrompt: boolean, startRecording: boolean): void {
 
         this.initializeMap(mapMode);
 
@@ -47,7 +47,7 @@ export class SessionController implements ISessionControllerEvents {
         this.map.dataSources.add(this.ownerSession.mapEntityCollection);
 
         // TODO: make static call
-        this.ownerSession.initializeOwnerSession(this.eventing, session, serverConnection, this.map, mapMode, allowAllGuestsWithoutPrompt).then((ownerSession: OwnerMapSession) => {
+        this.ownerSession.initializeOwnerSession(this.eventing, session, serverConnection, this.map, mapMode, allowAllGuestsWithoutPrompt, startRecording).then((ownerSession: OwnerMapSession) => {
             
             // Set returned owner session
             this.ownerSession = ownerSession;
@@ -102,6 +102,15 @@ export class SessionController implements ISessionControllerEvents {
 
                     this.eventing.trigger('session-added', mapSession);
              }
+
+            // Start video stream if drone is connected and this is an owner session
+            /* !cordova-start */
+            try {
+                dronesense.bridgeManager.subscribeVideoStream('192.168.0.115', 8554, this.activeSession.name);
+            } catch (error) {
+                alert(error);
+            }
+            /* !cordova-stop */
          });
 
     }
@@ -114,6 +123,15 @@ export class SessionController implements ISessionControllerEvents {
         this.activeSession = session;
 
         this.map.trackedEntity = session.mapDrone.droneEntity;
+
+        // Start video stream if drone is connected and this is an owner session
+        /* !cordova-start */
+        try {
+            dronesense.bridgeManager.subscribeVideoStream('192.168.0.115', 8554, this.activeSession.name);
+        } catch (error) {
+            alert(error);
+        }
+        /* !cordova-stop */
 
         this.eventing.trigger('session-changed', session);
     }

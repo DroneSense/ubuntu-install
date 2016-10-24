@@ -134,6 +134,8 @@ class FlightControlViewer {
 
             this.firstSessionLoaded = true;
 
+            this.initCamera();
+
             this.bindings.$applyAsync();
         });
 
@@ -174,10 +176,13 @@ class FlightControlViewer {
             
         });
 
-        this.eventing.on('waypoint-error', (name: string) => {
-            this.waypointError = true;
-            this.waypointErrorName = name;
-        });
+        // Only wire up to event if ownerSession
+        if (this.sessionController.ownerSession) {
+            this.eventing.on('waypoint-error', (name: string) => {
+                this.waypointError = true;
+                this.waypointErrorName = name;
+            });
+        }
     }
 
     // Start new flight button clicked on main screen
@@ -248,7 +253,7 @@ class FlightControlViewer {
         this.currentServerConnection = serverConnection;
 
         this.mdDialog.show({
-            template: '<ds-start-session server-connection="$ctrl.currentServerConnection" on-start="$ctrl.ownerSessionCreated(session, allowAllGuests);" on-cancel="$ctrl.cancelDialog()"></ds-control-connect>',
+            template: '<ds-start-session server-connection="$ctrl.currentServerConnection" on-start="$ctrl.ownerSessionCreated(session, allowAllGuests, startRecording);" on-cancel="$ctrl.cancelDialog()"></ds-control-connect>',
             scope: this.bindings,
             preserveScope: true,
             parent: angular.element(document.body),
@@ -291,7 +296,7 @@ class FlightControlViewer {
     }
 
     // Call back from start new flight dialog that returns a session
-    ownerSessionCreated(session: ISession, allowAllGuests: boolean): void {
+    ownerSessionCreated(session: ISession, allowAllGuests: boolean, startRecording: boolean): void {
 
         // Close dialog
         this.mdDialog.hide();
@@ -302,7 +307,7 @@ class FlightControlViewer {
         // Remove buttons after session returns
         this.hideButtons = true;
 
-        this.sessionController.addOwnerSession(session, this.currentServerConnection, MapMode.ThreeDimensional, allowAllGuests);
+        this.sessionController.addOwnerSession(session, this.currentServerConnection, MapMode.ThreeDimensional, allowAllGuests, startRecording);
     }
 
     // Return true if user accepts
@@ -329,9 +334,41 @@ class FlightControlViewer {
     toggleLockCamera(): void {
         if (this.lockCamera) {
             this.sessionController.map.trackedEntity = this.sessionController.activeSession.mapDrone.droneEntity;
+            setTimeout(() => {
+                //this.loadCameraView();
+                this.sessionController.map.camera.zoomOut(40);
+            }, 250);
+            
         } else {
+            //this.saveCameraView();
             this.sessionController.map.trackedEntity = null;
         }
+    }
+
+    position: any;
+    heading: any;
+    pitch: any;
+    roll: any;
+    transform: any;
+    saveCameraView(): void {
+        this.position = Cesium.Cartesian3.clone(this.sessionController.map.camera.positionWC, this.position);
+        this.heading = this.sessionController.map.camera.heading;
+        this.pitch = this.sessionController.map.camera.pitch;
+        this.roll = this.sessionController.map.camera.roll;
+        this.transform = Cesium.Matrix4.clone(this.sessionController.map.camera.transform, this.transform);
+    }
+
+    loadCameraView(): void {
+        let newPosition: Cesium.Cartesian3 = Cesium.Cartesian3.fromDegrees(this.sessionController.activeSession.mapDrone.currentLng, this.sessionController.activeSession.mapDrone.currentLat, this.sessionController.activeSession.mapDrone.currentAlt);
+        newPosition.z = this.position.z;
+        this.sessionController.map.camera.setView({
+            destination : newPosition,
+                orientation: {
+                    heading : this.heading,
+                    pitch : this.pitch,
+                    roll : this.roll
+            }
+        });
     }
 
     zoomIn(): void {
@@ -357,11 +394,11 @@ class FlightControlViewer {
             this.initCamera();
         }
         if (this.isRecording) {
-            this.sessionController.activeSession.mapDrone.drone.Camera.stopRecording().then().catch((error) => {
+            this.sessionController.ownerSession.mapDrone.drone.Camera.stopRecording().then().catch((error) => {
                 console.log(error);
             });
         } else {
-            this.sessionController.activeSession.mapDrone.drone.Camera.startRecording().then(() => {
+            this.sessionController.ownerSession.mapDrone.drone.Camera.startRecording().then(() => {
 
             }).catch((error) => {
                 console.log(error);
@@ -369,20 +406,22 @@ class FlightControlViewer {
         }
     }
     initCamera(): void {
-        this.isRecording = this.sessionController.activeSession.mapDrone.drone.Camera.IsRecording;
+        if (this.sessionController.ownerSession) {
+            this.isRecording = this.sessionController.ownerSession.mapDrone.drone.Camera.IsRecording;
 
-        this.sessionController.activeSession.mapDrone.drone.Camera.on('recording-started', () => {
-            this.isRecording = true;
-            this.recordIndicatorVisible = false;
-        });
-        this.sessionController.activeSession.mapDrone.drone.Camera.on('recording-stopped', () => {
-            this.isRecording = false;
-            this.recordIndicatorVisible = false;
-        });
-        this.sessionController.activeSession.mapDrone.drone.Camera.on('take-picture-finished', () => {
-            this.takePictureComplete = true;
-        });
-        this.cameraInit = true;
+            this.sessionController.ownerSession.mapDrone.drone.Camera.on('recording-started', () => {
+                this.isRecording = true;
+                this.recordIndicatorVisible = false;
+            });
+            this.sessionController.ownerSession.mapDrone.drone.Camera.on('recording-stopped', () => {
+                this.isRecording = false;
+                this.recordIndicatorVisible = false;
+            });
+            this.sessionController.ownerSession.mapDrone.drone.Camera.on('take-picture-finished', () => {
+                this.takePictureComplete = true;
+            });
+            this.cameraInit = true;
+        }
     }
     takePictureComplete: boolean = true;
     takePicture(): void {
@@ -390,7 +429,7 @@ class FlightControlViewer {
             this.initCamera();
         }
         this.takePictureComplete = false;
-        this.sessionController.activeSession.mapDrone.drone.Camera.takePicture();
+        this.sessionController.ownerSession.mapDrone.drone.Camera.takePicture();
     }
 }
 

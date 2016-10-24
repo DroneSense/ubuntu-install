@@ -20,7 +20,7 @@ export class MapDrone {
     // protected trigger: (eventName: string, ...args: any[]) => any;
 
     // Default distance for flyto
-    defaultZoomDistance: number = 20;
+    defaultZoomDistance: number = 10;
 
     // Current map
     map: Cesium.Viewer;
@@ -48,6 +48,9 @@ export class MapDrone {
     // The current msl alititude repported from the drone
     currentAlt: number;
 
+    // Current AGL altitude
+    currentAGLAlt: number;
+
     // Current heading value
     currentHeading: number;
 
@@ -58,7 +61,7 @@ export class MapDrone {
     currentRoll: number;
 
     // Home location height above terrain
-    homeHAE: number;
+    homeHAE: number = 0;
 
     // Color for session id
     pathColor: string;
@@ -132,6 +135,7 @@ export class MapDrone {
                 this.currentLng = value.longitude;
                 this.currentLat = value.lattitude;
                 this.currentAlt = value.altitudeMSL + this.modelHeightCorrection;
+                this.currentAGLAlt = value.altitudeAGL;
                 this.currentHeading = Cesium.Math.toRadians(value.heading);
 
                 if (this.drone.FlightController.Telemetry.Attitude) {
@@ -145,8 +149,11 @@ export class MapDrone {
                 if (this.isOwnerSession) {
 
                     this.getDroneHAE(this.currentLat, this.currentLng).then((height: number) => {
-                        this.homeHAE = height;
                         
+                        if (height) {
+                            this.homeHAE = height;
+                        }
+
                         this.drone.FlightController.enableAltitudeMSLOffset(true, height).then(() => {
 
                         resolve();
@@ -172,6 +179,7 @@ export class MapDrone {
             this.currentLng = value.longitude;
             this.currentLat = value.lattitude;
             this.currentAlt = value.altitudeMSL + this.modelHeightCorrection;
+            this.currentAGLAlt = value.altitudeAGL;
             this.currentHeading = Cesium.Math.toRadians(value.heading);
             this.currentPitch = this.drone.FlightController.Telemetry.Attitude.pitch;
             this.currentRoll = this.drone.FlightController.Telemetry.Attitude.roll;
@@ -204,12 +212,17 @@ export class MapDrone {
                 ];
             }
 
-            // Get terrain height at click location before adding takeoff point
-            Cesium.sampleTerrain(this.terrainProvider, 15, positions).then((updatedPositions: any): void => {
-                
-                resolve(updatedPositions[0].height);
+            try {
 
-            });
+                // Get terrain height at click location before adding takeoff point
+                Cesium.sampleTerrain(this.terrainProvider, 15, positions).then((updatedPositions: any): void => {
+                    
+                    resolve(updatedPositions[0].height);
+
+                });
+            } catch (error) {
+                console.log(error);
+            }
 
         });
     }
@@ -259,17 +272,7 @@ export class MapDrone {
                 // minimumPixelSize : 128,
                 maximumScale : 100,
                 shadows: Cesium.ShadowMode.CAST_ONLY
-            },
-
-            //Show the path as a pink line sampled in 1 second increments.
-            // path : {
-            //     resolution : 1, // THIS MAY CAUSE a slow down https://groups.google.com/forum/#!searchin/cesium-dev/SampledPositionProperty%7Csort:relevance/cesium-dev/hu_J2jqpLnI/bt7bIrAMBAAJ
-            //     material : new Cesium.PolylineGlowMaterialProperty({
-            //         glowPower : 0.1,
-            //         color : Cesium.Color.fromBytes(242, 101, 34, 255)
-            //     }),
-            //     width : 2
-            // }
+            }
         });
 
     }
@@ -301,17 +304,21 @@ export class MapDrone {
     }
 
     flyToDroneOn3DMap(): void {
-        
-        // Fly to drone location and rotate down
-        this.map.camera.flyTo({
-            destination: Cesium.Cartesian3.fromDegrees(this.currentLng, this.currentLat, this.currentAlt + this.defaultZoomDistance),
-            duration: 10,
-            complete: (): void => {
-                
-                //this.map.camera.rotateDown(Cesium.Math.toRadians(-80));
-                //this.map.camera.rotateRight(Cesium.Math.toRadians(-70));
-            }
-        });
+
+        try {
+
+            // Fly to drone location and rotate down
+            this.map.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(this.currentLng, this.currentLat, this.currentAGLAlt + this.homeHAE + this.defaultZoomDistance),
+                duration: 10,
+                complete: (): void => {
+                    
+                    this.map.camera.rotateDown(Cesium.Math.toRadians(-80));
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     remove(): void {

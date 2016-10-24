@@ -14,6 +14,7 @@ import models from '../app/components/modelViewer/modelViewer';
 import schedules from '../app/components/scheduleViewer/scheduleViewer';
 import account from '../app/components/accountViewer/accountViewer';
 import profile from '../app/components/profileViewer/profileViewer';
+import video from '../app/components/video/video';
 
 import { Translations } from './translations';
 
@@ -108,6 +109,10 @@ class ConfigRoutes {
             url: '/dashboard',
             templateUrl: '<ds-dashboard></ds-dashboard>',
             data : { requireLogin : true }
+        })
+        .state('video', {
+            url: '/video?ip&name',
+            template: '<ds-video></ds-video>'
         });
     }
 }
@@ -186,7 +191,8 @@ let dsApp: any = angular.module('DroneSense.Web', [
     models.name,
     schedules.name,
     account.name,
-    profile.name
+    profile.name,
+    video.name
 ])
 
     .config(ConfigRoutes)

@@ -95,6 +95,7 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                     this.eventing.on('drone-located', function () {
                         _this.locatingDroneDialog = false;
                         _this.firstSessionLoaded = true;
+                        _this.initCamera();
                         _this.bindings.$applyAsync();
                     });
                     this.eventing.on('guest-connect-request', function (username, cb) {
@@ -126,10 +127,13 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                         }
                         ;
                     });
-                    this.eventing.on('waypoint-error', function (name) {
-                        _this.waypointError = true;
-                        _this.waypointErrorName = name;
-                    });
+                    // Only wire up to event if ownerSession
+                    if (this.sessionController.ownerSession) {
+                        this.eventing.on('waypoint-error', function (name) {
+                            _this.waypointError = true;
+                            _this.waypointErrorName = name;
+                        });
+                    }
                 };
                 // Start new flight button clicked on main screen
                 FlightControlViewer.prototype.startNewFlight = function () {
@@ -189,7 +193,7 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                     // Necessary for component consumption
                     this.currentServerConnection = serverConnection;
                     this.mdDialog.show({
-                        template: '<ds-start-session server-connection="$ctrl.currentServerConnection" on-start="$ctrl.ownerSessionCreated(session, allowAllGuests);" on-cancel="$ctrl.cancelDialog()"></ds-control-connect>',
+                        template: '<ds-start-session server-connection="$ctrl.currentServerConnection" on-start="$ctrl.ownerSessionCreated(session, allowAllGuests, startRecording);" on-cancel="$ctrl.cancelDialog()"></ds-control-connect>',
                         scope: this.bindings,
                         preserveScope: true,
                         parent: angular.element(document.body),
@@ -222,14 +226,14 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                     this.sessionController.addGuestSession(session, this.currentServerConnection, mapMode_1.MapMode.ThreeDimensional);
                 };
                 // Call back from start new flight dialog that returns a session
-                FlightControlViewer.prototype.ownerSessionCreated = function (session, allowAllGuests) {
+                FlightControlViewer.prototype.ownerSessionCreated = function (session, allowAllGuests, startRecording) {
                     // Close dialog
                     this.mdDialog.hide();
                     // Hide background image
                     this.hideBackground = true;
                     // Remove buttons after session returns
                     this.hideButtons = true;
-                    this.sessionController.addOwnerSession(session, this.currentServerConnection, mapMode_1.MapMode.ThreeDimensional, allowAllGuests);
+                    this.sessionController.addOwnerSession(session, this.currentServerConnection, mapMode_1.MapMode.ThreeDimensional, allowAllGuests, startRecording);
                 };
                 // Return true if user accepts
                 FlightControlViewer.prototype.acceptGuestRequest = function () {
@@ -248,12 +252,37 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                     this.mdDialog.hide();
                 };
                 FlightControlViewer.prototype.toggleLockCamera = function () {
+                    var _this = this;
                     if (this.lockCamera) {
                         this.sessionController.map.trackedEntity = this.sessionController.activeSession.mapDrone.droneEntity;
+                        setTimeout(function () {
+                            //this.loadCameraView();
+                            _this.sessionController.map.camera.zoomOut(40);
+                        }, 250);
                     }
                     else {
+                        //this.saveCameraView();
                         this.sessionController.map.trackedEntity = null;
                     }
+                };
+                FlightControlViewer.prototype.saveCameraView = function () {
+                    this.position = Cesium.Cartesian3.clone(this.sessionController.map.camera.positionWC, this.position);
+                    this.heading = this.sessionController.map.camera.heading;
+                    this.pitch = this.sessionController.map.camera.pitch;
+                    this.roll = this.sessionController.map.camera.roll;
+                    this.transform = Cesium.Matrix4.clone(this.sessionController.map.camera.transform, this.transform);
+                };
+                FlightControlViewer.prototype.loadCameraView = function () {
+                    var newPosition = Cesium.Cartesian3.fromDegrees(this.sessionController.activeSession.mapDrone.currentLng, this.sessionController.activeSession.mapDrone.currentLat, this.sessionController.activeSession.mapDrone.currentAlt);
+                    newPosition.z = this.position.z;
+                    this.sessionController.map.camera.setView({
+                        destination: newPosition,
+                        orientation: {
+                            heading: this.heading,
+                            pitch: this.pitch,
+                            roll: this.roll
+                        }
+                    });
                 };
                 FlightControlViewer.prototype.zoomIn = function () {
                     this.sessionController.map.cesiumNavigation.navigationViewModel.controls[0].activate();
@@ -271,12 +300,12 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                         this.initCamera();
                     }
                     if (this.isRecording) {
-                        this.sessionController.activeSession.mapDrone.drone.Camera.stopRecording().then().catch(function (error) {
+                        this.sessionController.ownerSession.mapDrone.drone.Camera.stopRecording().then().catch(function (error) {
                             console.log(error);
                         });
                     }
                     else {
-                        this.sessionController.activeSession.mapDrone.drone.Camera.startRecording().then(function () {
+                        this.sessionController.ownerSession.mapDrone.drone.Camera.startRecording().then(function () {
                         }).catch(function (error) {
                             console.log(error);
                         });
@@ -284,26 +313,28 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                 };
                 FlightControlViewer.prototype.initCamera = function () {
                     var _this = this;
-                    this.isRecording = this.sessionController.activeSession.mapDrone.drone.Camera.IsRecording;
-                    this.sessionController.activeSession.mapDrone.drone.Camera.on('recording-started', function () {
-                        _this.isRecording = true;
-                        _this.recordIndicatorVisible = false;
-                    });
-                    this.sessionController.activeSession.mapDrone.drone.Camera.on('recording-stopped', function () {
-                        _this.isRecording = false;
-                        _this.recordIndicatorVisible = false;
-                    });
-                    this.sessionController.activeSession.mapDrone.drone.Camera.on('take-picture-finished', function () {
-                        _this.takePictureComplete = true;
-                    });
-                    this.cameraInit = true;
+                    if (this.sessionController.ownerSession) {
+                        this.isRecording = this.sessionController.ownerSession.mapDrone.drone.Camera.IsRecording;
+                        this.sessionController.ownerSession.mapDrone.drone.Camera.on('recording-started', function () {
+                            _this.isRecording = true;
+                            _this.recordIndicatorVisible = false;
+                        });
+                        this.sessionController.ownerSession.mapDrone.drone.Camera.on('recording-stopped', function () {
+                            _this.isRecording = false;
+                            _this.recordIndicatorVisible = false;
+                        });
+                        this.sessionController.ownerSession.mapDrone.drone.Camera.on('take-picture-finished', function () {
+                            _this.takePictureComplete = true;
+                        });
+                        this.cameraInit = true;
+                    }
                 };
                 FlightControlViewer.prototype.takePicture = function () {
                     if (!this.cameraInit) {
                         this.initCamera();
                     }
                     this.takePictureComplete = false;
-                    this.sessionController.activeSession.mapDrone.drone.Camera.takePicture();
+                    this.sessionController.ownerSession.mapDrone.drone.Camera.takePicture();
                 };
                 // Constructor
                 FlightControlViewer.$inject = [

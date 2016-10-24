@@ -1,0 +1,123 @@
+
+<div layout="row" layout-align="center top">
+    <div style="max-width: 1280px; min-width: 1024px;" layout="column" layout-align="center top">
+
+        <ds-viewer-toolbar lables="$ctrl.labels"
+                           sort-options="$ctrl.sort.options"
+                           on-sort-select="$ctrl.sortSelected(value)"                           
+                           grid-visible="$ctrl.gridVisible"
+                           on-show-grid="$ctrl.showGridView()"
+                           on-show-list="$ctrl.showListView()"
+                           on-add-clicked="$ctrl.addFlightPlan();"
+                           on-search="$ctrl.searchFlightPlans(search)"
+                           tags-changed="$ctrl.applyTagFilter(tags, option)"
+                           filter-tags="$ctrl.masterTagList">
+        </ds-viewer-toolbar>
+
+        <div ng-lazy-show="$ctrl.gridVisible;" layout="row" layout-align="start top" >
+            <md-content layout="row" layout-align="start top" layout-wrap md-theme='ds-dark' style="background-color: white;" >
+                <ds-session-card style="min-width: 256px;" 
+                                     flex="25" 
+                                     ng-repeat="session in $ctrl.activeSessions"
+                                     session="session">
+                </ds-session-card>
+            </md-content>
+        </div>
+
+        <!--<div ng-lazy-show="!$ctrl.gridVisible;" layout="column">
+
+            <md-content 
+                 ng-click="$ctrl.showFlightPlanCard('foo');" 
+                 layout="row" md-theme='ds-dark' 
+                 layout-align="start center" 
+                 ng-style="{ 'background-color': $even ? '#53575c' : '#595e63' }" 
+                 style="height: 50px; width: 100%; padding: 10px; outline: none; cursor: pointer;" 
+                 ng-repeat="fp in $ctrl.activeSessions | orderBy:$ctrl.sort.orderType:$ctrl.sort.orderDirection | filter:$ctrl.searchText | limitTo:12"
+                 ng-show="$ctrl.tagMatches(fp)"> 
+
+                <ds-user-avatar style="margin-right: 20px; height: 30px;" user="fp.CreatedUser" size="30"></ds-user-avatar>
+
+                <label class="body-14" flex="30">{{ fp.Name }}</label>
+
+                <label class="body-14" flex="15">{{ fp.LocationName }}</label>
+
+                <label class="body-14" flex="20">Created: {{ fp.CreateDate | date:'MM/dd/yyyy' }} by {{ fp.CreatedUser.UserInitials }}</label>
+
+                <label class="body-14" flex="20">Scheduled: {{ fp.ScheduledDate | date:'MM/dd/yyyy' }}</label>
+
+                <div flex></div>
+
+                <md-menu style="padding: 0; cursor: pointer; outline: 0; margin-right: 20px;" md-offset="0 27" md-position-mode="target-right target">
+                    <md-icon ng-click="$mdOpenMenu($event)" md-svg-icon="./app/components/flightPlanCard/images/overflow.svg">
+                    
+                    </md-icon>
+                    <md-menu-content>
+
+                        <div style="background-color: white;width: 15px;height: 15px;position: absolute;top: -4px;right: 20px;-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);"></div>
+
+                        <md-menu-item>
+                        <md-button ng-click="$ctrl.showFlightPlanCard('foo');">
+                            <div layout="row" flex>
+                            <p flex>View</p>
+                            </div>
+                        </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                        <md-button ng-click="$ctrl.showFlightPlanCard('foo');">
+                            <div layout="row" flex>
+                            <p flex>Edit</p>
+                            </div>
+                        </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                        <md-button ng-click="ctrl.announceClick($index)">
+                            <div layout="row" flex>
+                            <p flex>Fly Now</p>
+                            </div>
+                        </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                        <md-button ng-click="ctrl.announceClick($index)">
+                            <div layout="row" flex>
+                            <p flex>Mark Done</p>
+                            </div>
+                        </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                        <md-button ng-click="ctrl.announceClick($index)">
+                            <div layout="row" flex>
+                            <p flex>Archive</p>
+                            </div>
+                        </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                        <md-button ng-click="ctrl.announceClick($index)">
+                            <div layout="row" flex>
+                            <p flex>Change Tag</p>
+                            </div>
+                        </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                        <md-button ng-click="ctrl.announceClick($index)">
+                            <div layout="row" flex>
+                            <p flex>Remove</p>
+                            </div>
+                        </md-button>
+                        </md-menu-item>
+
+                    </md-menu-content>
+                </md-menu>
+
+            </md-content>
+        </div>-->
+
+    </div>
+
+</div>
+
