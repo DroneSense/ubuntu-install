@@ -78,6 +78,9 @@ class ControlTelemetry {
     constructor(public bindings: IControlTelemetry) {
 
         this.sessionController.eventing.on('session-added', (ownerSession: OwnerMapSession) => {
+            
+            this.unwireChanges();
+            
             this.drone = ownerSession.mapDrone.drone;
 
             this.bindings.$applyAsync();
@@ -101,6 +104,8 @@ class ControlTelemetry {
 
         this.sessionController.eventing.on('session-changed', (session: MapSession) => {
             
+            this.unwireChanges();
+
             if (this.drone) {
                 this.drone.FlightController.Guided.off('waypoints-changed');
             }
@@ -162,16 +167,16 @@ class ControlTelemetry {
 
                 this.heading = Math.round(this.drone.FlightController.Telemetry.Position.heading);
             }
-
-            this.drone.Gimbal.on('state-updated', (gimbal: IGimbalState) => {
-                if (gimbal) {
-                    this.gimbalHeading = Math.round(gimbal.yaw);
-                    this.gimbalPitch = Math.round(gimbal.pitch) * -1;
-                }
-            });
             
             this.bindings.$applyAsync();
 
+        });
+
+        this.drone.Gimbal.on('state-updated', (gimbal: IGimbalState) => {
+            if (gimbal) {
+                this.gimbalHeading = Math.round(gimbal.yaw);
+                this.gimbalPitch = Math.round(gimbal.pitch) * -1;
+            }
         });
     }
 

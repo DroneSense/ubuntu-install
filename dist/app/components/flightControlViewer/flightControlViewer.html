@@ -30,7 +30,10 @@
     <ds-waypoint-list-viewer session-controller="$ctrl.sessionController" ng-show="$ctrl.sessionController.ownerSession && $ctrl.firstSessionLoaded" style="position: absolute; right: 20px; top: 275px;"></ds-waypoint-list-viewer>
 
     <!--Video Player-->
-    <ds-video-player ng-if="$ctrl.firstSessionLoaded" session-name="$ctrl.sessionController.activeSession.name" settings="$ctrl.flightControlSettings" on-full-screen="$ctrl.showMap = false;" on-exit-full-screen="$ctrl.showMap = true"></ds-video-player>
+    <!--<ds-video-player ng-if="$ctrl.firstSessionLoaded" session-name="$ctrl.sessionController.activeSession.name" on-full-screen="$ctrl.showMap = false;" on-exit-full-screen="$ctrl.showMap = true"></ds-video-player>-->
+
+    <!-- Multi-session video player -->
+    <ds-multi-video-player ng-show="$ctrl.firstSessionLoaded" ng-if="$ctrl.sessionController" session-controller="$ctrl.sessionController" settings="$ctrl.flightControlSettings" on-full-screen="$ctrl.showMap = false;" on-exit-full-screen="$ctrl.showMap = true"></ds-multi-video-player>
 
     <!--Record Start/Stop-->
     <div ng-if="$ctrl.sessionController.ownerSession && $ctrl.firstSessionLoaded" ng-show="$ctrl.takePictureComplete" style="position: absolute; right: 20px; top: 166px;">

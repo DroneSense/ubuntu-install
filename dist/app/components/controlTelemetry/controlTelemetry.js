@@ -27,6 +27,7 @@ System.register([], function(exports_1, context_1) {
                     this.gimbalPitch = 0;
                     this.gimbalHeading = 0;
                     this.sessionController.eventing.on('session-added', function (ownerSession) {
+                        _this.unwireChanges();
                         _this.drone = ownerSession.mapDrone.drone;
                         _this.bindings.$applyAsync();
                         _this.setupWaypoints();
@@ -39,6 +40,7 @@ System.register([], function(exports_1, context_1) {
                         _this.bindings.$applyAsync();
                     });
                     this.sessionController.eventing.on('session-changed', function (session) {
+                        _this.unwireChanges();
                         if (_this.drone) {
                             _this.drone.FlightController.Guided.off('waypoints-changed');
                         }
@@ -109,13 +111,13 @@ System.register([], function(exports_1, context_1) {
                             _this.headingCSS = (_this.drone.FlightController.Telemetry.Position.heading).toString();
                             _this.heading = Math.round(_this.drone.FlightController.Telemetry.Position.heading);
                         }
-                        _this.drone.Gimbal.on('state-updated', function (gimbal) {
-                            if (gimbal) {
-                                _this.gimbalHeading = Math.round(gimbal.yaw);
-                                _this.gimbalPitch = Math.round(gimbal.pitch) * -1;
-                            }
-                        });
                         _this.bindings.$applyAsync();
+                    });
+                    this.drone.Gimbal.on('state-updated', function (gimbal) {
+                        if (gimbal) {
+                            _this.gimbalHeading = Math.round(gimbal.yaw);
+                            _this.gimbalPitch = Math.round(gimbal.pitch) * -1;
+                        }
                     });
                 };
                 ControlTelemetry.prototype.setupWaypoints = function () {

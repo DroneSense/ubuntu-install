@@ -1,7 +1,7 @@
-System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/controlTelemetry', '../controlConnect/controlConnect', '../startSession/startSession', '../joinSession/joinSession', './sessionController', '../flightControlMode/flightControlMode', './mapMode', 'backbone-events-standalone', '../sessionManagementViewer/sessionManagementViewer', '../waypointListViewer/waypointListViewer', '../mapLayers/mapLayers', './flightControlSettings', '../videoPlayer/videoPlayer'], function(exports_1, context_1) {
+System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/controlTelemetry', '../controlConnect/controlConnect', '../startSession/startSession', '../joinSession/joinSession', './sessionController', '../flightControlMode/flightControlMode', './mapMode', 'backbone-events-standalone', '../sessionManagementViewer/sessionManagementViewer', '../waypointListViewer/waypointListViewer', '../mapLayers/mapLayers', './flightControlSettings', '../videoPlayer/videoPlayer', '../multiVideoPlayer/multiVideoPlayer'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var controlToolbar_1, controlTelemetry_1, controlConnect_1, startSession_1, joinSession_1, sessionController_1, flightControlMode_1, mapMode_1, backbone_events_standalone_1, sessionManagementViewer_1, waypointListViewer_1, mapLayers_1, flightControlSettings_1, videoPlayer_1;
+    var controlToolbar_1, controlTelemetry_1, controlConnect_1, startSession_1, joinSession_1, sessionController_1, flightControlMode_1, mapMode_1, backbone_events_standalone_1, sessionManagementViewer_1, waypointListViewer_1, mapLayers_1, flightControlSettings_1, videoPlayer_1, multiVideoPlayer_1;
     var FlightControlViewerEventing, FlightControlViewer;
     return {
         setters:[
@@ -46,6 +46,9 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
             },
             function (videoPlayer_1_1) {
                 videoPlayer_1 = videoPlayer_1_1;
+            },
+            function (multiVideoPlayer_1_1) {
+                multiVideoPlayer_1 = multiVideoPlayer_1_1;
             }],
         execute: function() {
             FlightControlViewerEventing = (function () {
@@ -354,7 +357,8 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                 sessionManagementViewer_1.default.name,
                 waypointListViewer_1.default.name,
                 mapLayers_1.default.name,
-                videoPlayer_1.default.name
+                videoPlayer_1.default.name,
+                multiVideoPlayer_1.default.name
             ]).component('dsFlightControlViewer', {
                 bindings: {},
                 controller: FlightControlViewer,

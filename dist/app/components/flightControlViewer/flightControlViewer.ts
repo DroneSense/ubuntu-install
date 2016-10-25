@@ -17,6 +17,7 @@ import MayLayers from '../mapLayers/mapLayers';
 import { CesiumMapUtils } from '../../common/mapUtils';
 import { FlightControlSettings } from './flightControlSettings';
 import VideoPlayer from '../videoPlayer/videoPlayer';
+import MultiVideoPlayer from '../multiVideoPlayer/multiVideoPlayer';
 
 import { IEventEmitter } from '@dronesense/core/lib/common/IEventEmitter';
 
@@ -443,7 +444,8 @@ export default angular.module('DroneSense.Web.FlightControlViewer', [
     SessionManagementViewer.name,
     WaypointListViewer.name,
     MayLayers.name,
-    VideoPlayer.name
+    VideoPlayer.name,
+    MultiVideoPlayer.name
 ]).component('dsFlightControlViewer', {
     bindings: {
 
