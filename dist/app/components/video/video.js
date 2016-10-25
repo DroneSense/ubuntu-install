@@ -14,7 +14,7 @@ System.register([], function(exports_1, context_1) {
                     this.top = '115px';
                     this.right = '64px';
                     this.zindex = '0';
-                    this.ip = '127.0.0.1';
+                    this.ip = '104.198.243.2';
                     this.port = '1935';
                     this.buffer = 0;
                     if (stateService.params['ip']) {

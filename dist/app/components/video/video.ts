@@ -16,7 +16,7 @@ class Video {
     right: string = '64px';
     zindex: string = '0';
 
-    ip: string = '127.0.0.1';
+    ip: string = '104.198.243.2';
 
     port: string = '1935';
 
