@@ -31,7 +31,7 @@ class RedProService {
 
     appName: string = 'live';
     accessToken: string = 'dronesense';
-    red5proServerIp: string = '104.198.243.2'; // '192.168.0.115';
+    red5proServerIp: string = '127.0.0.1'; // '192.168.0.115';
     red5proServerPort: string = '5080';
 
     static $inject: Array<string> = [

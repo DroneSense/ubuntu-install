@@ -14,8 +14,9 @@ System.register([], function(exports_1, context_1) {
                     this.top = '115px';
                     this.right = '64px';
                     this.zindex = '0';
-                    this.ip = '192.168.0.115';
+                    this.ip = '127.0.0.1';
                     this.port = '1935';
+                    this.buffer = 0;
                     if (stateService.params['ip']) {
                         this.ip = stateService.params['ip'];
                     }
@@ -24,6 +25,9 @@ System.register([], function(exports_1, context_1) {
                     }
                     if (stateService.params['name']) {
                         this.streamName = stateService.params['name'];
+                    }
+                    if (stateService.params['buffer']) {
+                        this.buffer = stateService.params['buffer'];
                     }
                 }
                 Video.prototype.$onInit = function () {
@@ -43,8 +47,14 @@ System.register([], function(exports_1, context_1) {
                             app: 'live',
                             streamName: this.streamName.replace(' ', '-'),
                             mimeType: 'rtmp/flv',
-                            swf: 'node_modules/red5pro-video-js.swf',
-                            useVideoJS: true,
+                            //swf: 'node_modules/red5pro-video-js.swf',
+                            useVideoJS: false,
+                            //swfobjectURL: 'node_modules/swfobject.js',
+                            width: '100%',
+                            height: '100%',
+                            swf: 'node_modules/red5pro-subscriber.swf',
+                            swfobjectURL: 'node_modules/swfobject.js',
+                            buffer: this.buffer
                         })
                             .then(function (player) {
                             // `player` is the WebRTC Player instance.

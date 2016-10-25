@@ -68,10 +68,14 @@ class VideoPlayer {
                 //context: 'room1',
                 streamName: this.sessionName.replace(' ', '-'),
                 mimeType: 'rtmp/flv',
-                swf: 'node_modules/red5pro-video-js.swf',
-                useVideoJS: true
-                //swf: 'node_modules/red5pro-subscriber.swf',
-                //swfobjectURL: 'node_modules/swfobject.js'
+                //swf: 'node_modules/red5pro-video-js.swf',
+                useVideoJS: false,
+                buffer: 0.2,
+                swf: 'node_modules/red5pro-subscriber.swf',
+                swfobjectURL: 'node_modules/swfobject.js',
+                width: '100%',
+                height: '100%'
+
             })
             .then((player: any) => {
                 // `player` is the WebRTC Player instance.

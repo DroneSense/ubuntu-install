@@ -111,7 +111,7 @@ class ConfigRoutes {
             data : { requireLogin : true }
         })
         .state('video', {
-            url: '/video?ip&name',
+            url: '/video?ip&name&buffer&port',
             template: '<ds-video></ds-video>'
         });
     }

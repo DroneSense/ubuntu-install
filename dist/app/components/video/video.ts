@@ -16,11 +16,13 @@ class Video {
     right: string = '64px';
     zindex: string = '0';
 
-    ip: string = '192.168.0.115';
+    ip: string = '127.0.0.1';
 
     port: string = '1935';
 
     streamName: string;
+
+    buffer: number = 0;
 
     // Constructor
     static $inject: Array<string> = [
@@ -39,6 +41,9 @@ class Video {
         }
         if (stateService.params['name']) {
             this.streamName = stateService.params['name'];
+        }
+        if (stateService.params['buffer']) {
+            this.buffer = stateService.params['buffer'];
         }
 
     }
@@ -63,11 +68,14 @@ class Video {
                 app: 'live',
                 streamName: this.streamName.replace(' ', '-'),
                 mimeType: 'rtmp/flv',
-                swf: 'node_modules/red5pro-video-js.swf',
-                useVideoJS: true,
+                //swf: 'node_modules/red5pro-video-js.swf',
+                useVideoJS: false,
                 //swfobjectURL: 'node_modules/swfobject.js',
-                // width: '100%',
-                // height: '100%'
+                width: '100%',
+                height: '100%',
+                swf: 'node_modules/red5pro-subscriber.swf',
+                swfobjectURL: 'node_modules/swfobject.js',
+                buffer: this.buffer
             })
             .then((player: any) => {
                 // `player` is the WebRTC Player instance.
