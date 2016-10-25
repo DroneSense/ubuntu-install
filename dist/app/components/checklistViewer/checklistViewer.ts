@@ -24,5 +24,5 @@ export default angular.module('DroneSense.Web.ChecklistViewer', [
     bindings: {
     },
     controller: ChecklistViewer,
-    templateUrl: './app/components/checklistViewer/ChecklistViewer.html'
+    templateUrl: './app/components/checklistViewer/checklistViewer.html'
 });

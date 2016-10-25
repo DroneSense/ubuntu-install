@@ -20,7 +20,7 @@ System.register([], function(exports_1, context_1) {
             exports_1("default",angular.module('DroneSense.Web.ChecklistViewer', []).component('dsChecklistViewer', {
                 bindings: {},
                 controller: ChecklistViewer,
-                templateUrl: './app/components/checklistViewer/ChecklistViewer.html'
+                templateUrl: './app/components/checklistViewer/checklistViewer.html'
             }));
         }
     }

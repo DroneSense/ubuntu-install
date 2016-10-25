@@ -24,5 +24,5 @@ export default angular.module('DroneSense.Web.DocumentViewer', [
     bindings: {
     },
     controller: DocumentViewer,
-    templateUrl: './app/components/documentViewer/DocumentViewer.html'
+    templateUrl: './app/components/documentViewer/documentViewer.html'
 });

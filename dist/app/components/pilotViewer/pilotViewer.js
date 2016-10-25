@@ -26,7 +26,7 @@ System.register(['../pilotCard/pilotCard'], function(exports_1, context_1) {
             ]).component('dsPilotViewer', {
                 bindings: {},
                 controller: PilotViewer,
-                templateUrl: './app/components/pilotViewer/PilotViewer.html'
+                templateUrl: './app/components/pilotViewer/pilotViewer.html'
             }));
         }
     }

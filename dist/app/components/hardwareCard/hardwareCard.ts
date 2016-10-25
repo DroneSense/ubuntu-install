@@ -36,5 +36,5 @@ export default angular.module('DroneSense.Web.HardwareCard', [
     bindings: {
     },
     controller: HardwareCard,
-    templateUrl: './app/components/hardwareCard/HardwareCard.html'
+    templateUrl: './app/components/hardwareCard/hardwareCard.html'
 });

@@ -25,5 +25,5 @@ export default angular.module('DroneSense.Web.PilotViewer', [
     bindings: {
     },
     controller: PilotViewer,
-    templateUrl: './app/components/pilotViewer/PilotViewer.html'
+    templateUrl: './app/components/pilotViewer/pilotViewer.html'
 });

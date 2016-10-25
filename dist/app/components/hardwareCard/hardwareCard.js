@@ -31,7 +31,7 @@ System.register([], function(exports_1, context_1) {
             exports_1("default",angular.module('DroneSense.Web.HardwareCard', []).component('dsHardwareCard', {
                 bindings: {},
                 controller: HardwareCard,
-                templateUrl: './app/components/hardwareCard/HardwareCard.html'
+                templateUrl: './app/components/hardwareCard/hardwareCard.html'
             }));
         }
     }

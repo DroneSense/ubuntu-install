@@ -179,7 +179,7 @@ System.register(['../flightPlanCard/flightPlanCard', '../flightPlanCardDetail/fl
             ]).component('dsFlightPlansViewer', {
                 bindings: {},
                 controller: FlightPlansViewer,
-                templateUrl: './app/components/flightPlansViewer/FlightPlansViewer.html'
+                templateUrl: './app/components/flightPlansViewer/flightPlansViewer.html'
             }));
         }
     }

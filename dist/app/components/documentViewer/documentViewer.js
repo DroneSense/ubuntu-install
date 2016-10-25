@@ -20,7 +20,7 @@ System.register([], function(exports_1, context_1) {
             exports_1("default",angular.module('DroneSense.Web.DocumentViewer', []).component('dsDocumentViewer', {
                 bindings: {},
                 controller: DocumentViewer,
-                templateUrl: './app/components/documentViewer/DocumentViewer.html'
+                templateUrl: './app/components/documentViewer/documentViewer.html'
             }));
         }
     }

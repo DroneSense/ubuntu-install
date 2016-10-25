@@ -194,5 +194,5 @@ export default angular.module('DroneSense.Web.FlightPlansViewer', [
     bindings: {
     },
     controller: FlightPlansViewer,
-    templateUrl: './app/components/flightPlansViewer/FlightPlansViewer.html'
+    templateUrl: './app/components/flightPlansViewer/flightPlansViewer.html'
 });
