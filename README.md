@@ -68,7 +68,7 @@
 3. npm install -g @dronesense/server  
 4. dronesense (confirm installation)
 
-### Install DroneSense/ubuntu-install
+### Install DroneSense/ubuntu-install source files
 1. sudo apt-get install git
 2. git clone https://github.com/DroneSense/ubuntu-install.git
 3. npm install http-server -g
