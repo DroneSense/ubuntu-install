@@ -32,7 +32,7 @@
 3. command -v nvm (this will verify correct installation)  
 4. nvm install node  
 5. nvm use node  
-6. node install npm?  
+6. node install npm? (not sure why I added this)  
 
 ### DroneSense Server Bluetooth Prerequisite  
 1. sudo apt-get install libbluetooth-dev  
@@ -66,7 +66,13 @@
 1. npm login (Login with credentials)  
 2. sudo apt-get install python  
 3. npm install -g @dronesense/server  
-4. dronesense (confirm installation)  
+4. dronesense (confirm installation)
+
+### Install DroneSense/ubuntu-install source files
+1. sudo apt-get install git
+2. git clone https://github.com/DroneSense/ubuntu-install.git
+3. npm install http-server -g
+4. check that paths are correct then update dswebserver.service file and copy using directions below.
   
 ### Setting up services  
 1. Copy the foo.service files into /etc/systemd/system/ directory  
@@ -76,7 +82,7 @@
 5. reboot to verify running  
   
 ### Setting up dswebserver.service 
-1. cp dswebserver.service /etc/systemd/system/  
+1. sudo cp dswebserver.service /etc/systemd/system/  
 2. systemctl enable dswebserver  
 3. systemctl start dswebserver  
 4. systemctl status dswebserver  
@@ -84,3 +90,5 @@
 ### OpenSSH Install
 1. sudo apt-get install openssh-server
 then connect by using ssh dronesense@ip
+
+
