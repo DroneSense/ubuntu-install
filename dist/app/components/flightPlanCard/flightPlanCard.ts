@@ -61,5 +61,5 @@ export default angular.module('DroneSense.Web.FlightPlanCard', [
         flightPlan: '<'
     },
     controller: FlightPlanCard,
-    templateUrl: './app/components/flightPlanCard/FlightPlanCard.html'
+    templateUrl: './app/components/flightPlanCard/flightPlanCard.html'
 });

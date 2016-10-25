@@ -56,7 +56,7 @@ System.register(['../userAvatar/userAvatar'], function(exports_1, context_1) {
                     flightPlan: '<'
                 },
                 controller: FlightPlanCard,
-                templateUrl: './app/components/flightPlanCard/FlightPlanCard.html'
+                templateUrl: './app/components/flightPlanCard/flightPlanCard.html'
             }));
         }
     }
