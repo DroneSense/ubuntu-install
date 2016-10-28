@@ -1,5 +1,6 @@
 import { SessionController } from '../flightControlViewer/sessionController';
-import { MapSession, MapWaypoint } from '../flightControlViewer/mapSession';
+import { MapWaypoint } from '../flightControlViewer/mapWaypoint';
+import { MapSession } from '../flightControlViewer/mapSession';
 
 export interface IWaypointListViewer extends ng.IScope {
 

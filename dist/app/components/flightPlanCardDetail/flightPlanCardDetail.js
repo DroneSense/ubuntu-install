@@ -57,7 +57,7 @@ System.register([], function(exports_1, context_1) {
                     flightPlan: '<'
                 },
                 controller: FlightPlanCardDetail,
-                templateUrl: './app/components/flightPlanCardDetail/FlightPlanCardDetail.html'
+                templateUrl: './app/components/flightPlanCardDetail/flightPlanCardDetail.html'
             }));
         }
     }

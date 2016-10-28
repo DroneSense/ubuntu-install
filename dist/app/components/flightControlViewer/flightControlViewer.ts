@@ -7,18 +7,17 @@ import StartSession from '../startSession/startSession';
 import JoinSession from '../joinSession/joinSession';
 import ServerConnection from './serverConnection';
 import { SessionController } from './sessionController';
-import { OwnerMapSession, MapSession } from './mapSession';
+import { MapSession } from './mapSession';
+import { OwnerMapSession } from './ownerMapSession';
 import FlightControlMode from '../flightControlMode/flightControlMode';
 import { MapMode } from './mapMode';
 import BackboneEvents from 'backbone-events-standalone';
 import SessionManagementViewer from '../sessionManagementViewer/sessionManagementViewer';
 import WaypointListViewer from '../waypointListViewer/waypointListViewer';
 import MayLayers from '../mapLayers/mapLayers';
-import { CesiumMapUtils } from '../../common/mapUtils';
 import { FlightControlSettings } from './flightControlSettings';
 import VideoPlayer from '../videoPlayer/videoPlayer';
 import MultiVideoPlayer from '../multiVideoPlayer/multiVideoPlayer';
-
 import { IEventEmitter } from '@dronesense/core/lib/common/IEventEmitter';
 
 export interface IFlightControlViewerEvents extends IEventEmitter {
@@ -106,13 +105,15 @@ class FlightControlViewer {
     static $inject: Array<string> = [
         '$scope',
         '$state',
-        '$mdDialog'
+        '$mdDialog',
+        '$log'
     ];
 
     constructor(
         public bindings: IFlightControlViewer,
         public stateService: angular.ui.IStateService,
-        public mdDialog: angular.material.MDDialogService) {
+        public mdDialog: angular.material.MDDialogService,
+        public $log: angular.ILogService) {
 
     }
 
@@ -123,7 +124,7 @@ class FlightControlViewer {
 
         this.eventing = new FlightControlViewerEventing();
 
-        this.sessionController = new SessionController(this.eventing);
+        this.sessionController = new SessionController(this.eventing, this.$log);
         
         this.eventing.on('locating-drone', () => {
             this.locatingDroneDialog = true;
@@ -153,6 +154,8 @@ class FlightControlViewer {
             
             // Update user interface
             this.bindings.$applyAsync();
+
+            this.$log.log({ message: 'Guest connect request from ' + username });
         });
 
         this.eventing.on('server-disconnected', (serverConnection: ServerConnection) => {
@@ -175,6 +178,7 @@ class FlightControlViewer {
                 this.connectedServers.splice(this.connectedServers.indexOf(serverConnection), 1);
             };
             
+            this.$log.log({ message: 'Server Disconnected' });
         });
 
         // Only wire up to event if ownerSession
@@ -182,6 +186,7 @@ class FlightControlViewer {
             this.eventing.on('waypoint-error', (name: string) => {
                 this.waypointError = true;
                 this.waypointErrorName = name;
+                this.$log.error({ message: 'Waypoint Error', name: name });
             });
         }
     }
@@ -190,12 +195,16 @@ class FlightControlViewer {
     startNewFlight(): void {
         // Get local server connection settings
         this.getServerSettings(true);
+
+        this.$log.log({ message: 'Start New Flight' });
     }
 
     // Join existing flight button clicked on main screen
     joinExistingFlight(serverConnection: ServerConnection): void {
         // Get local server connection settings
         this.getServerSettings(false);
+
+        this.$log.log({ message: 'Join Existing Flight' });
     }
 
     // Launch the control connect dialog to get the connection
@@ -317,6 +326,8 @@ class FlightControlViewer {
         
         // Hide dialog
         this.guestUserRequest = false;
+
+        this.$log.log({ message: 'Accepted guest join request.' });
     }
 
     // Return false if user rejects
@@ -325,6 +336,8 @@ class FlightControlViewer {
 
         // Hide dialog
         this.guestUserRequest = false;
+
+        this.$log.log({ message: 'Denied guest join request.' });
     }
     
     // Close dialog
@@ -395,14 +408,16 @@ class FlightControlViewer {
             this.initCamera();
         }
         if (this.isRecording) {
-            this.sessionController.ownerSession.mapDrone.drone.Camera.stopRecording().then().catch((error) => {
-                console.log(error);
+            this.sessionController.ownerSession.mapDrone.drone.Camera.stopRecording().then(() => {
+                this.$log.log({ message: 'Stop Recording Requested' });
+            }).catch((error) => {
+                this.$log.error({ message: 'Error: stop recording call.', error: error });
             });
         } else {
             this.sessionController.ownerSession.mapDrone.drone.Camera.startRecording().then(() => {
-
+                this.$log.log({ message: 'Start Recording Requested' });
             }).catch((error) => {
-                console.log(error);
+                this.$log.error({ message: 'Error: start recording call.', error: error });
             });
         }
     }
@@ -413,13 +428,16 @@ class FlightControlViewer {
             this.sessionController.ownerSession.mapDrone.drone.Camera.on('recording-started', () => {
                 this.isRecording = true;
                 this.recordIndicatorVisible = false;
+                this.$log.log({ message: 'Recording Started' });
             });
             this.sessionController.ownerSession.mapDrone.drone.Camera.on('recording-stopped', () => {
                 this.isRecording = false;
                 this.recordIndicatorVisible = false;
+                this.$log.log({ message: 'Recording Stopped' });
             });
             this.sessionController.ownerSession.mapDrone.drone.Camera.on('take-picture-finished', () => {
                 this.takePictureComplete = true;
+                this.$log.log({ message: 'Take picture finished' });
             });
             this.cameraInit = true;
         }
@@ -430,7 +448,11 @@ class FlightControlViewer {
             this.initCamera();
         }
         this.takePictureComplete = false;
-        this.sessionController.ownerSession.mapDrone.drone.Camera.takePicture();
+        this.sessionController.ownerSession.mapDrone.drone.Camera.takePicture().then(() => {
+            this.$log.log({ message: 'Take picture Requested' });
+        }).catch((error) => {
+            this.$log.error({ message: 'Error: take picture request.', error: error });
+        });
     }
 }
 

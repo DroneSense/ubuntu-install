@@ -13,16 +13,17 @@ System.register(['@dronesense/client/lib/index', '../../components/flightControl
             }],
         execute: function() {
             ControlConnect = (function () {
-                function ControlConnect(bindings, mdDialog) {
+                function ControlConnect(bindings, mdDialog, $log) {
                     this.bindings = bindings;
                     this.mdDialog = mdDialog;
+                    this.$log = $log;
                     // Ip address of server passed in from bindings
                     this.ip = '192.168.0.115';
                     // port address of server passed in from bindings
                     this.port = 3005;
                     // url of remote server
                     this.url = 'https://afd.dronesense.com';
-                    // Flag to indicate if service is tryin to connect
+                    // Flag to indicate if service is trying to connect
                     this.connecting = false;
                     // Flag to show connection error
                     this.showConnectionError = false;
@@ -31,6 +32,8 @@ System.register(['@dronesense/client/lib/index', '../../components/flightControl
                     // Text to show on connect button while connecting
                     this.connectButtonText = 'Connect';
                 }
+                // On connect component callback
+                ControlConnect.prototype.onConnect = function (dservice) { };
                 ControlConnect.prototype.$onInit = function () {
                     // // Remove disconnected servers
                     // this.connectedServers.forEach((server: ServerConnection) => {
@@ -38,7 +41,6 @@ System.register(['@dronesense/client/lib/index', '../../components/flightControl
                     //     }
                     // });
                 };
-                ControlConnect.prototype.onConnect = function (dservice) { };
                 ControlConnect.prototype.connect = function () {
                     var _this = this;
                     // exit if connection is already in progress
@@ -68,20 +70,21 @@ System.register(['@dronesense/client/lib/index', '../../components/flightControl
                     this.connecting = true;
                     // Create the client with the ip and port address
                     var droneService = index_1.default.createClient('http://' + this.ip + ':' + this.port);
+                    this.$log.log('Attempting connection to ' + 'http://' + this.ip + ':' + this.port);
                     // TODO - Pass in user from data service
                     droneService.connect('christopher').then(function () {
+                        _this.$log.log('Connection sucessful to ' + 'http://' + _this.ip + ':' + _this.port);
+                        _this.$log.log('Is new flight session:' + _this.newFlightSession);
                         // success
                         // 1) make call to check server health to ensure all services are running
                         // this.droneService.checkServerHealth(() => {
                         var newServerConnection = new serverConnection_1.default(_this.ip, _this.port, droneService);
-                        console.log('Is new flight session:' + _this.newFlightSession);
                         // we have a sucessful connection so lets return the drone service
                         _this.onConnect({ serverConnection: newServerConnection, useExisting: _this.newFlightSession });
                         //}).catch((error: any)=> {
                         // prompt user to reboot The box
                         //});
                     }).catch(function (error) {
-                        // connect error
                         // Turn off the progress indicator
                         _this.connecting = false;
                         // show error message
@@ -90,16 +93,18 @@ System.register(['@dronesense/client/lib/index', '../../components/flightControl
                         _this.connectButtonText = 'Connect';
                         // force UI update
                         _this.bindings.$applyAsync();
-                        console.log(error);
+                        _this.$log.error({ message: 'Error during connection to ' + 'http://' + _this.ip + ':' + _this.port, error: error });
                     });
                 };
+                // Callback to flight control
                 ControlConnect.prototype.setSelectedServer = function (server) {
                     this.onConnect({ serverConnection: server, useExisting: true });
                 };
                 // Constructor
                 ControlConnect.$inject = [
                     '$scope',
-                    '$mdDialog'
+                    '$mdDialog',
+                    '$log'
                 ];
                 return ControlConnect;
             }());

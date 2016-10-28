@@ -1,5 +1,4 @@
 
-import IDroneService from '@dronesense/core/lib/common/IDroneSenseService';
 import ISession from '@dronesense/core/lib/common/ISession';
 import { ISessionMetadata } from '@dronesense/core/lib/common/metadata/ISessionMetadata';
 import ServerConnection from '../../components/flightControlViewer/serverConnection';
@@ -49,9 +48,10 @@ class JoinSession {
 
     // Constructor
     static $inject: Array<string> = [
-        '$scope'
+        '$scope',
+        '$log'
     ];
-    constructor(public bindings: IJoinSession) {
+    constructor(public bindings: IJoinSession, public $log: angular.ILogService) {
 
     }
 
@@ -129,6 +129,8 @@ class JoinSession {
 
                 // force UI update
                 this.bindings.$applyAsync();
+
+                this.$log.log({ message: 'No sessions available to join.' });
             }
         }).catch((error: any) => {
             // connect error
@@ -145,7 +147,7 @@ class JoinSession {
             // force UI update
             this.bindings.$applyAsync();
 
-            console.log(error);
+            this.$log.log({ message: 'Error getting sessions available for connection.', error: error });
         });
     }
 
@@ -200,6 +202,8 @@ class JoinSession {
         // Show message that we are joing
         this.showWaitingForConnectMessage = true;
 
+        this.$log.log({ message: 'Joining session.', session: this.selectedSession });
+
         // Try to create session
         this.serverConnection.droneService.SessionManager.joinSession(this.selectedSession, 10000).then((session: ISession) => {
 
@@ -207,8 +211,6 @@ class JoinSession {
             this.onJoin({ session: session });
 
         }).catch((error: any) => {
-            // error creating session
-            console.log(error);
 
             this.joining = false;
 
@@ -225,7 +227,9 @@ class JoinSession {
             this.joinButtonText = 'Join';
 
             this.bindings.$applyAsync();
-            
+
+            // error creating session
+            this.$log.log({ message: 'Error joining session.', error: error });
         });
 
     }

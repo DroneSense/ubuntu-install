@@ -7,13 +7,13 @@
 <!--Video click handler div-->
 
 <!-- /* !web-start */ -->
-<div ng-show="$ctrl.showingVideo" ng-click="$ctrl.showFullScreen()" style="position: absolute; right: {{ $ctrl.right }}; top: {{ $ctrl.top }}; width: {{ $ctrl.playerWidth }}; height: {{ $ctrl.playerHeight }}; background-color: transparent; outline: none; z-index: {{ $ctrl.zindex }}">
+<div ng-show="$ctrl.showingVideo && !$ctrl.isCordova" ng-click="$ctrl.showFullScreen()" style="position: absolute; right: {{ $ctrl.right }}; top: {{ $ctrl.top }}; width: {{ $ctrl.playerWidth }}; height: {{ $ctrl.playerHeight }}; background-color: transparent; outline: none; z-index: {{ $ctrl.zindex }}">
     <ds-video-feed ng-repeat="video in $ctrl.videoFeeds" name="video.name" ip="video.ip" ng-show="video.showing"></ds-video-feed>
     <!--<video id="red5pro-video" style="height: 100%; width: 100%;" autoplay data-setup="{}"></video>-->
 </div>
 <!-- /* !web-stop */ -->
 
 <!-- /* !cordova-start */ -->
-<div ng-if="$ctrl.showingVideo" ng-click="$ctrl.showFullScreen()" style="position: absolute; right: 64px; top: 115px; width: 300px; height: 168px; background-color: transparent; outline: none;">
+<div ng-if="$ctrl.showingVideo && $ctrl.isCordova" ng-click="$ctrl.showFullScreen()" style="position: absolute; right: 64px; top: 115px; width: 300px; height: 168px; background-color: transparent; outline: none;">
 <div>
 <!-- /* !cordova-stop */ -->

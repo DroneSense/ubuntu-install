@@ -1,11 +1,10 @@
 import { Conversions } from '@dronesense/model/lib/common/Utility';
 import { SessionController } from '../flightControlViewer/sessionController';
-import { OwnerMapSession } from '../flightControlViewer/MapSession';
+import { OwnerMapSession } from '../flightControlViewer/ownerMapSession';
 import { IDrone } from '@dronesense/core/lib/common/IDrone';
 import { SystemStatus } from '@dronesense/core/lib/common/enums/SystemStatus';
 import { FlightMode } from '@dronesense/core/lib/common/enums/FlightMode';
 import { ISystem } from '@dronesense/core/lib/common/entities/ISystem';
-import { IGuidedWaypoint } from '@dronesense/core/lib/common/entities/IGuidedWaypoint';
 import { IRedProService } from '../../services/redProService';
 
 export interface IFlightControlMode extends ng.IScope {
@@ -145,16 +144,16 @@ class FlightControlMode {
     currentMode: IMode;
 
     // Manual Mode
-    manualMode: ManualMode = new ManualMode(this.bindings.$ctrl);
+    manualMode: ManualMode = new ManualMode(this.bindings.$ctrl, this.$log);
 
     // Guided Mode
-    guidedMode: GuidedMode = new GuidedMode(this.bindings.$ctrl);
+    guidedMode: GuidedMode = new GuidedMode(this.bindings.$ctrl, this.$log);
 
     // RTL Mode
-    rtlMode: RTLMode = new RTLMode(this.bindings.$ctrl);
+    rtlMode: RTLMode = new RTLMode(this.bindings.$ctrl, this.$log);
 
     // Orbit Mode
-    orbitMode: OrbitMode = new OrbitMode(this.bindings.$ctrl);
+    orbitMode: OrbitMode = new OrbitMode(this.bindings.$ctrl, this.$log);
 
     waypointAddActive: boolean = false;
 
@@ -167,13 +166,19 @@ class FlightControlMode {
 
     showTargetDialog: boolean = false;
 
+    manualModeChangeIndicatorVisible: boolean = false;
+    guidedModeChangeIndicatorVisible: boolean = false;
+    rtlModeChangeIndicatorVisible: boolean = false;
+    orbitModeChangeIndicatorVisible: boolean = false;
+
     // Constructor
     static $inject: Array<string> = [
         '$scope',
         'redProService',
-        '$mdToast'
+        '$mdToast',
+        '$log'
     ];
-    constructor(public bindings: IFlightControlMode, public red5proService: IRedProService, public mdToast: angular.material.MDToastService) {
+    constructor(public bindings: IFlightControlMode, public red5proService: IRedProService, public mdToast: angular.material.MDToastService, public $log: angular.ILogService) {
 
         this.sessionController.eventing.on('session-added', (ownerSession: OwnerMapSession) => {
             
@@ -189,6 +194,9 @@ class FlightControlMode {
                 // Check if status has changed
                 if (this.status !== value.status) {
                     
+                    // Log the status change
+                    this.$log.log({ message: 'System Status Change', fromStatus: this.status, toStatus: value.status });
+
                     // Set new status
                     this.status = value.status;
 
@@ -200,6 +208,10 @@ class FlightControlMode {
 
                 // Check if flight mode has changed
                 if (this.flightMode !== value.flightMode) {
+
+                    // Log the mode change
+                    this.$log.log({ message: 'Flight Mode Change', fromMode: this.flightMode, toMode: value.flightMode });
+
                     // Set new status
                     this.flightMode = value.flightMode;
 
@@ -222,20 +234,17 @@ class FlightControlMode {
         });
     }
 
-    manualModeChangeIndicatorVisible: boolean = false;
-    guidedModeChangeIndicatorVisible: boolean = false;
-    rtlModeChangeIndicatorVisible: boolean = false;
-    orbitModeChangeIndicatorVisible: boolean = false;
-
     setManualMode(): void {
         this.guidedModeChangeIndicatorVisible = true;
         this.rtlModeChangeIndicatorVisible = true;
         this.orbitModeChangeIndicatorVisible = true;
         
-        this.drone.FlightController.setFlightMode(FlightMode.Loiter).then( () => {
+        this.$log.log({ message: 'Set Manual Mode Requested'});
 
+        this.drone.FlightController.setFlightMode(FlightMode.Loiter).then(() => {
+            this.$log.log({ message: 'Set Manual Mode Returned' });
         }).catch((error) => {
-
+            this.$log.error({ message: 'Set Manual Mode Error.', error: error });
         });
     }
 
@@ -244,10 +253,12 @@ class FlightControlMode {
         this.rtlModeChangeIndicatorVisible = true;
         this.orbitModeChangeIndicatorVisible = true;
 
+        this.$log.log({ message: 'Set Guided Mode Requested'});
+
         this.drone.FlightController.setFlightMode(FlightMode.Guided).then( () => {
-
+            this.$log.log({ message: 'Set Guided Mode Returned' });
         }).catch((error) => {
-
+            this.$log.error({ message: 'Set Guided Mode Error.', error: error });
         });
     }
 
@@ -257,20 +268,25 @@ class FlightControlMode {
         this.rtlModeChangeIndicatorVisible = true;
         this.guidedModeChangeIndicatorVisible = true;
 
+        this.$log.log({ message: 'Set Orbit Mode Requested'});
+
         this.drone.FlightController.setFlightMode(FlightMode.Orbit).then( () => {
-
+            this.$log.log({ message: 'Set Orbit Mode Returned' });
         }).catch((error) => {
-
+            this.$log.error({ message: 'Set Orbit Mode Error.', error: error });
         });
     }
 
+    // Sets the flight mode state from this.drone.FlightController.Telemetry.on('System', (value: ISystem) callback
     setFlightModeState(): void {
         
+        // Teardown existing mode before requesting change
         if (this.currentMode) {
             this.currentMode.teardownUI();
             this.bindings.$applyAsync();
         }
 
+        // Set new mode based on these mappings
         switch (this.flightMode) {
             case FlightMode.Loiter:
                 this.currentMode = this.manualMode;
@@ -292,9 +308,11 @@ class FlightControlMode {
                 break;
             default:
                 this.currentMode = null;
+                this.$log.error({ message: 'Flight mode was not recognized and is set as null.'});
                 break;
         }
 
+        // Setup new flight mode UI
         if (this.currentMode) {
             this.currentMode.initialize(this.status, this.flightMode, this.drone);
             this.currentMode.setupUI();
@@ -303,55 +321,70 @@ class FlightControlMode {
 
     }
 
+    // User clicked the RTL button in the user interface
     rtl(): void {
         this.rtlIndicatorVisible = true;
         this.currentMode.handleButtonClick(ButtonActions.RTL);
+        this.$log.log({ message: 'RTL button clicked, sending to flight mode for processing.'});
     }
 
+    // User clicked the Takeoff button in the user interface
     takeoff(): void {
         this.currentMode.handleButtonClick(ButtonActions.Takeoff);
+        this.$log.log({ message: 'Takeoff button clicked, sending to flight mode for processing.'});
     }
 
+    // User clicked the resume button in the user interface
     resume(): void {
         this.resumeIndicatorVisible = true;
         this.currentMode.handleButtonClick(ButtonActions.Resume);
+        this.$log.log({ message: 'Resume button clicked, sending to flight mode for processing.'});
     }
 
+    // User clicked the puase button in the user interface
     pause(): void {
         this.pauseIndicatorVisible = true;
         this.currentMode.handleButtonClick(ButtonActions.Pause);
+        this.$log.log({ message: 'Pause button clicked, sending to flight mode for processing.'});
     }
 
+    // User clicked the set home point button in the user interface
     setHomePoint(): void {
         this.currentMode.handleButtonClick(ButtonActions.SetHomePoint);
+        this.$log.log({ message: 'Set Home Point button clicked, sending to flight mode for processing.'});
     }
 
+    // User clicked the change altitude button in the user interface
     changeAltitude(): void {
         this.currentMode.handleButtonClick(ButtonActions.ChangeAltitude);
+        this.$log.log({ message: 'Changed Altitude button clicked, sending to flight mode for processing.'});
     }
 
+    // User clicked the add waypoint button in the user interface
     addWaypoint(): void {
         if (!this.mouseHandler) {
-            console.log('initialize mouse handler');
             this.initializeMapMouseHandler();
+            this.$log.log({ message: 'Initializing Map Mouse Handler.'});
         }
 
         if (this.waypointAddActive) {
             this.waypointAddActive = false;
         } else {
             this.showWaypointDialog = true;
+            this.$log.log({ message: 'Showing waypoint dialog.'});
         }
 
     }
 
+    // Orbit target parameters
     targetLat: number;
     targetLng: number;
     targetLatLngAcquired: boolean = false;
     
     addOrbitTarget(): void {
         if (!this.mouseHandler) {
-            console.log('initialize mouse handler');
             this.initializeMapMouseHandler();
+            this.$log.log({ message: 'Initializing Map Mouse Handler.'});
         }
 
         if (this.targetAddActive) {
@@ -359,6 +392,7 @@ class FlightControlMode {
             this.targetLatLngAcquired = false;
             this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitTarget);
             this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
+            this.$log.log({ message: 'Orbit Selection Mode DeActivated, UI cleaned up.'});
         } else {
             this.targetAddActive = true;
             this.mdToast.show(
@@ -367,6 +401,7 @@ class FlightControlMode {
                 .position('top left')
                 .hideDelay(3000)
             );
+            this.$log.log({ message: 'Orbit Selection Mode Active'});
             //this.showTargetDialog = true;
         }
     }
@@ -374,46 +409,59 @@ class FlightControlMode {
     takeoffAltitude: number = 50;
     isRecordingFromTakeoff: boolean = false;
 
+    // Called after user accepts takeoff parameters
     takeoffToAltitude(): void {
 
+        this.$log.log({ message: 'Takeoff Requested on flight controller.'});
         this.drone.FlightController.takeoff(this.takeoffAltitude).then(() => {
+            
+            this.$log.log({ message: 'Takeoff request returned.'});
+            
             if (this.sessionController.ownerSession.startRecording) {
+
+                this.$log.log({ message: 'Start Recording Requested.'});
                 this.drone.Camera.startRecording().then(() => {
                     this.isRecordingFromTakeoff = true;
-                    console.log('recording started');
-                    try {
-                        this.red5proService.startVODRecording(this.sessionController.ownerSession.name).then((recording: boolean) => {
-                            console.log('server vod recording started');
-                        });
-                    } catch (error) {
-                        console.log(error);
-                    }
+                    this.$log.log({ message: 'Start Recording Started.'});
+                    
+                    // TODO: Removing until we get the CORS issued resolved.
+                    // try {
+                    //     this.red5proService.startVODRecording(this.sessionController.ownerSession.name).then((recording: boolean) => {
+                    //         console.log('server vod recording started');
+                    //     });
+                    // } catch (error) {
+                    //     console.log(error);
+                    // }
                 }).catch((error) => {
-                    console.log(error);
+                    this.$log.error({ message: 'Takeoff Start Recording Request Error.', error: error });
                 });
             }
         }).catch((error) => {
-            console.log(error);
+             this.$log.error({ message: 'Takeoff request error.', error: error });
         });
 
         this.getTakeoffAltitudeVisible = false;
     }
 
+    // Called from modes after drone status changes indicating a landing
     hasLanded(): void {
+        
         if (this.isRecordingFromTakeoff) {
+
+            this.$log.log({ message: 'Recording Stop Requested.'});
             if (this.sessionController.ownerSession.startRecording) {
                 this.drone.Camera.stopRecording().then(() => {
-                    console.log('recording stopped');
-                    try {
-                        this.red5proService.stopVODRecording(this.sessionController.ownerSession.name).then((recording: boolean) => {
-                            console.log('server vod recording stopped');
-                            this.isRecordingFromTakeoff = false;
-                        });
-                    } catch (error) {
-                        console.log(error);
-                    }
+                    this.$log.log({ message: 'Recording Stop Returned.'});
+                    // try {
+                    //     this.red5proService.stopVODRecording(this.sessionController.ownerSession.name).then((recording: boolean) => {
+                    //         console.log('server vod recording stopped');
+                    //         this.isRecordingFromTakeoff = false;
+                    //     });
+                    // } catch (error) {
+                    //     console.log(error);
+                    // }
                 }).catch((error) => {
-                    console.log(error);
+                    this.$log.error({ message: 'Landing Stop Recording Request Error.', error: error });
                 });
             }
         }
@@ -421,15 +469,20 @@ class FlightControlMode {
 
     cancelTakeoff(): void {
         this.getTakeoffAltitudeVisible = false;
+        this.$log.log({ message: 'Takeoff Dialog Cancelled.'});
     }
 
     changeAltitudeValue: number;
     changeAltitudeTo(): void {
 
+        // Make sure current mode is guided
         if (this.currentMode.flightMode === FlightMode.Guided) {
 
+            // Set acceptance radius to 1 meter
             this.drone.FlightController.Guided.setAcceptanceRadius(1);
 
+            this.$log.log({ message: 'Change altitude requested from guided mode.'});
+            // Call add waypoing for the altitude change.
             this.drone.FlightController.Guided.addWaypoint({
                 lattitude: this.drone.FlightController.Telemetry.Position.lattitude,
                 longitude: this.drone.FlightController.Telemetry.Position.longitude,
@@ -437,9 +490,9 @@ class FlightControlMode {
                 speed: 5,
                 name: this.getNextName()
             }, true).then(() => {
-
+                this.$log.log({ message: 'Change altitude requested returned from guided mode.'});
             }).catch((error) => {
-                console.log(error);
+                this.$log.error({ message: 'Change altitude requested error from guided mode.', error: error });
             });
 
             this.getChangeAltitudeVisible = false;
@@ -447,13 +500,20 @@ class FlightControlMode {
 
         if (this.currentMode.flightMode === FlightMode.Orbit) {
             
+            // Convert time into angular velocity
+            let av: number = 360 / this.targetVelocity;
+
+            this.$log.log({ message: 'Orbit requested.', lat: this.targetLat, lng: this.targetLng, alt: this.targetAltitude, rad: this.targetRadius, dir: this.targetDirection, vel: av });
+            
+            // Call new orbit code with new altitude
             this.drone.FlightController.Orbit.orbit(this.targetLat, this.targetLng, this.changeAltitudeValue, this.targetRadius,
-            this.targetDirection, this.targetVelocity).then(() => {
+            this.targetDirection, av).then(() => {
                 this.getChangeAltitudeVisible = false;
+                this.$log.log({ message: 'Change altitude requested returned from orbit mode.'});
             }).catch((error) => {
                 // Keep dialog open and show error
                 this.getChangeAltitudeVisible = false;
-                console.log(error);
+                this.$log.error({ message: 'Change altitude requested error from orbit mode.', error: error });
             });
         
         }
@@ -486,19 +546,23 @@ class FlightControlMode {
         let av: number = 360 / this.targetVelocity;
 
         // Check if number exceeds max velocity
-        
-        
+        this.$log.log({ message: 'Add code to check if orbit speed exceeds max angular velocity.' });
+
         this.sendingTargetToDrone = true;
+
+        this.$log.log({ message: 'Orbit requested.', lat: this.targetLat, lng: this.targetLng, alt: this.targetAltitude, rad: this.targetRadius, dir: this.targetDirection, vel: av });
         this.drone.FlightController.Orbit.orbit(this.targetLat, this.targetLng, this.targetAltitude, this.targetRadius,
         this.targetDirection, av).then(() => {
             this.showTargetDialog = false;
             this.targetAddActive = false;
             this.targetLatLngAcquired = false;
             this.sendingTargetToDrone = false;
+
+            this.$log.log({ message: 'Orbit request returned.' });
         }).catch((error) => {
             // Keep dialog open and show error
             this.sendingTargetToDrone = false;
-            console.log(error);
+            this.$log.error({ message: 'Orbit request returned an error.', error: error });
         });
     }
 
@@ -521,7 +585,6 @@ class FlightControlMode {
             return;
         }
 
-        
         //let start: any = new Date().getTime();
 
         var ray: any = this.sessionController.map.camera.getPickRay(click.position);
@@ -538,6 +601,8 @@ class FlightControlMode {
             var latitudeString: number = Cesium.Math.toDegrees(positionCartographic.latitude);
 
             if (this.waypointAddActive) {
+
+                this.$log.log({ message: 'User selected waypoint on map, making add waypoint request.'});
                 this.drone.FlightController.Guided.addWaypoint({
                     lattitude: latitudeString,
                     longitude: longitudeString,
@@ -545,60 +610,64 @@ class FlightControlMode {
                     speed: this.waypointSpeedValue,
                     name: this.getNextName()
                 }, this.waypointFlyToNow).then(() => {
-                    // console.log('waypoing added callback');
 
-                    // let end: any = new Date().getTime();
-                    // let time: any = end - start;
-                    // console.log('Execution time: ' + time);
+                    this.$log.log({ message: 'Add Waypoint Request Returned.' });
+
+                }).catch((error) => {
+                    this.$log.log({ message: 'Add Waypoint Request Returned Error', error: error });
                 });
             }
 
-            if (this.targetAddActive) {
-                // If we have a target orbit point then calculate the radius distance and show dialog
-                if (this.targetLatLngAcquired) {
-                    let distance: number = Conversions.distance2(this.targetLat, this.targetLng, latitudeString, longitudeString);
-                    this.targetRadius = Conversions.roundToTwo(distance);
-                    this.targetAltitude = Conversions.roundToTwo(this.sessionController.ownerSession.mapDrone.currentAGLAlt);
+            try {
+                if (this.targetAddActive) {
+                    // If we have a target orbit point then calculate the radius distance and show dialog
+                    if (this.targetLatLngAcquired) {
+                        let distance: number = Conversions.distance2(this.targetLat, this.targetLng, latitudeString, longitudeString);
+                        this.targetRadius = Conversions.roundToTwo(distance);
+                        this.targetAltitude = Conversions.roundToTwo(this.sessionController.ownerSession.mapDrone.currentAGLAlt);
 
-                    this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
-                    this.currentOrbitRadius = this.sessionController.activeSession.mapEntityCollection.entities.add({
-                        position : Cesium.Cartesian3.fromDegrees(this.targetLng, this.targetLat, this.sessionController.ownerSession.mapDrone.currentAlt),
-                        ellipse : {
-                            semiMinorAxis : this.targetRadius,
-                            semiMajorAxis : this.targetRadius,
-                            height: this.sessionController.ownerSession.mapDrone.currentAlt,
-                            material : Cesium.Color.TRANSPARENT,
-                            outline : true,
-                            outlineColor : Cesium.Color.fromCssColorString('#0a92ea'),
-                            outlineWidth: 3
-                        }
-                    });
+                        this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
+                        this.currentOrbitRadius = this.sessionController.activeSession.mapEntityCollection.entities.add({
+                            position : Cesium.Cartesian3.fromDegrees(this.targetLng, this.targetLat, this.sessionController.ownerSession.mapDrone.currentAlt),
+                            ellipse : {
+                                semiMinorAxis : this.targetRadius,
+                                semiMajorAxis : this.targetRadius,
+                                height: this.sessionController.ownerSession.mapDrone.currentAlt,
+                                material : Cesium.Color.TRANSPARENT,
+                                outline : true,
+                                outlineColor : Cesium.Color.fromCssColorString('#0a92ea'),
+                                outlineWidth: 3
+                            }
+                        });
 
-                    this.showTargetDialog = true;
-                } else {
-                    this.targetLat = latitudeString;
-                    this.targetLng = longitudeString;
-                    this.targetLatLngAcquired = true;
-                    
-                    this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitTarget);
-                    this.currentOrbitTarget = this.sessionController.activeSession.mapEntityCollection.entities.add({
-                        position : Cesium.Cartesian3.fromDegrees(longitudeString, latitudeString, 1),
-                        point : {
-                            color : Cesium.Color.fromCssColorString('#0a92ea'),
-                            pixelSize : 10,
-                            outlineColor : Cesium.Color.WHITE,
-                            outlineWidth : 3,
-                            heightReference : Cesium.HeightReference.RELATIVE_TO_GROUND
-                        }
-                    });
+                        this.showTargetDialog = true;
+                    } else {
+                        this.targetLat = latitudeString;
+                        this.targetLng = longitudeString;
+                        this.targetLatLngAcquired = true;
+                        
+                        this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitTarget);
+                        this.currentOrbitTarget = this.sessionController.activeSession.mapEntityCollection.entities.add({
+                            position : Cesium.Cartesian3.fromDegrees(longitudeString, latitudeString, 1),
+                            point : {
+                                color : Cesium.Color.fromCssColorString('#0a92ea'),
+                                pixelSize : 10,
+                                outlineColor : Cesium.Color.WHITE,
+                                outlineWidth : 3,
+                                heightReference : Cesium.HeightReference.RELATIVE_TO_GROUND
+                            }
+                        });
 
-                    this.mdToast.show(
-                    this.mdToast.simple()
-                        .content('Select orbit radius point on map.')
-                        .position('top left')
-                        .hideDelay(3000)
-                    );
+                        this.mdToast.show(
+                        this.mdToast.simple()
+                            .content('Select orbit radius point on map.')
+                            .position('top left')
+                            .hideDelay(3000)
+                        );
+                    }
                 }
+            } catch (error) {
+                this.$log.error({ message: 'Error in orbit map adding UI code.', error: error });
             }
         }
     }
@@ -609,7 +678,7 @@ class FlightControlMode {
     targetAltitude: number = 50;
     targetRadius: number = 10;
     targetDirection: boolean = true;
-    targetVelocity: number = 20;
+    targetVelocity: number = 60;
 
     wayPointNames: Array<string> = ['A', 'B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ', 'BA', 'BB', 'BC', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ'];
     nextNameIndex: number = 0;
@@ -639,6 +708,7 @@ interface IMode {
     handleStatusChange(systemStatus: SystemStatus): void;
     initialize(systemStatus: SystemStatus, flightMode: FlightMode, drone: IDrone): void;
     flightMode: FlightMode;
+    $log: angular.ILogService;
 }
 
 class OrbitMode implements IMode {
@@ -647,7 +717,7 @@ class OrbitMode implements IMode {
     flightMode: FlightMode;
     drone: IDrone;
 
-    constructor(public flightControlMode: IFlightControlMode) {
+    constructor(public flightControlMode: IFlightControlMode, public $log: angular.ILogService) {
 
     }
 
@@ -704,10 +774,11 @@ class OrbitMode implements IMode {
 
         switch (button) {
             case ButtonActions.RTL:
+                this.$log.log({ message: 'Requesting RTL from Orbit Mode.'});
                 this.drone.FlightController.setFlightMode(FlightMode.RTL).then(() => {
-
+                    this.$log.log({ message: 'Request RTL from Orbit Mode returned.'});
                 }).catch((error) => {
-                    // TODO: handle error changing modes
+                    this.$log.error({ message: 'Request RTL from Orbit Mode Error.', error: error });
                 });
                 break;
             case ButtonActions.SetHomePoint:
@@ -718,17 +789,19 @@ class OrbitMode implements IMode {
                 this.flightControlMode.getChangeAltitudeVisible = true;
                 break;
             case ButtonActions.Pause:
+                this.$log.log({ message: 'Requesting Pause from Orbit Mode.'});
                 this.drone.FlightController.pause(true).then(() => {
-                    
+                    this.$log.log({ message: 'Request Pause from Orbit Mode returned.'});
                 }).catch((error) => {
-                    console.log(error);
+                    this.$log.error({ message: 'Request Pause from Orbit Mode Error.', error: error });
                 });
                 break;
             case ButtonActions.Resume:
+                this.$log.log({ message: 'Requesting Resume from Orbit Mode.'});
                 this.drone.FlightController.pause(false).then(() => {
-
+                    this.$log.log({ message: 'Request Resume from Orbit Mode returned.'});
                 }).catch((error) => {
-                    console.log(error);
+                    this.$log.error({ message: 'Request Resume from Orbit Mode Error.', error: error });
                 });
                 break;        
             default:
@@ -788,7 +861,7 @@ class GuidedMode implements IMode {
     flightMode: FlightMode;
     drone: IDrone;
 
-    constructor(public flightControlMode: IFlightControlMode) {
+    constructor(public flightControlMode: IFlightControlMode, public $log: angular.ILogService) {
 
     }
 
@@ -879,10 +952,11 @@ class GuidedMode implements IMode {
 
         switch (button) {
             case ButtonActions.RTL:
+                this.$log.log({ message: 'Requesting RTL from Guided Mode.'});
                 this.drone.FlightController.setFlightMode(FlightMode.RTL).then(() => {
-
+                    this.$log.log({ message: 'Request RTL from Guided Mode returned.'});
                 }).catch((error) => {
-                    // TODO: handle error changing modes
+                    this.$log.error({ message: 'Request RTL from Guided Mode Error.', error: error });
                 });
                 break;
             case ButtonActions.SetHomePoint:
@@ -893,19 +967,21 @@ class GuidedMode implements IMode {
                 this.flightControlMode.getChangeAltitudeVisible = true;
                 break;
             case ButtonActions.Pause:
+                this.$log.log({ message: 'Requesting Pause from Guided Mode.'});
                 this.drone.FlightController.pause(true).then(() => {
-                    
+                    this.$log.log({ message: 'Request Pause from Guided Mode returned.'});
                 }).catch((error) => {
-                    console.log(error);
+                    this.$log.error({ message: 'Request Pause from Guided Mode Error.', error: error });
                 });
                 break;
             case ButtonActions.Resume:
+                this.$log.log({ message: 'Requesting Resume from Guided Mode.'});
                 this.drone.FlightController.pause(false).then(() => {
-
+                    this.$log.log({ message: 'Request Resume from Guided Mode returned.'});
                 }).catch((error) => {
-                    console.log(error);
+                    this.$log.error({ message: 'Request Resume from Guided Mode Error.', error: error });
                 });
-                break;
+                break;   
             case ButtonActions.Takeoff:
                 this.flightControlMode.getTakeoffAltitudeVisible = true;
                 break;
@@ -971,7 +1047,7 @@ class RTLMode implements IMode {
     flightMode: FlightMode;
     drone: IDrone;
 
-    constructor(public flightControlMode: IFlightControlMode) {
+    constructor(public flightControlMode: IFlightControlMode, public $log: angular.ILogService) {
 
     }
 
@@ -1010,10 +1086,11 @@ class RTLMode implements IMode {
     handleButtonClick(button: ButtonActions): void {
         switch (button) {
             case ButtonActions.Pause:
+                this.$log.log({ message: 'Pause requested from RTL mode, setting mode to Guided.'});
                 this.drone.FlightController.setFlightMode(FlightMode.Guided).then(() => {
-
+                    this.$log.log({ message: 'Pause requested from RTL mode, setting mode to Guided returned.'});
                 }).catch((error) => {
-                    console.log(error);
+                     this.$log.log({ message: 'Pause requested from RTL mode, setting mode to Guided returned error.', error: error });
                 });
                 break;        
             default:
@@ -1068,7 +1145,7 @@ class ManualMode implements IMode {
     flightMode: FlightMode;
     drone: IDrone;
 
-    constructor(public flightControlMode: IFlightControlMode) {
+    constructor(public flightControlMode: IFlightControlMode, public $log: angular.ILogService) {
 
     }
 
@@ -1107,10 +1184,11 @@ class ManualMode implements IMode {
 
         switch (button) {
             case ButtonActions.RTL:
+                this.$log.log({ message: 'RTL requested from manual mode, setting flight mode to RTL.'});
                 this.drone.FlightController.setFlightMode(FlightMode.RTL).then(() => {
-
+                    this.$log.log({ message: 'RTL requested from manual mode, setting flight mode to RTL returned.'});
                 }).catch((error) => {
-                    // TODO: handle error changing modes
+                    this.$log.log({ message: 'RTL requested from manual mode, setting flight mode to RTL returned error.', error: error });
                 });
                 break;
             case ButtonActions.SetHomePoint:

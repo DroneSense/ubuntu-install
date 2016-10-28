@@ -6,9 +6,10 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             StartSession = (function () {
-                function StartSession(bindings, mdDialog) {
+                function StartSession(bindings, mdDialog, $log) {
                     this.bindings = bindings;
                     this.mdDialog = mdDialog;
+                    this.$log = $log;
                     // url of the new session
                     this.name = 'Blue Team';
                     // Flag to indicate if name has been changed by user
@@ -37,6 +38,8 @@ System.register([], function(exports_1, context_1) {
                     this.teamNames = ['Blue Team', 'Red Team', 'Green Team', 'Yellow Team', 'Purple Team'];
                     this.selectedColor = this.teamColors[0];
                 }
+                // On start callback
+                StartSession.prototype.onStart = function (session) { };
                 // Load available drones on init.
                 StartSession.prototype.$onInit = function () {
                     var _this = this;
@@ -85,6 +88,7 @@ System.register([], function(exports_1, context_1) {
                                 _this.connectButtonText = 'Retry';
                                 // force UI update
                                 _this.bindings.$applyAsync();
+                                _this.$log.log({ message: 'No drones available for connection.' });
                             }
                         }).catch(function (error) {
                             // connect error
@@ -96,10 +100,10 @@ System.register([], function(exports_1, context_1) {
                             _this.connectButtonText = 'Start';
                             // force UI update
                             _this.bindings.$applyAsync();
-                            console.log(error);
+                            _this.$log.log({ message: 'Error getting drone list for session.', error: error });
                         });
                     }).catch(function (error) {
-                        console.log(error);
+                        _this.$log.log({ message: 'Error getting existing session list.', error: error });
                     });
                 };
                 // helper to clear drone selection and set new one
@@ -113,7 +117,6 @@ System.register([], function(exports_1, context_1) {
                     });
                     this.selectedDrone = selected;
                 };
-                StartSession.prototype.onStart = function (session) { };
                 StartSession.prototype.createSession = function () {
                     var _this = this;
                     // check that drone has been selected and we have a valid name
@@ -176,6 +179,12 @@ System.register([], function(exports_1, context_1) {
                     this.showError = false;
                     // Turn on progress bar
                     this.creating = true;
+                    this.$log.log({ message: 'Starting session.',
+                        name: this.name,
+                        color: this.selectedColor,
+                        drone: this.selectedDrone,
+                        allowAllGuests: this.guestCanConnect,
+                        startRecording: this.autoRecordOnTakeoff });
                     // Try to create session
                     this.serverConnection.droneService.SessionManager.createSession(this.name, this.selectedColor, [this.selectedDrone]).then(function (session) {
                         session.getDrones().then(function (drones) {
@@ -183,7 +192,7 @@ System.register([], function(exports_1, context_1) {
                             // always be the first drone in the array.
                             if (drones.length > 0) {
                                 drones[0].connect().then(function () {
-                                    console.log('drone connected');
+                                    _this.$log.log({ message: 'Connected to drone.', drone: drones[0].Name });
                                     // // set current drone
                                     // this.currentDrone = drones[0];
                                     _this.onStart({ session: session, allowAllGuests: _this.guestCanConnect, startRecording: _this.autoRecordOnTakeoff });
@@ -197,22 +206,23 @@ System.register([], function(exports_1, context_1) {
                                     _this.connectButtonText = 'Start';
                                     // force UI update
                                     _this.bindings.$applyAsync();
-                                    console.log(error);
+                                    _this.$log.log({ message: 'Error connecting to drone', error: error });
                                 });
                             }
                             else {
                                 // no drones were returned to connect to
-                                console.log('no drones were returned to connect to');
+                                _this.$log.log({ message: 'No drones were returned to connect to.' });
                             }
                         }).catch(function (error) {
                             // error getting drones
-                            console.log(error);
+                            _this.$log.log({ message: 'Error getting drones.', error: error });
                         });
                     }).catch(function (error) {
                         // error creating session
-                        console.log(error);
+                        _this.$log.log({ message: 'Error creating session.', error: error });
                     });
                 };
+                // Set team name based on color selection only if name has not been edited
                 StartSession.prototype.setTeamName = function (colorIndex) {
                     if (!this.nameChanged) {
                         this.name = this.teamNames[colorIndex];
@@ -221,7 +231,8 @@ System.register([], function(exports_1, context_1) {
                 // Constructor
                 StartSession.$inject = [
                     '$scope',
-                    '$mdDialog'
+                    '$mdDialog',
+                    '$log'
                 ];
                 return StartSession;
             }());

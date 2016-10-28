@@ -16,11 +16,12 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
             }],
         execute: function() {
             FlightControlMode = (function () {
-                function FlightControlMode(bindings, red5proService, mdToast) {
+                function FlightControlMode(bindings, red5proService, mdToast, $log) {
                     var _this = this;
                     this.bindings = bindings;
                     this.red5proService = red5proService;
                     this.mdToast = mdToast;
+                    this.$log = $log;
                     // Flag to show RTL button
                     this.rtlButtonVisible = false;
                     this.rtlIndicatorVisible = false;
@@ -56,13 +57,13 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     this.getChangeAltitudeVisible = false;
                     this.modesOpen = false;
                     // Manual Mode
-                    this.manualMode = new ManualMode(this.bindings.$ctrl);
+                    this.manualMode = new ManualMode(this.bindings.$ctrl, this.$log);
                     // Guided Mode
-                    this.guidedMode = new GuidedMode(this.bindings.$ctrl);
+                    this.guidedMode = new GuidedMode(this.bindings.$ctrl, this.$log);
                     // RTL Mode
-                    this.rtlMode = new RTLMode(this.bindings.$ctrl);
+                    this.rtlMode = new RTLMode(this.bindings.$ctrl, this.$log);
                     // Orbit Mode
-                    this.orbitMode = new OrbitMode(this.bindings.$ctrl);
+                    this.orbitMode = new OrbitMode(this.bindings.$ctrl, this.$log);
                     this.waypointAddActive = false;
                     this.showWaypointDialog = false;
                     this.waypointAltitudeValue = 50;
@@ -80,7 +81,7 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     this.targetAltitude = 50;
                     this.targetRadius = 10;
                     this.targetDirection = true;
-                    this.targetVelocity = 20;
+                    this.targetVelocity = 60;
                     this.wayPointNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ', 'BA', 'BB', 'BC', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ'];
                     this.nextNameIndex = 0;
                     this.sessionController.eventing.on('session-added', function (ownerSession) {
@@ -92,6 +93,8 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                         _this.drone.FlightController.Telemetry.on('System', function (value) {
                             // Check if status has changed
                             if (_this.status !== value.status) {
+                                // Log the status change
+                                _this.$log.log({ message: 'System Status Change', fromStatus: _this.status, toStatus: value.status });
                                 // Set new status
                                 _this.status = value.status;
                                 // Check to see if current mode has been set
@@ -101,6 +104,8 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                             }
                             // Check if flight mode has changed
                             if (_this.flightMode !== value.flightMode) {
+                                // Log the mode change
+                                _this.$log.log({ message: 'Flight Mode Change', fromMode: _this.flightMode, toMode: value.flightMode });
                                 // Set new status
                                 _this.flightMode = value.flightMode;
                                 // Set current flight mode
@@ -116,34 +121,49 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     });
                 }
                 FlightControlMode.prototype.setManualMode = function () {
+                    var _this = this;
                     this.guidedModeChangeIndicatorVisible = true;
                     this.rtlModeChangeIndicatorVisible = true;
                     this.orbitModeChangeIndicatorVisible = true;
+                    this.$log.log({ message: 'Set Manual Mode Requested' });
                     this.drone.FlightController.setFlightMode(FlightMode_1.FlightMode.Loiter).then(function () {
+                        _this.$log.log({ message: 'Set Manual Mode Returned' });
                     }).catch(function (error) {
+                        _this.$log.error({ message: 'Set Manual Mode Error.', error: error });
                     });
                 };
                 FlightControlMode.prototype.setGuidedMode = function () {
+                    var _this = this;
                     this.manualModeChangeIndicatorVisible = true;
                     this.rtlModeChangeIndicatorVisible = true;
                     this.orbitModeChangeIndicatorVisible = true;
+                    this.$log.log({ message: 'Set Guided Mode Requested' });
                     this.drone.FlightController.setFlightMode(FlightMode_1.FlightMode.Guided).then(function () {
+                        _this.$log.log({ message: 'Set Guided Mode Returned' });
                     }).catch(function (error) {
+                        _this.$log.error({ message: 'Set Guided Mode Error.', error: error });
                     });
                 };
                 FlightControlMode.prototype.setOrbitMode = function () {
+                    var _this = this;
                     this.manualModeChangeIndicatorVisible = true;
                     this.rtlModeChangeIndicatorVisible = true;
                     this.guidedModeChangeIndicatorVisible = true;
+                    this.$log.log({ message: 'Set Orbit Mode Requested' });
                     this.drone.FlightController.setFlightMode(FlightMode_1.FlightMode.Orbit).then(function () {
+                        _this.$log.log({ message: 'Set Orbit Mode Returned' });
                     }).catch(function (error) {
+                        _this.$log.error({ message: 'Set Orbit Mode Error.', error: error });
                     });
                 };
+                // Sets the flight mode state from this.drone.FlightController.Telemetry.on('System', (value: ISystem) callback
                 FlightControlMode.prototype.setFlightModeState = function () {
+                    // Teardown existing mode before requesting change
                     if (this.currentMode) {
                         this.currentMode.teardownUI();
                         this.bindings.$applyAsync();
                     }
+                    // Set new mode based on these mappings
                     switch (this.flightMode) {
                         case FlightMode_1.FlightMode.Loiter:
                             this.currentMode = this.manualMode;
@@ -165,57 +185,74 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                             break;
                         default:
                             this.currentMode = null;
+                            this.$log.error({ message: 'Flight mode was not recognized and is set as null.' });
                             break;
                     }
+                    // Setup new flight mode UI
                     if (this.currentMode) {
                         this.currentMode.initialize(this.status, this.flightMode, this.drone);
                         this.currentMode.setupUI();
                         this.bindings.$applyAsync();
                     }
                 };
+                // User clicked the RTL button in the user interface
                 FlightControlMode.prototype.rtl = function () {
                     this.rtlIndicatorVisible = true;
                     this.currentMode.handleButtonClick(ButtonActions.RTL);
+                    this.$log.log({ message: 'RTL button clicked, sending to flight mode for processing.' });
                 };
+                // User clicked the Takeoff button in the user interface
                 FlightControlMode.prototype.takeoff = function () {
                     this.currentMode.handleButtonClick(ButtonActions.Takeoff);
+                    this.$log.log({ message: 'Takeoff button clicked, sending to flight mode for processing.' });
                 };
+                // User clicked the resume button in the user interface
                 FlightControlMode.prototype.resume = function () {
                     this.resumeIndicatorVisible = true;
                     this.currentMode.handleButtonClick(ButtonActions.Resume);
+                    this.$log.log({ message: 'Resume button clicked, sending to flight mode for processing.' });
                 };
+                // User clicked the puase button in the user interface
                 FlightControlMode.prototype.pause = function () {
                     this.pauseIndicatorVisible = true;
                     this.currentMode.handleButtonClick(ButtonActions.Pause);
+                    this.$log.log({ message: 'Pause button clicked, sending to flight mode for processing.' });
                 };
+                // User clicked the set home point button in the user interface
                 FlightControlMode.prototype.setHomePoint = function () {
                     this.currentMode.handleButtonClick(ButtonActions.SetHomePoint);
+                    this.$log.log({ message: 'Set Home Point button clicked, sending to flight mode for processing.' });
                 };
+                // User clicked the change altitude button in the user interface
                 FlightControlMode.prototype.changeAltitude = function () {
                     this.currentMode.handleButtonClick(ButtonActions.ChangeAltitude);
+                    this.$log.log({ message: 'Changed Altitude button clicked, sending to flight mode for processing.' });
                 };
+                // User clicked the add waypoint button in the user interface
                 FlightControlMode.prototype.addWaypoint = function () {
                     if (!this.mouseHandler) {
-                        console.log('initialize mouse handler');
                         this.initializeMapMouseHandler();
+                        this.$log.log({ message: 'Initializing Map Mouse Handler.' });
                     }
                     if (this.waypointAddActive) {
                         this.waypointAddActive = false;
                     }
                     else {
                         this.showWaypointDialog = true;
+                        this.$log.log({ message: 'Showing waypoint dialog.' });
                     }
                 };
                 FlightControlMode.prototype.addOrbitTarget = function () {
                     if (!this.mouseHandler) {
-                        console.log('initialize mouse handler');
                         this.initializeMapMouseHandler();
+                        this.$log.log({ message: 'Initializing Map Mouse Handler.' });
                     }
                     if (this.targetAddActive) {
                         this.targetAddActive = false;
                         this.targetLatLngAcquired = false;
                         this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitTarget);
                         this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
+                        this.$log.log({ message: 'Orbit Selection Mode DeActivated, UI cleaned up.' });
                     }
                     else {
                         this.targetAddActive = true;
@@ -223,60 +260,71 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                             .content('Select orbit target on map.')
                             .position('top left')
                             .hideDelay(3000));
+                        this.$log.log({ message: 'Orbit Selection Mode Active' });
                     }
                 };
+                // Called after user accepts takeoff parameters
                 FlightControlMode.prototype.takeoffToAltitude = function () {
                     var _this = this;
+                    this.$log.log({ message: 'Takeoff Requested on flight controller.' });
                     this.drone.FlightController.takeoff(this.takeoffAltitude).then(function () {
+                        _this.$log.log({ message: 'Takeoff request returned.' });
                         if (_this.sessionController.ownerSession.startRecording) {
+                            _this.$log.log({ message: 'Start Recording Requested.' });
                             _this.drone.Camera.startRecording().then(function () {
                                 _this.isRecordingFromTakeoff = true;
-                                console.log('recording started');
-                                try {
-                                    _this.red5proService.startVODRecording(_this.sessionController.ownerSession.name).then(function (recording) {
-                                        console.log('server vod recording started');
-                                    });
-                                }
-                                catch (error) {
-                                    console.log(error);
-                                }
+                                _this.$log.log({ message: 'Start Recording Started.' });
+                                // TODO: Removing until we get the CORS issued resolved.
+                                // try {
+                                //     this.red5proService.startVODRecording(this.sessionController.ownerSession.name).then((recording: boolean) => {
+                                //         console.log('server vod recording started');
+                                //     });
+                                // } catch (error) {
+                                //     console.log(error);
+                                // }
                             }).catch(function (error) {
-                                console.log(error);
+                                _this.$log.error({ message: 'Takeoff Start Recording Request Error.', error: error });
                             });
                         }
                     }).catch(function (error) {
-                        console.log(error);
+                        _this.$log.error({ message: 'Takeoff request error.', error: error });
                     });
                     this.getTakeoffAltitudeVisible = false;
                 };
+                // Called from modes after drone status changes indicating a landing
                 FlightControlMode.prototype.hasLanded = function () {
                     var _this = this;
                     if (this.isRecordingFromTakeoff) {
+                        this.$log.log({ message: 'Recording Stop Requested.' });
                         if (this.sessionController.ownerSession.startRecording) {
                             this.drone.Camera.stopRecording().then(function () {
-                                console.log('recording stopped');
-                                try {
-                                    _this.red5proService.stopVODRecording(_this.sessionController.ownerSession.name).then(function (recording) {
-                                        console.log('server vod recording stopped');
-                                        _this.isRecordingFromTakeoff = false;
-                                    });
-                                }
-                                catch (error) {
-                                    console.log(error);
-                                }
+                                _this.$log.log({ message: 'Recording Stop Returned.' });
+                                // try {
+                                //     this.red5proService.stopVODRecording(this.sessionController.ownerSession.name).then((recording: boolean) => {
+                                //         console.log('server vod recording stopped');
+                                //         this.isRecordingFromTakeoff = false;
+                                //     });
+                                // } catch (error) {
+                                //     console.log(error);
+                                // }
                             }).catch(function (error) {
-                                console.log(error);
+                                _this.$log.error({ message: 'Landing Stop Recording Request Error.', error: error });
                             });
                         }
                     }
                 };
                 FlightControlMode.prototype.cancelTakeoff = function () {
                     this.getTakeoffAltitudeVisible = false;
+                    this.$log.log({ message: 'Takeoff Dialog Cancelled.' });
                 };
                 FlightControlMode.prototype.changeAltitudeTo = function () {
                     var _this = this;
+                    // Make sure current mode is guided
                     if (this.currentMode.flightMode === FlightMode_1.FlightMode.Guided) {
+                        // Set acceptance radius to 1 meter
                         this.drone.FlightController.Guided.setAcceptanceRadius(1);
+                        this.$log.log({ message: 'Change altitude requested from guided mode.' });
+                        // Call add waypoing for the altitude change.
                         this.drone.FlightController.Guided.addWaypoint({
                             lattitude: this.drone.FlightController.Telemetry.Position.lattitude,
                             longitude: this.drone.FlightController.Telemetry.Position.longitude,
@@ -284,18 +332,24 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                             speed: 5,
                             name: this.getNextName()
                         }, true).then(function () {
+                            _this.$log.log({ message: 'Change altitude requested returned from guided mode.' });
                         }).catch(function (error) {
-                            console.log(error);
+                            _this.$log.error({ message: 'Change altitude requested error from guided mode.', error: error });
                         });
                         this.getChangeAltitudeVisible = false;
                     }
                     if (this.currentMode.flightMode === FlightMode_1.FlightMode.Orbit) {
-                        this.drone.FlightController.Orbit.orbit(this.targetLat, this.targetLng, this.changeAltitudeValue, this.targetRadius, this.targetDirection, this.targetVelocity).then(function () {
+                        // Convert time into angular velocity
+                        var av = 360 / this.targetVelocity;
+                        this.$log.log({ message: 'Orbit requested.', lat: this.targetLat, lng: this.targetLng, alt: this.targetAltitude, rad: this.targetRadius, dir: this.targetDirection, vel: av });
+                        // Call new orbit code with new altitude
+                        this.drone.FlightController.Orbit.orbit(this.targetLat, this.targetLng, this.changeAltitudeValue, this.targetRadius, this.targetDirection, av).then(function () {
                             _this.getChangeAltitudeVisible = false;
+                            _this.$log.log({ message: 'Change altitude requested returned from orbit mode.' });
                         }).catch(function (error) {
                             // Keep dialog open and show error
                             _this.getChangeAltitudeVisible = false;
-                            console.log(error);
+                            _this.$log.error({ message: 'Change altitude requested error from orbit mode.', error: error });
                         });
                     }
                 };
@@ -321,16 +375,19 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     // Convert time into angular velocity
                     var av = 360 / this.targetVelocity;
                     // Check if number exceeds max velocity
+                    this.$log.log({ message: 'Add code to check if orbit speed exceeds max angular velocity.' });
                     this.sendingTargetToDrone = true;
+                    this.$log.log({ message: 'Orbit requested.', lat: this.targetLat, lng: this.targetLng, alt: this.targetAltitude, rad: this.targetRadius, dir: this.targetDirection, vel: av });
                     this.drone.FlightController.Orbit.orbit(this.targetLat, this.targetLng, this.targetAltitude, this.targetRadius, this.targetDirection, av).then(function () {
                         _this.showTargetDialog = false;
                         _this.targetAddActive = false;
                         _this.targetLatLngAcquired = false;
                         _this.sendingTargetToDrone = false;
+                        _this.$log.log({ message: 'Orbit request returned.' });
                     }).catch(function (error) {
                         // Keep dialog open and show error
                         _this.sendingTargetToDrone = false;
-                        console.log(error);
+                        _this.$log.error({ message: 'Orbit request returned an error.', error: error });
                     });
                 };
                 FlightControlMode.prototype.initializeMapMouseHandler = function () {
@@ -342,6 +399,7 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
                 };
                 FlightControlMode.prototype.handleMouseClick = function (click) {
+                    var _this = this;
                     if (!this.waypointAddActive && !this.targetAddActive) {
                         return;
                     }
@@ -358,6 +416,7 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                         var longitudeString = Cesium.Math.toDegrees(positionCartographic.longitude);
                         var latitudeString = Cesium.Math.toDegrees(positionCartographic.latitude);
                         if (this.waypointAddActive) {
+                            this.$log.log({ message: 'User selected waypoint on map, making add waypoint request.' });
                             this.drone.FlightController.Guided.addWaypoint({
                                 lattitude: latitudeString,
                                 longitude: longitudeString,
@@ -365,53 +424,57 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                                 speed: this.waypointSpeedValue,
                                 name: this.getNextName()
                             }, this.waypointFlyToNow).then(function () {
-                                // console.log('waypoing added callback');
-                                // let end: any = new Date().getTime();
-                                // let time: any = end - start;
-                                // console.log('Execution time: ' + time);
+                                _this.$log.log({ message: 'Add Waypoint Request Returned.' });
+                            }).catch(function (error) {
+                                _this.$log.log({ message: 'Add Waypoint Request Returned Error', error: error });
                             });
                         }
-                        if (this.targetAddActive) {
-                            // If we have a target orbit point then calculate the radius distance and show dialog
-                            if (this.targetLatLngAcquired) {
-                                var distance = Utility_1.Conversions.distance2(this.targetLat, this.targetLng, latitudeString, longitudeString);
-                                this.targetRadius = Utility_1.Conversions.roundToTwo(distance);
-                                this.targetAltitude = Utility_1.Conversions.roundToTwo(this.sessionController.ownerSession.mapDrone.currentAGLAlt);
-                                this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
-                                this.currentOrbitRadius = this.sessionController.activeSession.mapEntityCollection.entities.add({
-                                    position: Cesium.Cartesian3.fromDegrees(this.targetLng, this.targetLat, this.sessionController.ownerSession.mapDrone.currentAlt),
-                                    ellipse: {
-                                        semiMinorAxis: this.targetRadius,
-                                        semiMajorAxis: this.targetRadius,
-                                        height: this.sessionController.ownerSession.mapDrone.currentAlt,
-                                        material: Cesium.Color.TRANSPARENT,
-                                        outline: true,
-                                        outlineColor: Cesium.Color.fromCssColorString('#0a92ea'),
-                                        outlineWidth: 3
-                                    }
-                                });
-                                this.showTargetDialog = true;
+                        try {
+                            if (this.targetAddActive) {
+                                // If we have a target orbit point then calculate the radius distance and show dialog
+                                if (this.targetLatLngAcquired) {
+                                    var distance = Utility_1.Conversions.distance2(this.targetLat, this.targetLng, latitudeString, longitudeString);
+                                    this.targetRadius = Utility_1.Conversions.roundToTwo(distance);
+                                    this.targetAltitude = Utility_1.Conversions.roundToTwo(this.sessionController.ownerSession.mapDrone.currentAGLAlt);
+                                    this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitRadius);
+                                    this.currentOrbitRadius = this.sessionController.activeSession.mapEntityCollection.entities.add({
+                                        position: Cesium.Cartesian3.fromDegrees(this.targetLng, this.targetLat, this.sessionController.ownerSession.mapDrone.currentAlt),
+                                        ellipse: {
+                                            semiMinorAxis: this.targetRadius,
+                                            semiMajorAxis: this.targetRadius,
+                                            height: this.sessionController.ownerSession.mapDrone.currentAlt,
+                                            material: Cesium.Color.TRANSPARENT,
+                                            outline: true,
+                                            outlineColor: Cesium.Color.fromCssColorString('#0a92ea'),
+                                            outlineWidth: 3
+                                        }
+                                    });
+                                    this.showTargetDialog = true;
+                                }
+                                else {
+                                    this.targetLat = latitudeString;
+                                    this.targetLng = longitudeString;
+                                    this.targetLatLngAcquired = true;
+                                    this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitTarget);
+                                    this.currentOrbitTarget = this.sessionController.activeSession.mapEntityCollection.entities.add({
+                                        position: Cesium.Cartesian3.fromDegrees(longitudeString, latitudeString, 1),
+                                        point: {
+                                            color: Cesium.Color.fromCssColorString('#0a92ea'),
+                                            pixelSize: 10,
+                                            outlineColor: Cesium.Color.WHITE,
+                                            outlineWidth: 3,
+                                            heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
+                                        }
+                                    });
+                                    this.mdToast.show(this.mdToast.simple()
+                                        .content('Select orbit radius point on map.')
+                                        .position('top left')
+                                        .hideDelay(3000));
+                                }
                             }
-                            else {
-                                this.targetLat = latitudeString;
-                                this.targetLng = longitudeString;
-                                this.targetLatLngAcquired = true;
-                                this.sessionController.activeSession.mapEntityCollection.entities.remove(this.currentOrbitTarget);
-                                this.currentOrbitTarget = this.sessionController.activeSession.mapEntityCollection.entities.add({
-                                    position: Cesium.Cartesian3.fromDegrees(longitudeString, latitudeString, 1),
-                                    point: {
-                                        color: Cesium.Color.fromCssColorString('#0a92ea'),
-                                        pixelSize: 10,
-                                        outlineColor: Cesium.Color.WHITE,
-                                        outlineWidth: 3,
-                                        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
-                                    }
-                                });
-                                this.mdToast.show(this.mdToast.simple()
-                                    .content('Select orbit radius point on map.')
-                                    .position('top left')
-                                    .hideDelay(3000));
-                            }
+                        }
+                        catch (error) {
+                            this.$log.error({ message: 'Error in orbit map adding UI code.', error: error });
                         }
                     }
                 };
@@ -424,7 +487,8 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                 FlightControlMode.$inject = [
                     '$scope',
                     'redProService',
-                    '$mdToast'
+                    '$mdToast',
+                    '$log'
                 ];
                 return FlightControlMode;
             }());
@@ -438,8 +502,9 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                 ButtonActions[ButtonActions["AddWaypoint"] = 6] = "AddWaypoint";
             })(ButtonActions || (ButtonActions = {}));
             OrbitMode = (function () {
-                function OrbitMode(flightControlMode) {
+                function OrbitMode(flightControlMode, $log) {
                     this.flightControlMode = flightControlMode;
+                    this.$log = $log;
                 }
                 OrbitMode.prototype.initialize = function (systemStatus, flightMode, drone) {
                     var _this = this;
@@ -483,11 +548,14 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     this.flightControlMode.targetLatLngAcquired = false;
                 };
                 OrbitMode.prototype.handleButtonClick = function (button) {
+                    var _this = this;
                     switch (button) {
                         case ButtonActions.RTL:
+                            this.$log.log({ message: 'Requesting RTL from Orbit Mode.' });
                             this.drone.FlightController.setFlightMode(FlightMode_1.FlightMode.RTL).then(function () {
+                                _this.$log.log({ message: 'Request RTL from Orbit Mode returned.' });
                             }).catch(function (error) {
-                                // TODO: handle error changing modes
+                                _this.$log.error({ message: 'Request RTL from Orbit Mode Error.', error: error });
                             });
                             break;
                         case ButtonActions.SetHomePoint:
@@ -498,15 +566,19 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                             this.flightControlMode.getChangeAltitudeVisible = true;
                             break;
                         case ButtonActions.Pause:
+                            this.$log.log({ message: 'Requesting Pause from Orbit Mode.' });
                             this.drone.FlightController.pause(true).then(function () {
+                                _this.$log.log({ message: 'Request Pause from Orbit Mode returned.' });
                             }).catch(function (error) {
-                                console.log(error);
+                                _this.$log.error({ message: 'Request Pause from Orbit Mode Error.', error: error });
                             });
                             break;
                         case ButtonActions.Resume:
+                            this.$log.log({ message: 'Requesting Resume from Orbit Mode.' });
                             this.drone.FlightController.pause(false).then(function () {
+                                _this.$log.log({ message: 'Request Resume from Orbit Mode returned.' });
                             }).catch(function (error) {
-                                console.log(error);
+                                _this.$log.error({ message: 'Request Resume from Orbit Mode Error.', error: error });
                             });
                             break;
                         default:
@@ -559,8 +631,9 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                 return OrbitMode;
             }());
             GuidedMode = (function () {
-                function GuidedMode(flightControlMode) {
+                function GuidedMode(flightControlMode, $log) {
                     this.flightControlMode = flightControlMode;
+                    this.$log = $log;
                 }
                 GuidedMode.prototype.initialize = function (systemStatus, flightMode, drone) {
                     var _this = this;
@@ -629,11 +702,14 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     this.flightControlMode.waypointAddActive = false;
                 };
                 GuidedMode.prototype.handleButtonClick = function (button) {
+                    var _this = this;
                     switch (button) {
                         case ButtonActions.RTL:
+                            this.$log.log({ message: 'Requesting RTL from Guided Mode.' });
                             this.drone.FlightController.setFlightMode(FlightMode_1.FlightMode.RTL).then(function () {
+                                _this.$log.log({ message: 'Request RTL from Guided Mode returned.' });
                             }).catch(function (error) {
-                                // TODO: handle error changing modes
+                                _this.$log.error({ message: 'Request RTL from Guided Mode Error.', error: error });
                             });
                             break;
                         case ButtonActions.SetHomePoint:
@@ -644,15 +720,19 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                             this.flightControlMode.getChangeAltitudeVisible = true;
                             break;
                         case ButtonActions.Pause:
+                            this.$log.log({ message: 'Requesting Pause from Guided Mode.' });
                             this.drone.FlightController.pause(true).then(function () {
+                                _this.$log.log({ message: 'Request Pause from Guided Mode returned.' });
                             }).catch(function (error) {
-                                console.log(error);
+                                _this.$log.error({ message: 'Request Pause from Guided Mode Error.', error: error });
                             });
                             break;
                         case ButtonActions.Resume:
+                            this.$log.log({ message: 'Requesting Resume from Guided Mode.' });
                             this.drone.FlightController.pause(false).then(function () {
+                                _this.$log.log({ message: 'Request Resume from Guided Mode returned.' });
                             }).catch(function (error) {
-                                console.log(error);
+                                _this.$log.error({ message: 'Request Resume from Guided Mode Error.', error: error });
                             });
                             break;
                         case ButtonActions.Takeoff:
@@ -712,8 +792,9 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                 return GuidedMode;
             }());
             RTLMode = (function () {
-                function RTLMode(flightControlMode) {
+                function RTLMode(flightControlMode, $log) {
                     this.flightControlMode = flightControlMode;
+                    this.$log = $log;
                 }
                 RTLMode.prototype.initialize = function (systemStatus, flightMode, drone) {
                     this.systemStatus = systemStatus;
@@ -741,11 +822,14 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     this.flightControlMode.changeToGuidedModeButtonVisible = false;
                 };
                 RTLMode.prototype.handleButtonClick = function (button) {
+                    var _this = this;
                     switch (button) {
                         case ButtonActions.Pause:
+                            this.$log.log({ message: 'Pause requested from RTL mode, setting mode to Guided.' });
                             this.drone.FlightController.setFlightMode(FlightMode_1.FlightMode.Guided).then(function () {
+                                _this.$log.log({ message: 'Pause requested from RTL mode, setting mode to Guided returned.' });
                             }).catch(function (error) {
-                                console.log(error);
+                                _this.$log.log({ message: 'Pause requested from RTL mode, setting mode to Guided returned error.', error: error });
                             });
                             break;
                         default:
@@ -788,8 +872,9 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                 return RTLMode;
             }());
             ManualMode = (function () {
-                function ManualMode(flightControlMode) {
+                function ManualMode(flightControlMode, $log) {
                     this.flightControlMode = flightControlMode;
+                    this.$log = $log;
                 }
                 ManualMode.prototype.initialize = function (systemStatus, flightMode, drone) {
                     this.systemStatus = systemStatus;
@@ -818,11 +903,14 @@ System.register(['@dronesense/model/lib/common/Utility', '@dronesense/core/lib/c
                     this.flightControlMode.changeToOrbitModeButtonVisible = false;
                 };
                 ManualMode.prototype.handleButtonClick = function (button) {
+                    var _this = this;
                     switch (button) {
                         case ButtonActions.RTL:
+                            this.$log.log({ message: 'RTL requested from manual mode, setting flight mode to RTL.' });
                             this.drone.FlightController.setFlightMode(FlightMode_1.FlightMode.RTL).then(function () {
+                                _this.$log.log({ message: 'RTL requested from manual mode, setting flight mode to RTL returned.' });
                             }).catch(function (error) {
-                                // TODO: handle error changing modes
+                                _this.$log.log({ message: 'RTL requested from manual mode, setting flight mode to RTL returned error.', error: error });
                             });
                             break;
                         case ButtonActions.SetHomePoint:

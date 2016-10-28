@@ -2,7 +2,7 @@ System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var flightPlanViewer_1, login_1, flightControlViewer_1, test_1, manageViewer_1, sessionViewer_1, flightPlansViewer_1, hardwareViewer_1, pilotViewer_1, checklistViewer_1, documentViewer_1, modelViewer_1, scheduleViewer_1, accountViewer_1, profileViewer_1, video_1, translations_1;
-    var ConfigRoutes, ConfigTranslate, Run, dsApp;
+    var ConfigRoutes, ConfigTranslate, ConfigLoggly, Loggly, Run, dsApp;
     return {
         setters:[
             function (flightPlanViewer_1_1) {
@@ -164,6 +164,43 @@ System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/
                 ];
                 return ConfigTranslate;
             }());
+            ConfigLoggly = (function () {
+                function ConfigLoggly(LogglyLoggerProvider) {
+                    var sessionId = ConfigLoggly.guid();
+                    LogglyLoggerProvider
+                        .inputToken('7fbbb20a-d36b-465f-97ff-093e142505ce')
+                        .level('DEBUG')
+                        .sendConsoleErrors(true)
+                        .includeUrl(true)
+                        .includeUserAgent(true)
+                        .includeTimestamp(true)
+                        .inputTag('DSAngularApp');
+                    LogglyLoggerProvider.fields({ appVersion: '1.0', sessionId: sessionId });
+                }
+                // Generate session id guid
+                ConfigLoggly.guid = function () {
+                    return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
+                        this.s4() + '-' + this.s4() + this.s4() + this.s4();
+                };
+                ConfigLoggly.s4 = function () {
+                    return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1);
+                };
+                ConfigLoggly.$inject = [
+                    'LogglyLoggerProvider'
+                ];
+                return ConfigLoggly;
+            }());
+            Loggly = (function () {
+                function Loggly($log) {
+                    $log.log('DS App Started');
+                }
+                Loggly.$inject = [
+                    '$log'
+                ];
+                return Loggly;
+            }());
             Run = (function () {
                 function Run($stateService, $rootScope, db) {
                     FastClick.attach(document.body);
@@ -211,10 +248,13 @@ System.register(['../app/components/flightPlanViewer/flightPlanViewer', '../app/
                 scheduleViewer_1.default.name,
                 accountViewer_1.default.name,
                 profileViewer_1.default.name,
-                video_1.default.name
+                video_1.default.name,
+                'logglyLogger'
             ])
                 .config(ConfigRoutes)
                 .config(ConfigTranslate)
+                .config(ConfigLoggly)
+                .run(Loggly)
                 .run(Run)
                 .constant('FirebaseURL', 'https://dronesense.firebaseio.com/')
                 .factory('db', ['FirebaseURL', function (FirebaseURL) {

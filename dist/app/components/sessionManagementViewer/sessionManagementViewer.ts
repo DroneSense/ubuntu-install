@@ -1,5 +1,6 @@
 import { SessionController } from '../flightControlViewer/sessionController';
-import { MapSession, OwnerMapSession } from '../flightControlViewer/mapSession';
+import { MapSession } from '../flightControlViewer/mapSession';
+import { OwnerMapSession } from '../flightControlViewer/ownerMapSession';
 
 export interface ISessionManagementViewer extends ng.IScope {
 

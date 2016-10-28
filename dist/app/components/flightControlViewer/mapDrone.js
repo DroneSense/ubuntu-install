@@ -9,18 +9,9 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                 backbone_events_standalone_1 = backbone_events_standalone_1_1;
             }],
         execute: function() {
-            // export interface IMapDroneEvents extends IEventEmitter {
-            //     on(eventName: string, callback?: Function, context?: any): any;
-            //     on(eventName: 'locating-drone', callback?: (username: string) => void, context?: any): any;
-            //     on(eventName: 'drone-located', callback?: (username: string) => void, context?: any): any;
-            // }
             MapDrone = (function () {
-                function MapDrone(mapEntityCollection) {
-                    // Backbone events    
-                    // on: (eventName: string, callback?: Function, context?: any) => any;
-                    // once: (events: string, callback: Function, context?: any) => any;
-                    // off: (eventName?: string, callback?: Function, context?: any) => any;
-                    // protected trigger: (eventName: string, ...args: any[]) => any;
+                function MapDrone(mapEntityCollection, $log) {
+                    this.$log = $log;
                     // Default distance for flyto
                     this.defaultZoomDistance = 10;
                     // Home location height above terrain
@@ -40,21 +31,28 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                         _this.eventing = eventing;
                         _this.pathColor = color;
                         _this.isOwnerSession = isOwnerSession;
+                        _this.$log.log({ message: 'Locating Drone' });
+                        _this.trigger('locating-drone');
                         _this.eventing.trigger('locating-drone');
                         _this.getDroneLocation().then(function () {
                             _this.startDronePositionUpdatesStream();
                             _this.createDrone();
                             _this.startInterval();
                             _this.drone.on('disconnected', function () {
-                                console.log('drone disconnected');
+                                _this.trigger('drone-disconnected');
+                                _this.$log.log({ message: 'Drone Disconnected' });
                             });
                             _this.drone.on('connected', function () {
-                                console.log('drone connected');
+                                _this.trigger('drone-connected');
+                                _this.$log.log({ message: 'Drone Connected' });
                             });
                             _this.drone.on('unreachable', function () {
-                                console.log('drone unreachable');
+                                _this.trigger('drone-unreachable');
+                                _this.$log.log({ message: 'Drone Unreachable' });
                             });
+                            _this.trigger('drone-located');
                             _this.eventing.trigger('drone-located');
+                            _this.$log.log({ message: 'Drone Located', lat: _this.currentLat, lng: _this.currentLng });
                             resolve(_this);
                         });
                     });
@@ -63,36 +61,40 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                 MapDrone.prototype.getDroneLocation = function () {
                     var _this = this;
                     return new Promise(function (resolve) {
-                        _this.drone.FlightController.Telemetry.once('Position', function (value) {
-                            console.log('getting drone position promise');
-                            _this.currentLng = value.longitude;
-                            _this.currentLat = value.lattitude;
-                            _this.currentAlt = value.altitudeMSL + _this.modelHeightCorrection;
-                            _this.currentAGLAlt = value.altitudeAGL;
-                            _this.currentHeading = Cesium.Math.toRadians(value.heading);
-                            if (_this.drone.FlightController.Telemetry.Attitude) {
-                                _this.currentPitch = _this.drone.FlightController.Telemetry.Attitude.pitch;
-                                _this.currentRoll = _this.drone.FlightController.Telemetry.Attitude.roll;
-                            }
-                            _this.dronePosition = Cesium.Cartesian3.fromDegrees(_this.currentLng, _this.currentLat, _this.currentAlt);
-                            // Check if owner session and get hae and set, if not just resolve
-                            if (_this.isOwnerSession) {
-                                _this.getDroneHAE(_this.currentLat, _this.currentLng).then(function (height) {
-                                    if (height) {
-                                        _this.homeHAE = height;
-                                    }
-                                    _this.drone.FlightController.enableAltitudeMSLOffset(true, height).then(function () {
-                                        resolve();
-                                    }).catch(function (error) {
-                                        console.log(error);
+                        try {
+                            _this.drone.FlightController.Telemetry.once('Position', function (value) {
+                                _this.currentLng = value.longitude;
+                                _this.currentLat = value.lattitude;
+                                _this.currentAlt = value.altitudeMSL + _this.modelHeightCorrection;
+                                _this.currentAGLAlt = value.altitudeAGL;
+                                _this.currentHeading = Cesium.Math.toRadians(value.heading);
+                                if (_this.drone.FlightController.Telemetry.Attitude) {
+                                    _this.currentPitch = _this.drone.FlightController.Telemetry.Attitude.pitch;
+                                    _this.currentRoll = _this.drone.FlightController.Telemetry.Attitude.roll;
+                                }
+                                _this.dronePosition = Cesium.Cartesian3.fromDegrees(_this.currentLng, _this.currentLat, _this.currentAlt);
+                                // Check if owner session and get hae and set, if not just resolve
+                                if (_this.isOwnerSession) {
+                                    _this.getDroneHAE(_this.currentLat, _this.currentLng).then(function (height) {
+                                        if (height) {
+                                            _this.homeHAE = height;
+                                        }
+                                        _this.drone.FlightController.enableAltitudeMSLOffset(true, height).then(function () {
+                                            resolve();
+                                        }).catch(function (error) {
+                                            _this.$log.error({ message: 'Error from EnableAltitudeMSLOffset.', error: error });
+                                        });
                                     });
-                                });
-                            }
-                            else {
-                                _this.homeHAE = value.altitudeMSL - value.altitudeAGL;
-                                resolve();
-                            }
-                        });
+                                }
+                                else {
+                                    _this.homeHAE = value.altitudeMSL - value.altitudeAGL;
+                                    resolve();
+                                }
+                            });
+                        }
+                        catch (error) {
+                            _this.$log.error({ message: 'Error in getting telemetry position.', error: error });
+                        }
                     });
                 };
                 MapDrone.prototype.startDronePositionUpdatesStream = function () {
@@ -129,7 +131,7 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                             });
                         }
                         catch (error) {
-                            console.log(error);
+                            _this.$log.error({ message: 'Error in Cesium sample terrain.', error: error });
                         }
                     });
                 };
@@ -190,7 +192,7 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                             });
                         }
                         catch (error) {
-                            console.log(error);
+                            _this.$log.error({ message: 'Error in adding sample time to extrapolatedDronePosition.', error: error });
                         }
                     }, 1000);
                 };
@@ -207,7 +209,7 @@ System.register(['backbone-events-standalone'], function(exports_1, context_1) {
                         });
                     }
                     catch (error) {
-                        console.log(error);
+                        this.$log.error({ message: 'Error in fly to drone position.', error: error });
                     }
                 };
                 MapDrone.prototype.remove = function () {

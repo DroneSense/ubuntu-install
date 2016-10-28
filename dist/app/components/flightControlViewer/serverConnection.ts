@@ -1,5 +1,5 @@
 import IDroneService from '@dronesense/core/lib/common/IDroneSenseService';
-import { FlightControlViewerEventing } from './FlightControlViewer';
+import { FlightControlViewerEventing } from './flightControlViewer';
 
 export default class ServerConnection {
 

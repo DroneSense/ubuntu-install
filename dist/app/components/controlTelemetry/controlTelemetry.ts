@@ -1,14 +1,10 @@
-import { } from '@dronesense/model';
 
 import IDrone from '@dronesense/core/lib/common/IDrone';
 import IGimbalState from '@dronesense/core/lib/common/entities/IGimbalState';
-
 import { SessionController } from '../flightControlViewer/sessionController';
-import { OwnerMapSession, MapSession } from '../flightControlViewer/mapSession';
-
-import { IGuidedWaypoint } from '@dronesense/core/lib/common/entities/IGuidedWaypoint';
-
-import { MapWaypoint } from '../flightControlViewer/mapSession';
+import { MapSession } from '../flightControlViewer/mapSession';
+import { OwnerMapSession } from '../flightControlViewer/ownerMapSession';
+import { MapWaypoint } from '../flightControlViewer/mapWaypoint';
 
 export interface IControlTelemetry extends ng.IScope {
 

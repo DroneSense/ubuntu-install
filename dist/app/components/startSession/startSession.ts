@@ -57,6 +57,9 @@ class StartSession {
 
     existingSessions: Array<ISessionMetadata>;
 
+    // On start callback
+    onStart(session: any): void {}
+
     teamColors: Array<string> = ['#0A92EA', '#ea0707', '#00c121', '#dcd300', '#673ab7'];
     teamNames: Array<string> = ['Blue Team', 'Red Team', 'Green Team', 'Yellow Team', 'Purple Team'];
     selectedColor: string = this.teamColors[0];
@@ -64,10 +67,12 @@ class StartSession {
     // Constructor
     static $inject: Array<string> = [
         '$scope',
-        '$mdDialog'
+        '$mdDialog',
+        '$log'
     ];
     constructor(public bindings: IStartSession,
-                public mdDialog: angular.material.MDDialogService) {
+                public mdDialog: angular.material.MDDialogService,
+                public $log: angular.ILogService) {
 
     }
 
@@ -136,6 +141,7 @@ class StartSession {
                     // force UI update
                     this.bindings.$applyAsync();
 
+                    this.$log.log({ message: 'No drones available for connection.'});
                 }
             }).catch((error: any) => {
                 // connect error
@@ -152,10 +158,10 @@ class StartSession {
                 // force UI update
                 this.bindings.$applyAsync();
 
-                console.log(error);
+                this.$log.log({ message: 'Error getting drone list for session.', error: error });
             });
         }).catch((error) => {
-            console.log(error);
+            this.$log.log({ message: 'Error getting existing session list.', error: error });
         });
     }
 
@@ -174,8 +180,6 @@ class StartSession {
         this.selectedDrone = selected;
 
     }
-
-    onStart(session: any): void {}
 
     createSession(): void {
 
@@ -246,6 +250,13 @@ class StartSession {
         // Turn on progress bar
         this.creating = true;
 
+        this.$log.log({ message: 'Starting session.', 
+                        name: this.name, 
+                        color: this.selectedColor, 
+                        drone: this.selectedDrone, 
+                        allowAllGuests: this.guestCanConnect, 
+                        startRecording: this.autoRecordOnTakeoff });
+
         // Try to create session
         this.serverConnection.droneService.SessionManager.createSession(this.name, this.selectedColor, [this.selectedDrone]).then((session: ISession) => {
             session.getDrones().then((drones) => {
@@ -255,7 +266,8 @@ class StartSession {
                 if (drones.length > 0) {
                     drones[0].connect().then(() => {
 
-                        console.log('drone connected');
+                        this.$log.log({ message: 'Connected to drone.', drone: drones[0].Name });
+
                         // // set current drone
                         // this.currentDrone = drones[0];
 
@@ -275,24 +287,25 @@ class StartSession {
                         // force UI update
                         this.bindings.$applyAsync();
 
-                        console.log(error);
+                        this.$log.log({ message: 'Error connecting to drone', error: error });
                     });
                 } else {
                     // no drones were returned to connect to
-                    console.log('no drones were returned to connect to');
+                    this.$log.log({ message: 'No drones were returned to connect to.' });
                 }
 
             }).catch((error: any) => {
                 // error getting drones
-                console.log(error);
+                this.$log.log({ message: 'Error getting drones.', error: error });
             });
         }).catch((error: any) => {
             // error creating session
-            console.log(error);
+            this.$log.log({ message: 'Error creating session.', error: error });
         });
 
     }
 
+    // Set team name based on color selection only if name has not been edited
     setTeamName(colorIndex: number): void {
         if (!this.nameChanged) {
             this.name = this.teamNames[colorIndex];

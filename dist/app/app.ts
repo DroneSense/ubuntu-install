@@ -134,6 +134,54 @@ class ConfigTranslate {
     }
 }
 
+class ConfigLoggly {
+
+    static $inject: Array<string> = [
+        'LogglyLoggerProvider'
+    ];
+
+    constructor(LogglyLoggerProvider: any) {
+
+        let sessionId: string = ConfigLoggly.guid();
+
+        LogglyLoggerProvider
+        .inputToken('7fbbb20a-d36b-465f-97ff-093e142505ce')
+        .level('DEBUG')
+        .sendConsoleErrors(true)
+        .includeUrl(true)
+        .includeUserAgent(true)
+        .includeTimestamp(true)
+        .inputTag('DSAngularApp');
+
+        LogglyLoggerProvider.fields( { appVersion: '1.0', sessionId: sessionId } );
+
+    }
+
+    // Generate session id guid
+    static guid(): string {
+        return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
+            this.s4() + '-' + this.s4() + this.s4() + this.s4();
+    }
+
+    static s4(): string {
+            return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+}
+
+class Loggly {
+    
+    static $inject: Array<string> = [
+        '$log'
+    ];
+
+    constructor($log: angular.ILogService) {
+
+        $log.log('DS App Started');
+    }
+}
+
 class Run {
 
     static $inject: Array<string> = [
@@ -192,12 +240,17 @@ let dsApp: any = angular.module('DroneSense.Web', [
     schedules.name,
     account.name,
     profile.name,
-    video.name
+    video.name,
+    'logglyLogger'
 ])
 
     .config(ConfigRoutes)
 
     .config(ConfigTranslate)
+
+    .config(ConfigLoggly)
+
+    .run(Loggly)
 
     //.config(ConfigTheme)
 

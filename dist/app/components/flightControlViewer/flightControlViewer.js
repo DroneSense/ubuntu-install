@@ -59,10 +59,11 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
             exports_1("FlightControlViewerEventing", FlightControlViewerEventing);
             backbone_events_standalone_1.default.mixin(FlightControlViewerEventing.prototype);
             FlightControlViewer = (function () {
-                function FlightControlViewer(bindings, stateService, mdDialog) {
+                function FlightControlViewer(bindings, stateService, mdDialog, $log) {
                     this.bindings = bindings;
                     this.stateService = stateService;
                     this.mdDialog = mdDialog;
+                    this.$log = $log;
                     // List of server that are currently connected
                     this.connectedServers = [];
                     // Flag to indicate if a guest user request has been made and 
@@ -90,7 +91,7 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                     // Create new for now, eventually load from profile
                     this.flightControlSettings = new flightControlSettings_1.FlightControlSettings();
                     this.eventing = new FlightControlViewerEventing();
-                    this.sessionController = new sessionController_1.SessionController(this.eventing);
+                    this.sessionController = new sessionController_1.SessionController(this.eventing, this.$log);
                     this.eventing.on('locating-drone', function () {
                         _this.locatingDroneDialog = true;
                         _this.bindings.$applyAsync();
@@ -110,6 +111,7 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                         _this.guestUserRequest = true;
                         // Update user interface
                         _this.bindings.$applyAsync();
+                        _this.$log.log({ message: 'Guest connect request from ' + username });
                     });
                     this.eventing.on('server-disconnected', function (serverConnection) {
                         if (_this.sessionController.ownerSession) {
@@ -129,12 +131,14 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                             _this.connectedServers.splice(_this.connectedServers.indexOf(serverConnection), 1);
                         }
                         ;
+                        _this.$log.log({ message: 'Server Disconnected' });
                     });
                     // Only wire up to event if ownerSession
                     if (this.sessionController.ownerSession) {
                         this.eventing.on('waypoint-error', function (name) {
                             _this.waypointError = true;
                             _this.waypointErrorName = name;
+                            _this.$log.error({ message: 'Waypoint Error', name: name });
                         });
                     }
                 };
@@ -142,11 +146,13 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                 FlightControlViewer.prototype.startNewFlight = function () {
                     // Get local server connection settings
                     this.getServerSettings(true);
+                    this.$log.log({ message: 'Start New Flight' });
                 };
                 // Join existing flight button clicked on main screen
                 FlightControlViewer.prototype.joinExistingFlight = function (serverConnection) {
                     // Get local server connection settings
                     this.getServerSettings(false);
+                    this.$log.log({ message: 'Join Existing Flight' });
                 };
                 // Launch the control connect dialog to get the connection
                 FlightControlViewer.prototype.getServerSettings = function (newFlight) {
@@ -243,12 +249,14 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                     this.guestRequestCallback(true);
                     // Hide dialog
                     this.guestUserRequest = false;
+                    this.$log.log({ message: 'Accepted guest join request.' });
                 };
                 // Return false if user rejects
                 FlightControlViewer.prototype.denyGuestRequest = function () {
                     this.guestRequestCallback(false);
                     // Hide dialog
                     this.guestUserRequest = false;
+                    this.$log.log({ message: 'Denied guest join request.' });
                 };
                 // Close dialog
                 FlightControlViewer.prototype.cancelDialog = function () {
@@ -298,19 +306,23 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                     this.lockCamera = false;
                 };
                 FlightControlViewer.prototype.toggleRecording = function () {
+                    var _this = this;
                     this.recordIndicatorVisible = true;
                     if (!this.cameraInit) {
                         this.initCamera();
                     }
                     if (this.isRecording) {
-                        this.sessionController.ownerSession.mapDrone.drone.Camera.stopRecording().then().catch(function (error) {
-                            console.log(error);
+                        this.sessionController.ownerSession.mapDrone.drone.Camera.stopRecording().then(function () {
+                            _this.$log.log({ message: 'Stop Recording Requested' });
+                        }).catch(function (error) {
+                            _this.$log.error({ message: 'Error: stop recording call.', error: error });
                         });
                     }
                     else {
                         this.sessionController.ownerSession.mapDrone.drone.Camera.startRecording().then(function () {
+                            _this.$log.log({ message: 'Start Recording Requested' });
                         }).catch(function (error) {
-                            console.log(error);
+                            _this.$log.error({ message: 'Error: start recording call.', error: error });
                         });
                     }
                 };
@@ -321,29 +333,38 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                         this.sessionController.ownerSession.mapDrone.drone.Camera.on('recording-started', function () {
                             _this.isRecording = true;
                             _this.recordIndicatorVisible = false;
+                            _this.$log.log({ message: 'Recording Started' });
                         });
                         this.sessionController.ownerSession.mapDrone.drone.Camera.on('recording-stopped', function () {
                             _this.isRecording = false;
                             _this.recordIndicatorVisible = false;
+                            _this.$log.log({ message: 'Recording Stopped' });
                         });
                         this.sessionController.ownerSession.mapDrone.drone.Camera.on('take-picture-finished', function () {
                             _this.takePictureComplete = true;
+                            _this.$log.log({ message: 'Take picture finished' });
                         });
                         this.cameraInit = true;
                     }
                 };
                 FlightControlViewer.prototype.takePicture = function () {
+                    var _this = this;
                     if (!this.cameraInit) {
                         this.initCamera();
                     }
                     this.takePictureComplete = false;
-                    this.sessionController.ownerSession.mapDrone.drone.Camera.takePicture();
+                    this.sessionController.ownerSession.mapDrone.drone.Camera.takePicture().then(function () {
+                        _this.$log.log({ message: 'Take picture Requested' });
+                    }).catch(function (error) {
+                        _this.$log.error({ message: 'Error: take picture request.', error: error });
+                    });
                 };
                 // Constructor
                 FlightControlViewer.$inject = [
                     '$scope',
                     '$state',
-                    '$mdDialog'
+                    '$mdDialog',
+                    '$log'
                 ];
                 return FlightControlViewer;
             }());

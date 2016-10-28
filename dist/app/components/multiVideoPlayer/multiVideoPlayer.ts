@@ -38,6 +38,8 @@ class MultiVideoPlayer {
     // Flag to track if we are showing a video
     showingVideo: boolean = false;
 
+    isCordova: boolean = false;
+
     playerWidth: string = '469px';
     playerHeight: string = '264px';
     top: string = '115px';
@@ -90,6 +92,10 @@ class MultiVideoPlayer {
         });
 
         /* !web-stop */
+
+        /* !cordova-start */
+        this.isCordova = true;
+        /* !cordova-stop */
 
     }
 

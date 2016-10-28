@@ -6,8 +6,9 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             JoinSession = (function () {
-                function JoinSession(bindings) {
+                function JoinSession(bindings, $log) {
                     this.bindings = bindings;
+                    this.$log = $log;
                     // Flag to indicate if service is tryin to connect
                     this.joining = false;
                     // Flag to show on error
@@ -88,6 +89,7 @@ System.register([], function(exports_1, context_1) {
                             _this.joinButtonText = 'Retry';
                             // force UI update
                             _this.bindings.$applyAsync();
+                            _this.$log.log({ message: 'No sessions available to join.' });
                         }
                     }).catch(function (error) {
                         // connect error
@@ -99,7 +101,7 @@ System.register([], function(exports_1, context_1) {
                         _this.joinButtonText = 'Join';
                         // force UI update
                         _this.bindings.$applyAsync();
-                        console.log(error);
+                        _this.$log.log({ message: 'Error getting sessions available for connection.', error: error });
                     });
                 };
                 // helper to clear session selection and set new one
@@ -139,13 +141,12 @@ System.register([], function(exports_1, context_1) {
                     this.hideSessions = true;
                     // Show message that we are joing
                     this.showWaitingForConnectMessage = true;
+                    this.$log.log({ message: 'Joining session.', session: this.selectedSession });
                     // Try to create session
                     this.serverConnection.droneService.SessionManager.joinSession(this.selectedSession, 10000).then(function (session) {
                         // Return joined session
                         _this.onJoin({ session: session });
                     }).catch(function (error) {
-                        // error creating session
-                        console.log(error);
                         _this.joining = false;
                         _this.showWaitingForConnectMessage = false;
                         if (error.parentError.code === 500) {
@@ -157,11 +158,14 @@ System.register([], function(exports_1, context_1) {
                         _this.hideSessions = false;
                         _this.joinButtonText = 'Join';
                         _this.bindings.$applyAsync();
+                        // error creating session
+                        _this.$log.log({ message: 'Error joining session.', error: error });
                     });
                 };
                 // Constructor
                 JoinSession.$inject = [
-                    '$scope'
+                    '$scope',
+                    '$log'
                 ];
                 return JoinSession;
             }());

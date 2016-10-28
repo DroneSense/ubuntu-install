@@ -26,6 +26,7 @@ System.register(['./videoFeed'], function(exports_1, context_1) {
                     this.showMap = true;
                     // Flag to track if we are showing a video
                     this.showingVideo = false;
+                    this.isCordova = false;
                     this.playerWidth = '469px';
                     this.playerHeight = '264px';
                     this.top = '115px';

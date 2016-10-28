@@ -108,6 +108,9 @@ System.register(['../gpsStatusIcon/gpsStatusIcon', '../batteryStatusIcon/battery
                         _this.bindings.$applyAsync();
                     });
                 };
+                // Show cordova log viewer from checklist button click until this is implemented
+                ControlToolbar.prototype.showLog = function () {
+                };
                 ControlToolbar.prototype.hidetabs = function () {
                     this.gps = false;
                     this.telementry = false;

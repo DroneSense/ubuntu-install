@@ -1,4 +1,3 @@
-import { } from '@dronesense/model';
 
 import IDrone from '@dronesense/core/lib/common/IDrone';
 import gpsStatusIcon from '../gpsStatusIcon/gpsStatusIcon';
@@ -7,11 +6,10 @@ import batteryStatusIndicator from '../batteryStatusIndicator/batteryStatusIndic
 import telemetryStatusIcon from '../telemetryStatusIcon/telemetryStatusIcon';
 import rcStatusIcon from '../rcStatusIcon/rcStatusIcon';
 import videoStatusIcon from '../videoStatusIcon/videoStatusIcon';
-
 import { SessionController } from '../flightControlViewer/sessionController';
-import { OwnerMapSession, MapSession } from '../flightControlViewer/mapSession';
+import { MapSession } from '../flightControlViewer/mapSession';
+import { OwnerMapSession } from '../flightControlViewer/OwnerMapSession';
 import { Firmware } from '@dronesense/core/lib/common/enums/Firmware';
-
 import { FlightControlSettings } from '../flightControlViewer/flightControlSettings';
 
 export interface IControlToolbar extends ng.IScope {
@@ -137,6 +135,13 @@ class ControlToolbar {
             
             this.bindings.$applyAsync();
         });
+    }
+
+    // Show cordova log viewer from checklist button click until this is implemented
+    showLog(): void {
+        /* !cordova-start */
+        dronesense.bridgeManager.showLogView();
+        /* !cordova-stop */
     }
 
     hidetabs(): void {

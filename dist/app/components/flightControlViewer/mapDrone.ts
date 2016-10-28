@@ -1,23 +1,25 @@
-import { IEventEmitter } from '@dronesense/core/lib/common/IEventEmitter';
-import { IHomePosition } from '@dronesense/core/lib/common/entities/IHomePosition';
+
 import IDrone from '@dronesense/core/lib/common/IDrone';
-import BackboneEvents from 'backbone-events-standalone';
 import IPosition from '@dronesense/core/lib/common/entities/IPosition';
-import { FlightControlViewerEventing } from './FlightControlViewer';
+import { FlightControlViewerEventing } from './flightControlViewer';
+import { IEventEmitter } from '@dronesense/core/lib/common/IEventEmitter';
+import BackboneEvents from 'backbone-events-standalone';
 
-// export interface IMapDroneEvents extends IEventEmitter {
-//     on(eventName: string, callback?: Function, context?: any): any;
-//     on(eventName: 'locating-drone', callback?: (username: string) => void, context?: any): any;
-//     on(eventName: 'drone-located', callback?: (username: string) => void, context?: any): any;
-// }
+export interface IMapDroneEvents extends IEventEmitter {
+    on(eventName: string, callback?: Function, context?: any): any;
+    on(eventName: 'locating-drone', callback?: (username: string) => void, context?: any): any;
+    on(eventName: 'drone-located', callback?: (username: string) => void, context?: any): any;
+    on(eventName: 'drone-connected', callback?: (username: string) => void, context?: any): any;
+    on(eventName: 'drone-disconnected', callback?: (username: string) => void, context?: any): any;
+    on(eventName: 'drone-unreachable', callback?: (username: string) => void, context?: any): any;
+}
 
-export class MapDrone {
+export class MapDrone implements IMapDroneEvents {
 
-    // Backbone events    
-    // on: (eventName: string, callback?: Function, context?: any) => any;
-    // once: (events: string, callback: Function, context?: any) => any;
-    // off: (eventName?: string, callback?: Function, context?: any) => any;
-    // protected trigger: (eventName: string, ...args: any[]) => any;
+    on: (eventName: string, callback?: Function, context?: any) => any;
+    once: (events: string, callback: Function, context?: any) => any;
+    off: (eventName?: string, callback?: Function, context?: any) => any;
+    trigger: (eventName: string, ...args: any[]) => any;
 
     // Default distance for flyto
     defaultZoomDistance: number = 10;
@@ -78,7 +80,7 @@ export class MapDrone {
     // flag to indicate if this sessino is an owner session so we can handle lookup
     isOwnerSession: boolean;
 
-    constructor(mapEntityCollection: Cesium.CustomDataSource) {
+    constructor(mapEntityCollection: Cesium.CustomDataSource, public $log: angular.ILogService) {
         this.mapEntityCollection = mapEntityCollection;
     }
 
@@ -92,6 +94,8 @@ export class MapDrone {
             this.pathColor = color;
             this.isOwnerSession = isOwnerSession;
 
+            this.$log.log({ message: 'Locating Drone' });
+            this.trigger('locating-drone');
             this.eventing.trigger('locating-drone');
 
             this.getDroneLocation().then(() => {
@@ -103,18 +107,23 @@ export class MapDrone {
                 this.startInterval();
 
                 this.drone.on('disconnected', () => {
-                    console.log('drone disconnected');
+                    this.trigger('drone-disconnected');
+                    this.$log.log({ message: 'Drone Disconnected'});
                 });
 
                 this.drone.on('connected', () => {
-                    console.log('drone connected');
+                    this.trigger('drone-connected');
+                    this.$log.log({ message: 'Drone Connected'});
                 });
 
                 this.drone.on('unreachable', () => {
-                    console.log('drone unreachable');
+                    this.trigger('drone-unreachable');
+                    this.$log.log({ message: 'Drone Unreachable'});
                 });
 
+                this.trigger('drone-located');
                 this.eventing.trigger('drone-located');
+                this.$log.log({ message: 'Drone Located', lat: this.currentLat, lng: this.currentLng});
 
                 resolve(this);
             });
@@ -128,46 +137,50 @@ export class MapDrone {
         
         return new Promise<void>((resolve) => {
 
-            this.drone.FlightController.Telemetry.once('Position', (value: IPosition) => {
+            try {
 
-                console.log('getting drone position promise');
-                
-                this.currentLng = value.longitude;
-                this.currentLat = value.lattitude;
-                this.currentAlt = value.altitudeMSL + this.modelHeightCorrection;
-                this.currentAGLAlt = value.altitudeAGL;
-                this.currentHeading = Cesium.Math.toRadians(value.heading);
+                this.drone.FlightController.Telemetry.once('Position', (value: IPosition) => {
+                    
+                    this.currentLng = value.longitude;
+                    this.currentLat = value.lattitude;
+                    this.currentAlt = value.altitudeMSL + this.modelHeightCorrection;
+                    this.currentAGLAlt = value.altitudeAGL;
+                    this.currentHeading = Cesium.Math.toRadians(value.heading);
 
-                if (this.drone.FlightController.Telemetry.Attitude) {
-                    this.currentPitch = this.drone.FlightController.Telemetry.Attitude.pitch;
-                    this.currentRoll = this.drone.FlightController.Telemetry.Attitude.roll;
-                }
-                
-                this.dronePosition = Cesium.Cartesian3.fromDegrees(this.currentLng, this.currentLat, this.currentAlt);
+                    if (this.drone.FlightController.Telemetry.Attitude) {
+                        this.currentPitch = this.drone.FlightController.Telemetry.Attitude.pitch;
+                        this.currentRoll = this.drone.FlightController.Telemetry.Attitude.roll;
+                    }
+                    
+                    this.dronePosition = Cesium.Cartesian3.fromDegrees(this.currentLng, this.currentLat, this.currentAlt);
 
-                // Check if owner session and get hae and set, if not just resolve
-                if (this.isOwnerSession) {
+                    // Check if owner session and get hae and set, if not just resolve
+                    if (this.isOwnerSession) {
 
-                    this.getDroneHAE(this.currentLat, this.currentLng).then((height: number) => {
-                        
-                        if (height) {
-                            this.homeHAE = height;
-                        }
+                        this.getDroneHAE(this.currentLat, this.currentLng).then((height: number) => {
+                            
+                            if (height) {
+                                this.homeHAE = height;
+                            }
 
-                        this.drone.FlightController.enableAltitudeMSLOffset(true, height).then(() => {
+                            this.drone.FlightController.enableAltitudeMSLOffset(true, height).then(() => {
 
-                        resolve();
+                            resolve();
 
-                        }).catch((error) => {
-                            console.log(error);
+                            }).catch((error) => {
+                                this.$log.error({ message: 'Error from EnableAltitudeMSLOffset.', error: error});
+                            });
                         });
-                    });
-                } else {
-                    this.homeHAE = value.altitudeMSL - value.altitudeAGL;
-                    resolve();
-                }
+                    } else {
+                        this.homeHAE = value.altitudeMSL - value.altitudeAGL;
+                        resolve();
+                    }
 
-            });
+                });
+
+            } catch (error) {
+                this.$log.error({ message: 'Error in getting telemetry position.', error: error});
+            }
         });
 
     }
@@ -198,8 +211,6 @@ export class MapDrone {
                 
         return new Promise<number>((resolve) => {
 
-
-
             let positions: Array<Cesium.Cartographic>;
 
             if (latitude && longitude) {
@@ -221,7 +232,7 @@ export class MapDrone {
 
                 });
             } catch (error) {
-                console.log(error);
+                this.$log.error({ message: 'Error in Cesium sample terrain.', error: error});
             }
 
         });
@@ -297,7 +308,7 @@ export class MapDrone {
                 });
 
             } catch (error) {
-                console.log(error);
+                this.$log.error({ message: 'Error in adding sample time to extrapolatedDronePosition.', error: error});
             }
 
         }, 1000);
@@ -317,7 +328,7 @@ export class MapDrone {
                 }
             });
         } catch (error) {
-            console.log(error);
+            this.$log.error({ message: 'Error in fly to drone position.', error: error});
         }
     }
 

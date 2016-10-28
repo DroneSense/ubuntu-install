@@ -19,7 +19,7 @@ class ControlConnect {
     // url of remote server
     url: string = 'https://afd.dronesense.com';
 
-    // Flag to indicate if service is tryin to connect
+    // Flag to indicate if service is trying to connect
     connecting: boolean = false;
 
     // Flag to indicate if this is a new flight session connection
@@ -37,13 +37,18 @@ class ControlConnect {
     // List of servers already connected
     connectedServers: Array<ServerConnection>;
 
+    // On connect component callback
+    onConnect(dservice: any): void {}
+
     // Constructor
     static $inject: Array<string> = [
         '$scope',
-        '$mdDialog'
+        '$mdDialog',
+        '$log'
     ];
     constructor(public bindings: IControlConnect,
-                public mdDialog: angular.material.MDDialogService) {
+                public mdDialog: angular.material.MDDialogService,
+                public $log: angular.ILogService) {
                     
     }
 
@@ -56,8 +61,6 @@ class ControlConnect {
         //     }
         // });
     }
-
-    onConnect(dservice: any): void {}
 
     connect(): void {
 
@@ -95,16 +98,20 @@ class ControlConnect {
         // Create the client with the ip and port address
         let droneService: IDroneService = Client.createClient('http://' + this.ip + ':' + this.port);
 
+        this.$log.log('Attempting connection to ' + 'http://' + this.ip + ':' + this.port);
+
         // TODO - Pass in user from data service
         droneService.connect('christopher').then(() => {
             
+            this.$log.log('Connection sucessful to ' + 'http://' + this.ip + ':' + this.port);
+            this.$log.log('Is new flight session:' + this.newFlightSession);
+
             // success
             // 1) make call to check server health to ensure all services are running
             // this.droneService.checkServerHealth(() => {
 
                     let newServerConnection: ServerConnection = new ServerConnection(this.ip, this.port, droneService);
 
-                    console.log('Is new flight session:' + this.newFlightSession);
                     // we have a sucessful connection so lets return the drone service
                     this.onConnect({ serverConnection: newServerConnection, useExisting: this.newFlightSession });
             
@@ -113,7 +120,6 @@ class ControlConnect {
             //});
 
         }).catch((error: any) => {
-            // connect error
 
             // Turn off the progress indicator
             this.connecting = false;
@@ -127,11 +133,12 @@ class ControlConnect {
             // force UI update
             this.bindings.$applyAsync();
 
-            console.log(error);
+            this.$log.error({ message: 'Error during connection to ' + 'http://' + this.ip + ':' + this.port, error: error });
         });
 
     }
 
+    // Callback to flight control
     setSelectedServer(server: ServerConnection): void {
         this.onConnect({ serverConnection: server, useExisting: true });
     }
