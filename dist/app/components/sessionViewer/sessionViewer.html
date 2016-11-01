@@ -1,8 +1,27 @@
+<div md-theme='ds-dark'>
 
+    <div class="darkAppBar" style="height: 80px;" layout="column" layout-align="top center">
+        <div class="darkAppBarDivider" layout="row" layout-align="center center">
+            <img class="darkAppBarIcon" 
+                    src="./app/components/manageViewer/images/logo.svg" 
+                    aria-label="logo">
+            </img>
+        </div>
+
+        <div class="darkAppBarTextContainer navBarText" layout="row" layout-align="center none">
+            <div layout="column" style="margin-left: 20px;" layout-align="center center">Account: AFD</div>
+            <div flex></div>
+            <div layout="row" style="margin-right: 20px;" layout-align="center center">
+                <label>DroneSense</label>
+            </div>
+
+        </div>
+    </div>
+</div>
 <div layout="row" layout-align="center top">
-    <div style="max-width: 1280px; min-width: 1024px;" layout="column" layout-align="center top">
+    <div layout="column" layout-align="center top">
 
-        <ds-viewer-toolbar lables="$ctrl.labels"
+        <!--<ds-viewer-toolbar lables="$ctrl.labels"
                            sort-options="$ctrl.sort.options"
                            on-sort-select="$ctrl.sortSelected(value)"                           
                            grid-visible="$ctrl.gridVisible"
@@ -12,7 +31,7 @@
                            on-search="$ctrl.searchFlightPlans(search)"
                            tags-changed="$ctrl.applyTagFilter(tags, option)"
                            filter-tags="$ctrl.masterTagList">
-        </ds-viewer-toolbar>
+        </ds-viewer-toolbar>-->
 
         <div ng-lazy-show="$ctrl.gridVisible;" layout="row" layout-align="start top" >
             <md-content layout="row" layout-align="start top" layout-wrap md-theme='ds-dark' style="background-color: white;" >

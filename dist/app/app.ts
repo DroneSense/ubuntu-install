@@ -35,7 +35,7 @@ class ConfigRoutes {
         $stateProvider
         .state('root', {
           url: '',
-          template: '<ds-flight-control-viewer></ds-flight-control-viewer>'
+          template: '<ds-session-viewer></ds-session-viewer>'
         })
         .state('otherroot', {
           url: '/'
