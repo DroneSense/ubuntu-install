@@ -752,3 +752,7 @@ hardwareAddSensors-NotesTopMargin {
 .navigation-controls {
     display: none;
 }
+
+md-progress-linear.md-ds-dark-theme .md-bar2 {
+    background-color: #0a92ea; 
+}

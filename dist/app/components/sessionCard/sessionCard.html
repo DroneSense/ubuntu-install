@@ -1,10 +1,15 @@
 
-<md-card md-whiteframe="3" style="position: relative; outline: none; cursor: pointer;" ng-click="$ctrl.showPreview();">
+<md-card md-whiteframe="3" style="position: relative; outline: none; cursor: pointer;" ng-click="$ctrl.showVideo();">
 
   <div style="position: relative;">
     <img ng-src="./app/components/flightPlanCard/images/fpImage.png" class="md-card-image" alt="image caption">
 
-    <ds-user-avatar md-whiteframe="5" style="position: absolute; bottom: 10px; left: 10px;" user="$ctrl.flightPlan.CreatedUser" size="46"></ds-user-avatar>
+    <div md-whiteframe="5" layout="row" 
+         class="body-16-grey" 
+         layout-align="center center" 
+         style="height: 46px; width: 46px; background-color: {{ $ctrl.session.color }}; border-width: 1px; border-style: solid; border-color: white; position: absolute; bottom: 10px; left: 10px;">
+    </div>
+    <!--<ds-user-avatar md-whiteframe="5" style="position: absolute; bottom: 10px; left: 10px;" user="" size="46"></ds-user-avatar>-->
     
     <md-menu style="position: absolute; top: 5px; right: 20px; cursor: pointer; outline: 0;" md-offset="0 27" md-position-mode="target-right target" >
       <md-icon ng-click="$mdOpenMenu($event)" md-svg-icon="./app/components/flightPlanCard/images/overflow.svg">
@@ -15,57 +20,9 @@
         <div style="background-color: white;width: 15px;height: 15px;position: absolute;top: -4px;right: 20px;-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);"></div>
 
         <md-menu-item>
-          <md-button ng-click="$ctrl.showFlightPlanCard('foo');">
+          <md-button ng-click="$ctrl.showVideo();">
             <div layout="row" flex>
               <p flex>View</p>
-            </div>
-          </md-button>
-        </md-menu-item>
-
-        <md-menu-item>
-          <md-button ng-click="$ctrl.showFlightPlanCard('foo');">
-            <div layout="row" flex>
-              <p flex>Edit</p>
-            </div>
-          </md-button>
-        </md-menu-item>
-
-        <md-menu-item>
-          <md-button ng-click="$ctrl.fly();">
-            <div layout="row" flex>
-              <p flex>Fly Now</p>
-            </div>
-          </md-button>
-        </md-menu-item>
-
-        <md-menu-item>
-          <md-button ng-click="ctrl.announceClick($index)">
-            <div layout="row" flex>
-              <p flex>Mark Done</p>
-            </div>
-          </md-button>
-        </md-menu-item>
-
-        <md-menu-item>
-          <md-button ng-click="ctrl.announceClick($index)">
-            <div layout="row" flex>
-              <p flex>Archive</p>
-            </div>
-          </md-button>
-        </md-menu-item>
-
-        <md-menu-item>
-          <md-button ng-click="ctrl.announceClick($index)">
-            <div layout="row" flex>
-              <p flex>Change Tag</p>
-            </div>
-          </md-button>
-        </md-menu-item>
-
-        <md-menu-item>
-          <md-button ng-click="ctrl.announceClick($index)">
-            <div layout="row" flex>
-              <p flex>Delete</p>
             </div>
           </md-button>
         </md-menu-item>
@@ -76,17 +33,18 @@
   
   <md-card-title>
     <md-card-title-text>
-      <span class="cardTitle">{{ $ctrl.session.publish_name }}</span>
+      <span class="cardTitle">{{ $ctrl.session.name }}</span>
+       <span class="cardSubtitle">Giddings, Texas</span>
     </md-card-title-text>
   </md-card-title>
 
   <md-divider style="margin: 0 13px;"></md-divider>
 
   <md-card-content>
-      <span class="cardSubtitle">Started:</span><span style="color: white; text-decoration: none; font-size: 14px;"> {{ $ctrl.session.creation_time | date:'medium' }}</span>
+      <span class="cardSubtitle">Started:</span><span style="color: white; text-decoration: none; font-size: 14px;"> {{ '11/02/2016' | date:'medium' }}</span>
       </br>
-      <span class="cardSubtitle">Active Subscribers:</span><span style="margin: 6px 0;color: white; text-decoration: none; font-size: 14px;" > {{ $ctrl.session.active_subscribers }}</span>
-      </br>
+      <!--<span class="cardSubtitle">Active Subscribers:</span><span style="margin: 6px 0;color: white; text-decoration: none; font-size: 14px;" > {{ $ctrl.session.active_subscribers }}</span>
+      </br>-->
       <!--<md-chips ng-model="$ctrl.flightPlan.Tags" readonly="true">
           <md-chip-template>
               <label>{{ $chip.Name }}</label>

@@ -27,7 +27,7 @@
     <ds-session-management-viewer on-join-session="$ctrl.joinExistingFlight();" session-controller="$ctrl.sessionController" ng-if="$ctrl.firstSessionLoaded" style="position: absolute; left: 20px; bottom: 150px;"></ds-session-management-viewer>
 
     <!--Waypoint Playlist-->
-    <ds-waypoint-list-viewer session-controller="$ctrl.sessionController" ng-show="$ctrl.sessionController.ownerSession && $ctrl.firstSessionLoaded" style="position: absolute; right: 20px; top: 275px;"></ds-waypoint-list-viewer>
+    <ds-waypoint-list-viewer session-controller="$ctrl.sessionController" ng-show="$ctrl.sessionController.ownerSession && $ctrl.firstSessionLoaded" style="position: absolute; right: 20px; top: 330px;"></ds-waypoint-list-viewer>
 
     <!--Video Player-->
     <!--<ds-video-player ng-if="$ctrl.firstSessionLoaded" session-name="$ctrl.sessionController.activeSession.name" on-full-screen="$ctrl.showMap = false;" on-exit-full-screen="$ctrl.showMap = true"></ds-video-player>-->
@@ -52,6 +52,14 @@
         </div>
     </div>
 
+    <!--Download Picture-->
+    <div ng-if="$ctrl.sessionController.ownerSession && $ctrl.firstSessionLoaded" style="position: absolute; right: 20px; top: 275px;">
+        <div layout="column" ng-click="$ctrl.downloadPicture();" layout-align="center center" class="flightControlButton">
+            <md-icon ng-show="$ctrl.takePictureComplete" style="width: 24px; height: 24px; color: white;" md-svg-icon="./app/components/flightControlViewer/images/photoDownload.svg"></md-icon>
+            <md-icon ng-hide="$ctrl.takePictureComplete" style="width: 20px; height: 20px;" md-svg-icon="./app/components/flightControlMode/images/loader.svg"></md-icon>
+        </div>
+    </div>
+
     <!--Map Layers-->
     <ds-map-layers ng-if="$ctrl.firstSessionLoaded" session-controller="$ctrl.sessionController" style="position: absolute; right: 20px; bottom: 150px;"></ds-map-layers>
 
@@ -63,21 +71,21 @@
     </div>
 
     <!--Look Down Bounding Box-->
-    <div ng-show="$ctrl.sessionController.activeSession" style="position: absolute; right: 20px; bottom: 248px;">
+    <div ng-show="false" style="position: absolute; right: 20px; bottom: 248px;">
         <div layout="column" ng-click="$ctrl.lookDownBoundingBox()" layout-align="center center" class="flightControlButton">
             <md-icon style="width: 20px; height: 30px; color: white;" md-svg-icon="./app/components/flightControlViewer/images/boundingBox.svg"></md-icon>
         </div>
     </div>
 
     <!--Zoom In-->
-    <div ng-if="$ctrl.firstSessionLoaded" style="position: absolute; right: 20px; bottom: 354px;">
+    <div ng-if="$ctrl.firstSessionLoaded" style="position: absolute; right: 20px; bottom: 302px;">
         <div layout="column" ng-click="$ctrl.zoomIn();" layout-align="center center" class="flightControlButton">
             <md-icon style="width: 20px; height: 30px; color: white;" md-svg-icon="./app/components/flightControlViewer/images/zoomIn.svg"></md-icon>
         </div>
     </div>
 
     <!--Zoom Out-->
-    <div ng-if="$ctrl.firstSessionLoaded" style="position: absolute; right: 20px; bottom: 302px;">
+    <div ng-if="$ctrl.firstSessionLoaded" style="position: absolute; right: 20px; bottom: 248px;">
         <div layout="column" ng-click="$ctrl.zoomOut();" layout-align="center center" class="flightControlButton">
             <md-icon style="width: 20px; height: 30px; color: white;" md-svg-icon="./app/components/flightControlViewer/images/zoomOut.svg"></md-icon>
         </div>

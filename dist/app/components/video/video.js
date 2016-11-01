@@ -6,9 +6,10 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             Video = (function () {
-                function Video(bindings, stateService) {
+                function Video(bindings, stateService, $interval) {
                     this.bindings = bindings;
                     this.stateService = stateService;
+                    this.$interval = $interval;
                     this.playerWidth = '469px';
                     this.playerHeight = '264px';
                     this.top = '115px';
@@ -17,6 +18,8 @@ System.register([], function(exports_1, context_1) {
                     this.ip = '104.198.243.2';
                     this.port = '1935';
                     this.buffer = 0;
+                    this.progressValue = 0;
+                    this.showLoadingWindow = true;
                     if (stateService.params['ip']) {
                         this.ip = stateService.params['ip'];
                     }
@@ -31,6 +34,7 @@ System.register([], function(exports_1, context_1) {
                     }
                 }
                 Video.prototype.$onInit = function () {
+                    var _this = this;
                     try {
                         /* !web-start */
                         // Create a view instance based on video element id.
@@ -61,6 +65,13 @@ System.register([], function(exports_1, context_1) {
                             // Invoke the play action.
                             player.play();
                             //this.player = player;
+                            setTimeout(function () {
+                                _this.showLoadingWindow = false;
+                                _this.bindings.$applyAsync();
+                            }, _this.buffer * 1000);
+                            _this.$interval(function () {
+                                _this.progressValue += 1;
+                            }, (_this.buffer * 1000) / 100, 10000 / _this.buffer, true);
                         })
                             .catch(function (error) {
                             // A fault occurred while trying to initialize and playback the stream.
@@ -76,7 +87,8 @@ System.register([], function(exports_1, context_1) {
                 // Constructor
                 Video.$inject = [
                     '$scope',
-                    '$state'
+                    '$state',
+                    '$interval'
                 ];
                 return Video;
             }());

@@ -359,6 +359,9 @@ System.register(['../controlToolbar/controlToolbar', '../controlTelemetry/contro
                         _this.$log.error({ message: 'Error: take picture request.', error: error });
                     });
                 };
+                // Trigger a picture download from the last image taken.
+                FlightControlViewer.prototype.downloadPicture = function () {
+                };
                 // Constructor
                 FlightControlViewer.$inject = [
                     '$scope',

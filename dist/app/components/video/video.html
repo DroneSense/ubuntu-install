@@ -11,3 +11,20 @@
 <video id="red5pro-video" backgroundColor="#292c32" bgColor="#292c32" autoplay data-setup="{}" style="height: 100%; width: 100%">
 </video>
 
+<md-content ng-show="$ctrl.showLoadingWindow" md-theme='ds-dark' class="md-whiteframe-15dp" style="position: absolute; top: 50%; left: 50%; margin-left: -190px; margin-top: -50px; padding: 20px 30px; width: 320px; background-color: #393c40">
+
+    <!--Header Text-->
+    <div layout="row" layout-align="center center" class="heading-18-light">
+        <label style="display: block; text-align: center; letter-spacing: .1em;">Loading Video</label>
+    </div>
+
+    <div style="margin-bottom: 5px; margin-top: 20px;" class="body-14">
+        <label style="display: block; line-height: 20px;">Building optimized experience for your connection.</label>
+    </div>
+
+    <div ng-show="true" style="margin-top: 25px;">
+        <md-progress-linear md-mode="determinate" ng-value="$ctrl.progressValue"></md-progress-linear>
+    </div>
+
+</md-content>
+

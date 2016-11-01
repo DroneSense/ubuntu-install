@@ -454,6 +454,17 @@ class FlightControlViewer {
             this.$log.error({ message: 'Error: take picture request.', error: error });
         });
     }
+
+    // Trigger a picture download from the last image taken.
+    downloadPicture(): void {
+        /* !cordova-start */
+        try {
+            dronesense.bridgeManager.downloadAndShareLastPhoto();
+        } catch (error) {
+            this.$log.error({ message: 'Error downloading image.', error: error });
+        }
+        /* !cordova-stop */
+    }
 }
 
 export default angular.module('DroneSense.Web.FlightControlViewer', [

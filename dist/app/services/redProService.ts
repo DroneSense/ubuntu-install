@@ -19,6 +19,9 @@ export class RedProStream {
     scope_path: string;
     is_recording: boolean;
     state: string;
+    
+    color: string;
+    location: string;
 
     constructor(publishName: string) {
         this.publish_name = publishName;
@@ -44,6 +47,7 @@ class RedProService {
 
     startVODRecording(sessionName: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject ) => {
+
             this.$http.get('http://' + this.red5proServerIp + ':' + this.red5proServerPort + '/api/v1/applications/' + this.appName + '/streams/' + sessionName + '/action/startrecord?accessToken=' + this.accessToken).success((data: any): void => {
                 
                 if (data.data.is_recording) {

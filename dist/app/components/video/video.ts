@@ -27,11 +27,13 @@ class Video {
     // Constructor
     static $inject: Array<string> = [
         '$scope',
-        '$state'
+        '$state',
+        '$interval'
     ];
 
     constructor(public bindings: IVideo,
-                public stateService: angular.ui.IStateService) {
+                public stateService: angular.ui.IStateService,
+                public $interval: angular.IIntervalService) {
 
         if (stateService.params['ip']) {
             this.ip = stateService.params['ip'];
@@ -45,7 +47,6 @@ class Video {
         if (stateService.params['buffer']) {
             this.buffer = stateService.params['buffer'];
         }
-
     }
 
     $onInit(): void {
@@ -82,6 +83,16 @@ class Video {
                 // Invoke the play action.
                 player.play();
                 //this.player = player;
+
+                setTimeout(() => {
+                    this.showLoadingWindow = false;
+                    this.bindings.$applyAsync();
+                }, this.buffer * 1000);
+
+                this.$interval(() => {
+                    this.progressValue += 1;
+                }, (this.buffer * 1000) / 100, 10000 / this.buffer, true);
+
             })
             .catch((error: any) => {
                 // A fault occurred while trying to initialize and playback the stream.
@@ -93,6 +104,10 @@ class Video {
             console.log(error);
         }
     }
+
+    progressValue: number = 0;
+
+    showLoadingWindow: boolean = true;
 
     $onDestroy(): void {
 

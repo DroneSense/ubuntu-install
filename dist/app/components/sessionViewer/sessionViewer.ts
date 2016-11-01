@@ -9,7 +9,10 @@ export interface ISessionViewer extends ng.IScope {
 
 class SessionViewer {
 
-    activeSessions: Array<RedProStream>;
+    activeSessions: Array<RedProStream> = [];
+
+    redTeam: RedProStream;
+    blueTeam: RedProStream;
 
     gridVisible: boolean;
 
@@ -54,17 +57,31 @@ class SessionViewer {
         // Set default view sort order
         this.sort.orderType = 'Created';
         this.sort.orderDirection = true;
+
+        this.redTeam = new RedProStream('Red-Team');
+        this.redTeam.name = 'Red Team';
+        this.redTeam.color = '#ea0707';
+
+        this.blueTeam = new RedProStream('Blue-Team');
+        this.blueTeam.name = 'Blue Team';
+        this.blueTeam.color = '#0A92EA';
+
+        this.activeSessions.push(this.blueTeam);
+        this.activeSessions.push(this.redTeam);
     }
 
     $onInit(): void {
-        this.redProService.getLiveStreams().then((value: Array<RedProStream>) => {
-            this.activeSessions = value;
-            this.activeSessions.forEach((stream: RedProStream) => {
-                this.redProService.getLiveStreamStatistics(stream).then(() => {
-                    console.log(stream);
-                });
-            });
-        });
+        // this.redProService.getLiveStreams().then((value: Array<RedProStream>) => {
+        //     this.activeSessions = value;
+        //     this.activeSessions.forEach((stream: RedProStream) => {
+        //         this.redProService.getLiveStreamStatistics(stream).then(() => {
+        //             console.log(stream);
+        //         });
+        //     });
+        // });
+
+        
+
     }
 
     showListView(): void {

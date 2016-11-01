@@ -22,41 +22,40 @@ System.register(['../userAvatar/userAvatar'], function(exports_1, context_1) {
                     this.zindex = '0';
                 }
                 SessionCard.prototype.$onInit = function () {
-                    var _this = this;
-                    try {
-                        /* !web-start */
-                        // Create a view instance based on video element id.
-                        this.videoViewer = new red5prosdk.PlaybackView('red5pro-video');
-                        // Create a new instance of the Flash/RTMP subcriber.
-                        this.subscriber = new red5prosdk.RTMPSubscriber();
-                        // Attach the subscriber to the view.
-                        this.videoViewer.attachSubscriber(this.subscriber);
-                        // Initialize
-                        this.subscriber.init({
-                            protocol: 'rtmp',
-                            host: '192.168.0.115',
-                            port: 1935,
-                            app: 'live',
-                            //context: 'room1',
-                            streamName: this.session.publish_name.replace(' ', '-'),
-                            mimeType: 'rtmp/flv',
-                            swf: 'node_modules/red5pro-video-js.swf',
-                            useVideoJS: true
-                        })
-                            .then(function (player) {
-                            // `player` is the WebRTC Player instance.
-                            // Invoke the play action.
-                            //player.play();
-                            _this.player = player;
-                        })
-                            .catch(function (error) {
-                            // A fault occurred while trying to initialize and playback the stream.
-                            console.error(error);
-                        });
-                    }
-                    catch (error) {
-                        console.log(error);
-                    }
+                    // try {
+                    //     /* !web-start */
+                    //     // Create a view instance based on video element id.
+                    //     this.videoViewer = new red5prosdk.PlaybackView('red5pro-video');
+                    //     // Create a new instance of the Flash/RTMP subcriber.
+                    //     this.subscriber = new red5prosdk.RTMPSubscriber();
+                    //     // Attach the subscriber to the view.
+                    //     this.videoViewer.attachSubscriber(this.subscriber);
+                    //     // Initialize
+                    //     this.subscriber.init({
+                    //         protocol: 'rtmp',
+                    //         host: '192.168.0.115',
+                    //         port: 1935,
+                    //         app: 'live',
+                    //         //context: 'room1',
+                    //         streamName: this.session.publish_name.replace(' ', '-'),
+                    //         mimeType: 'rtmp/flv',
+                    //         swf: 'node_modules/red5pro-video-js.swf',
+                    //         useVideoJS: true
+                    //     })
+                    //     .then((player: any) => {
+                    //         // `player` is the WebRTC Player instance.
+                    //         // Invoke the play action.
+                    //         //player.play();
+                    //         this.player = player;
+                    //     })
+                    //     .catch((error: any) => {
+                    //         // A fault occurred while trying to initialize and playback the stream.
+                    //         console.error(error);
+                    //     });
+                    //     /* !web-stop */
+                    // } catch (error) {
+                    //     console.log(error);
+                    // }
                 };
                 SessionCard.prototype.$onDestroy = function () {
                 };
@@ -69,7 +68,8 @@ System.register(['../userAvatar/userAvatar'], function(exports_1, context_1) {
                     }
                 };
                 SessionCard.prototype.showVideo = function () {
-                    window.open('http://192.168.0.115:5080/live/flash.jsp?host=192.168.0.115&stream=' + this.session.publish_name);
+                    window.open('http://afd.dronesense.com/#/video?name=' + this.session.publish_name + '&buffer=10');
+                    //window.open('http://www.google.com');
                 };
                 // Constructor
                 SessionCard.$inject = [
