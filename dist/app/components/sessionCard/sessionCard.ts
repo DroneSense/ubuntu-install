@@ -91,7 +91,7 @@ class SessionCard {
     }
 
     showVideo(): void {
-        window.open('http://afd.dronesense.com/#/video?name=' + this.session.publish_name + '&buffer=10');
+        window.open('http://fire.dronesense.com/#/video?name=' + this.session.publish_name + '&buffer=10');
         //window.open('http://www.google.com');
     }
 }

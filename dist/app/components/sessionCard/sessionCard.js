@@ -68,7 +68,7 @@ System.register(['../userAvatar/userAvatar'], function(exports_1, context_1) {
                     }
                 };
                 SessionCard.prototype.showVideo = function () {
-                    window.open('http://afd.dronesense.com/#/video?name=' + this.session.publish_name + '&buffer=10');
+                    window.open('http://fire.dronesense.com/#/video?name=' + this.session.publish_name + '&buffer=10');
                     //window.open('http://www.google.com');
                 };
                 // Constructor

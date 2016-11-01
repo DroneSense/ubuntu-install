@@ -79,9 +79,6 @@ class SessionViewer {
         //         });
         //     });
         // });
-
-        
-
     }
 
     showListView(): void {

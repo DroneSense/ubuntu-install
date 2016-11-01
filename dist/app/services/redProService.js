@@ -16,7 +16,7 @@ System.register([], function(exports_1, context_1) {
                 function RedProService($http) {
                     this.appName = 'live';
                     this.accessToken = 'dronesense';
-                    this.red5proServerIp = 'afd.dronesense.com'; // '192.168.0.115';
+                    this.red5proServerIp = 'fire.dronesense.com'; // '192.168.0.115';
                     this.red5proServerPort = '5080';
                     this.$http = $http;
                 }

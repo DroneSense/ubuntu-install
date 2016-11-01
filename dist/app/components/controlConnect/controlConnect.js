@@ -22,7 +22,7 @@ System.register(['@dronesense/client/lib/index', '../../components/flightControl
                     // port address of server passed in from bindings
                     this.port = 3005;
                     // url of remote server
-                    this.url = 'https://afd.dronesense.com';
+                    this.url = 'https://fire.dronesense.com';
                     // Flag to indicate if service is trying to connect
                     this.connecting = false;
                     // Flag to show connection error

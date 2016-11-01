@@ -17,7 +17,7 @@ class ControlConnect {
     port: number = 3005;
 
     // url of remote server
-    url: string = 'https://afd.dronesense.com';
+    url: string = 'https://fire.dronesense.com';
 
     // Flag to indicate if service is trying to connect
     connecting: boolean = false;
