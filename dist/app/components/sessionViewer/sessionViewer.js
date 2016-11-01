@@ -46,10 +46,10 @@ System.register(['../../services/redProService', '../viewerToolbar/viewerToolbar
                     this.sort.orderType = 'Created';
                     this.sort.orderDirection = true;
                     this.redTeam = new redProService_1.RedProStream('Red-Team');
-                    this.redTeam.name = 'Red Team';
+                    this.redTeam.name = 'Red Team Video Stream';
                     this.redTeam.color = '#ea0707';
                     this.blueTeam = new redProService_1.RedProStream('Blue-Team');
-                    this.blueTeam.name = 'Blue Team';
+                    this.blueTeam.name = 'Blue Team Video Stream';
                     this.blueTeam.color = '#0A92EA';
                     this.activeSessions.push(this.blueTeam);
                     this.activeSessions.push(this.redTeam);

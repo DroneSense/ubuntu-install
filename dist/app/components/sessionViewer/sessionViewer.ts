@@ -59,11 +59,11 @@ class SessionViewer {
         this.sort.orderDirection = true;
 
         this.redTeam = new RedProStream('Red-Team');
-        this.redTeam.name = 'Red Team';
+        this.redTeam.name = 'Red Team Video Stream';
         this.redTeam.color = '#ea0707';
 
         this.blueTeam = new RedProStream('Blue-Team');
-        this.blueTeam.name = 'Blue Team';
+        this.blueTeam.name = 'Blue Team Video Stream';
         this.blueTeam.color = '#0A92EA';
 
         this.activeSessions.push(this.blueTeam);
